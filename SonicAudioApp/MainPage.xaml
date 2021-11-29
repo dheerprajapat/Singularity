@@ -84,7 +84,9 @@
                 </StackPanel>
                 <!--Like Button-->
                 <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->
-                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEB52;" Foreground="SeaGreen" Grid.Column="2" />
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEB52;" Foreground="SeaGreen" Grid.Column="2" 
+                          x:Name="LikeButton"
+                          PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
             </Grid>
             
             <!--central media control panel-->
@@ -93,16 +95,21 @@
                 <StackPanel VerticalAlignment="Center" HorizontalAlignment="Center"
                             Spacing="15"
                             Orientation="Horizontal">
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8b1;" FontSize="14" />
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="14"/>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8b1;" FontSize="14" 
+                              PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="14" 
+                              PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
                     <Button CornerRadius="50" Width="40" Height="40">
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;"
                               Foreground="DeepSkyBlue"
                               FontSize="20" />
                     </Button>
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe893;" FontSize="14"/>
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe895;" FontSize="14"/>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe893;" FontSize="14" 
+                              PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe895;" FontSize="14" 
+                              PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
                 </StackPanel>
+                <!--sider and timer-->
                 <Grid VerticalAlignment="Center" Margin="5 0 5 0" ColumnSpacing="10">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="auto"/>
@@ -116,11 +123,11 @@
                 </Grid>
             </StackPanel>
             
-            <!--Volume control-->
+            <!--Volume controls -->
             <StackPanel Grid.Column="2" Orientation="Horizontal" HorizontalAlignment="Right"
                        Margin="5 5 5 5" VerticalAlignment="Center" Spacing="13">
-                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe7bc;" FontSize="14"/>
-                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe995;" FontSize="14"/>
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe7bc;" FontSize="14" PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe995;" FontSize="14" PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
                 <Slider HorizontalAlignment="Stretch" Width="100" Margin="5 0 5 0"
                             Value="0" Maximum="100" Grid.Column="1"/>
             </StackPanel>

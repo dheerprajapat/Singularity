@@ -124,5 +124,25 @@ namespace SonicAudioApp
                 AppTitleBar.Margin = new Thickness(expandedIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
             }
         }
+
+        private Dictionary<UIElement, Brush> PreviousColors=new Dictionary<UIElement, Brush>();
+        private void FontIcon_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            var icon=sender as FontIcon;
+            if (!PreviousColors.ContainsKey(icon))
+                PreviousColors.Add(icon, icon.Foreground);
+
+            if (icon.Name == "LikeButton")
+                icon.Foreground = new SolidColorBrush(Colors.Green);
+            else
+                icon.Foreground  =new SolidColorBrush(Colors.DeepSkyBlue);
+        }
+
+        private void FontIcon_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            var icon = sender as FontIcon;
+            icon.Foreground.Opacity = 1;
+            icon.Foreground = PreviousColors.ContainsKey(icon) ? PreviousColors[icon] : new SolidColorBrush(Colors.White);
+        }
     }
 }
