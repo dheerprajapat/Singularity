@@ -40,7 +40,7 @@
             <muxc:NavigationView x:Name="NavigationViewControl"
             IsTitleBarAutoPaddingEnabled="False"            
             IsBackButtonVisible="Visible"           
-            Header="Title" 
+            Header="" 
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             Canvas.ZIndex="0">
                 <muxc:NavigationView.MenuItems>
@@ -59,9 +59,22 @@
                 </Grid>
             </muxc:NavigationView>
         </Grid>
-        <StackPanel Height="200">
-            
-        </StackPanel>
+        <!--Media Player controls Grid -->
+        <Grid Grid.Row="1" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <StackPanel VerticalAlignment="Center" Orientation="Horizontal" Margin="5 5 5 5">
+                <Image 
+                 Source="Assets/Square44x44Logo.png"  Width="80" Height="80"/>
+                <StackPanel Orientation="Vertical" Spacing="2" Margin="5 5 5 5">
+                    <TextBlock FontSize="20" FontWeight="SemiBold" >This is song name</TextBlock>
+                    <TextBlock FontSize="16">Singer 1,Singer 2</TextBlock>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
     
 
