@@ -95,7 +95,7 @@
                             Orientation="Horizontal">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8b1;" FontSize="14" />
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="16"/>
-                    <Button CornerRadius="50" Background="Black" Width="40" Height="40">
+                    <Button CornerRadius="50" Width="40" Height="40">
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;"
                               Foreground="DeepSkyBlue"
                               FontSize="20" />
