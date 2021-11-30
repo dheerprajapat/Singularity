@@ -132,7 +132,7 @@ namespace SonicAudioApp.Components
 
         private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            if (e.NewValue - e.OldValue <= 1.5)
+            if (Math.Abs(e.NewValue - e.OldValue) <= 1.5)
                 return;
             AudioPlayer.UpdatePosition(TimeSpan.FromSeconds(e.NewValue));
         }
