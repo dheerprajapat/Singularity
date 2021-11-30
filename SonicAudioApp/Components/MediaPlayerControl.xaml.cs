@@ -178,6 +178,10 @@ namespace SonicAudioApp.Components
                 {
                     PlayPauseIcon.Glyph = "\uf8ae";
                 }
+                else if(AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Buffering)
+                {
+                    PlayPauseIcon.Glyph = "\uebd3";
+                }
             });
         }
 
