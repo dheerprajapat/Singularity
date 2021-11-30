@@ -7,6 +7,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"
     d:DesignHeight="100"
+    x:Name="mediaPlayerControl"
     d:DesignWidth="800">
     <Grid>
         <Grid.ColumnDefinitions>
@@ -64,10 +65,11 @@
                     <ColumnDefinition Width="*"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0" VerticalAlignment="Center">00:00</TextBlock>
+                <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{Binding ElementName=mediaPlayerControl, Path=Position}"></TextBlock>
                 <Slider HorizontalAlignment="Stretch"
-                            Value="0" Maximum="100" Grid.Column="1"/>
-                <TextBlock Grid.Column="2" VerticalAlignment="Center">00:00</TextBlock>
+                        Value="{Binding ElementName=mediaPlayerControl, Path=PositionValue}" 
+                        Maximum="{Binding ElementName=mediaPlayerControl, Path=MaxValue}" Grid.Column="1"/>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{Binding ElementName=mediaPlayerControl, Path=TotalDuration}">00:00</TextBlock>
             </Grid>
         </StackPanel>
 

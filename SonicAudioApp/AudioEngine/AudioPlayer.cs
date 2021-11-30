@@ -11,6 +11,24 @@ namespace SonicAudioApp.AudioEngine;
 public static class AudioPlayer
 {
     private static MediaPlayer Audio=new MediaPlayer();
+    public static TimeSpan TotalDuration => Audio.PlaybackSession is not null?
+        Audio.PlaybackSession.NaturalDuration:TimeSpan.Zero;
+    public static TimeSpan Position
+    {
+        get => Audio.PlaybackSession is not null ? Audio.PlaybackSession.Position : TimeSpan.Zero;
+        set
+        {
+            if (Audio.PlaybackSession is not null)
+                Audio.PlaybackSession.Position = value;
+        }
+    }
+    static AudioPlayer()
+    {
+        Audio.MediaEnded += Audio_MediaEnded;
+        Audio.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
+    }
+
+
 
     public static void Play()
     {
@@ -20,7 +38,22 @@ public static class AudioPlayer
         var currentSong = AudioQueue.Current;
 
         Audio.Source = MediaSource.CreateFromUri(new(currentSong.Url));
-
+        
         Audio.Play();
     }
+
+    private static void Audio_MediaEnded(MediaPlayer sender, object args)
+    {
+        var next=AudioQueue.Next();
+        if (next is null)
+            return;
+
+        Play();
+    }
+    private static void PlaybackSession_PositionChanged(MediaPlaybackSession sender, object args)
+    {
+        PositionChanged?.Invoke(sender, args);
+    }
+    public delegate void PositionChangedHandler(MediaPlaybackSession sender, object args);
+    public static event PositionChangedHandler PositionChanged;
 }

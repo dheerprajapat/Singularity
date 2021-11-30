@@ -1,11 +1,14 @@
-﻿using System;
+﻿using SonicAudioApp.AudioEngine;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Text;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI;
+using Windows.UI.Core;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -23,7 +26,83 @@ namespace SonicAudioApp.Components
         public MediaPlayerControl()
         {
             this.InitializeComponent();
+            DataContext = this;
+            AudioPlayer.PositionChanged += AudioPlayer_PositionChanged;
         }
+
+
+
+        public string Position
+        {
+            get { return (string)GetValue(PositionProperty); }
+            set { SetValue(PositionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Position.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PositionProperty =
+            DependencyProperty.Register("Position", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata("00:00"));
+
+
+        public string TotalDuration
+        {
+            get { return (string)GetValue(TotalDurationProperty); }
+            set { SetValue(TotalDurationProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for TotalDuration.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TotalDurationProperty =
+            DependencyProperty.Register("TotalDuration", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata("00:00"));
+
+
+
+        public int MaxValue
+        {
+            get { return (int)GetValue(MaxValueProperty); }
+            set { SetValue(MaxValueProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MaxValue.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaxValueProperty =
+            DependencyProperty.Register("MaxValue", typeof(int), typeof(MediaPlayerControl), new PropertyMetadata(0));
+
+
+
+        public int PositionValue
+        {
+            get { return (int)GetValue(PositionValueProperty); }
+            set { SetValue(PositionValueProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PositionValue.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PositionValueProperty =
+            DependencyProperty.Register("PositionValue", typeof(int), typeof(MediaPlayerControl), new PropertyMetadata(0));
+
+
+
+
+
+        private async void AudioPlayer_PositionChanged(Windows.Media.Playback.MediaPlaybackSession sender, object args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                var totalDur =ConvertTimeSpanToDuration(AudioPlayer.TotalDuration);
+                if(totalDur !=TotalDuration)
+                    TotalDuration = totalDur;
+
+                Position = ConvertTimeSpanToDuration(AudioPlayer.Position);
+                PositionValue =(int) AudioPlayer.Position.TotalSeconds;
+                
+                var max=(int)AudioPlayer.TotalDuration.TotalSeconds;
+                if(MaxValue!=max)
+                    MaxValue = max;
+            });
+        }
+
+        ~MediaPlayerControl()
+        {
+            AudioPlayer.PositionChanged-=AudioPlayer_PositionChanged;
+        }
+
         private Dictionary<UIElement, Brush> PreviousColors = new Dictionary<UIElement, Brush>();
         private void FontIcon_PointerEntered(object sender, PointerRoutedEventArgs e)
         {
@@ -41,6 +120,17 @@ namespace SonicAudioApp.Components
         {
             var icon = sender as FontIcon;
             icon.Foreground = PreviousColors.ContainsKey(icon) ? PreviousColors[icon] : new SolidColorBrush(Colors.White);
+        }
+
+        public static string ConvertTimeSpanToDuration(TimeSpan time)
+        {
+            StringBuilder sb = new StringBuilder();
+            if(time.Hours != 0)
+                sb.Append(time.Hours.ToString().PadLeft(2, '0')+':');
+            sb.Append(time.Minutes.ToString().PadLeft(2,'0'));
+            sb.Append(':');
+            sb.Append(time.Seconds.ToString().PadLeft(2, '0'));
+            return sb.ToString();
         }
     }
 }

@@ -41,7 +41,7 @@ public static class AudioQueue
         return Current;
     }
 
-    public static LoopMode Repeat = LoopMode.NoLoop;
+    public static LoopMode Repeat = LoopMode.LoopAll;
 
 }
 public enum LoopMode
