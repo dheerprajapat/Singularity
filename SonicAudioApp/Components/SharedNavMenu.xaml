@@ -39,23 +39,19 @@
             </Border>
             <muxc:NavigationView x:Name="NavigationViewControl"
             IsTitleBarAutoPaddingEnabled="False"            
-            IsBackButtonVisible="Visible"           
+            IsBackButtonVisible="Visible" SelectionChanged="NavigationViewControl_SelectionChanged"
             Header="" 
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             Canvas.ZIndex="0">
                 <muxc:NavigationView.MenuItems>
-                    <muxc:NavigationViewItem Icon="Home" Content="Home"/>
-                    <muxc:NavigationViewItem Icon="Find" Content="Search"/>
+                    <muxc:NavigationViewItem Icon="Home" Content="Home" x:Name="homePage"/>
+                    <muxc:NavigationViewItem Icon="Find" Content="Search" x:Name="searchPage"/>
                     <muxc:NavigationViewItem Icon="Library" Content="Your Library"/>
                     <muxc:NavigationViewItem Icon="List" Content="Create Playlist"/>
                     <muxc:NavigationViewItem Icon="Like" Content="Liked Song"/>
                 </muxc:NavigationView.MenuItems>
                 <Grid>
-                    <Frame x:Name="contentFrame">
-                        <Grid>
-                            <ContentControl Content="{Binding ElementName=sharedNavMenu,Path=ChildContent}"/>
-                        </Grid>
-                    </Frame>
+                    <Frame x:Name="contentFrame"/>
                 </Grid>
             </muxc:NavigationView>
         </Grid>

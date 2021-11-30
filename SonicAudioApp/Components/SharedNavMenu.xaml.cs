@@ -16,6 +16,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SonicAudioApp.Pages;
+using static System.Net.WebRequestMethods;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -31,7 +33,6 @@ namespace SonicAudioApp.Components
             set { SetValue(ChildContentProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for ChildContent.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty ChildContentProperty =
             DependencyProperty.Register("ChildContent", typeof(object), typeof(SharedNavMenu), new PropertyMetadata(""));
 
@@ -135,6 +136,28 @@ namespace SonicAudioApp.Components
             {
                 AppTitleBar.Margin = new Thickness(expandedIndent, currMargin.Top, currMargin.Right, currMargin.Bottom);
             }
+        }
+
+        private void NavigationViewControl_SelectionChanged(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewSelectionChangedEventArgs args)
+        {
+            FrameNavigationOptions navOptions = new FrameNavigationOptions();
+            navOptions.TransitionInfoOverride = args.RecommendedNavigationTransitionInfo;
+            var itemContainer = args.SelectedItem;
+
+            navOptions.IsNavigationStackEnabled = true;
+
+            Type pageType = typeof(HomePage);
+
+            if (itemContainer == homePage)
+            {
+                pageType = typeof(HomePage);
+            }
+            else if (itemContainer == searchPage)
+            {
+                pageType = typeof(SearchPage);
+            }
+            if(contentFrame is not null)
+            contentFrame.NavigateToType(pageType, null, navOptions);
         }
     }
 }

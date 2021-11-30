@@ -11,9 +11,6 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <components:SharedNavMenu>
-        <components:SharedNavMenu.ChildContent>
-            <TextBlock Padding="56,16,0,0">Page content!</TextBlock>
-        </components:SharedNavMenu.ChildContent>
     </components:SharedNavMenu>
 
 </Page>

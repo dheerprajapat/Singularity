@@ -189,7 +189,7 @@ namespace SonicAudioApp.Components
         {
             if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Paused)
             {
-                AudioPlayer.Resume();
+                AudioPlayer.Play();
             }
             else if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Playing)
             {

@@ -45,18 +45,11 @@ public static class AudioPlayer
 
         var currentSong = AudioQueue.Current;
         var currentSource = MediaSource.CreateFromUri(new(currentSong.Url));
-        Audio.Source = currentSource;
+
+        if (Audio.Source == null)
+            Audio.Source = currentSource;
         
         Audio.Play();
-    }
-    public static void Resume()
-    {
-        if(Audio.Source==null)
-        {
-            Play();
-        }
-        else
-            Audio.Play();
     }
     public static void Stop()
     {
