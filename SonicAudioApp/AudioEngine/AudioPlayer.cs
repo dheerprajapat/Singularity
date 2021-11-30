@@ -51,10 +51,12 @@ public static class AudioPlayer
     }
     public static void Resume()
     {
-        if (AudioQueue.Count == 0)
-            return;
-
-        Audio.Play();
+        if(Audio.Source==null)
+        {
+            Play();
+        }
+        else
+            Audio.Play();
     }
     public static void Stop()
     {
