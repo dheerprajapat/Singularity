@@ -120,7 +120,7 @@ namespace SonicAudioApp.Components
         {
             StringBuilder sb = new StringBuilder();
             if(time.Hours != 0)
-                sb.Append(time.Hours.ToString().PadLeft(2, '0')+':');
+                sb.Append(time.Hours.ToString()+':');
             sb.Append(time.Minutes.ToString().PadLeft(2,'0'));
             sb.Append(':');
             sb.Append(time.Seconds.ToString().PadLeft(2, '0'));

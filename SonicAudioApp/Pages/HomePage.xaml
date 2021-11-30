@@ -5,11 +5,21 @@
     xmlns:local="using:SonicAudioApp.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    >
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock>Home</TextBlock>
-    </Grid>
+
+    <StackPanel Padding="20 30 20 20" Orientation="Vertical">
+        <StackPanel Orientation="Horizontal" Spacing="20">
+            <TextBlock>Home</TextBlock>
+        </StackPanel>
+
+        <Grid>
+            <Rectangle/>
+        </Grid>
+    </StackPanel>
 
     </Page>

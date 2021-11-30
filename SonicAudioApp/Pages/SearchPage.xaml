@@ -4,14 +4,29 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SonicAudioApp.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:components="using:SonicAudioApp.Components"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
+    x:Name="searchPage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <StackPanel >
-        <AutoSuggestBox QueryIcon="Find"
-                       PlaceholderText="Search here" Width="400" Height="40"/>
+    <StackPanel Padding="20 40 20 20" Orientation="Vertical">
+        <StackPanel Orientation="Horizontal" Spacing="20">
+            <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center"
+                       PlaceholderText="Search here" Width="400" Height="40" HorizontalAlignment="Left"/>
+            <TextBlock VerticalAlignment="Center" Foreground="LightGray">Filter By</TextBlock>
+            <Button Content="{Binding ElementName=searchPage,Path=SearchFilter}">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <muxc:RadioMenuFlyoutItem Text="Relevance" Click="RadioMenuFlyoutItem_Click"></muxc:RadioMenuFlyoutItem>
+                        <muxc:RadioMenuFlyoutItem Text="Rating" Click="RadioMenuFlyoutItem_Click"></muxc:RadioMenuFlyoutItem>
+                        <muxc:RadioMenuFlyoutItem Text="Upload Date" Click="RadioMenuFlyoutItem_Click"></muxc:RadioMenuFlyoutItem>
+                        <muxc:RadioMenuFlyoutItem Text="Views" Click="RadioMenuFlyoutItem_Click"></muxc:RadioMenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
+       
         <Grid>
             <Rectangle/>
         </Grid>

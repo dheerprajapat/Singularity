@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.UI.Xaml.Controls;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -25,6 +26,40 @@ namespace SonicAudioApp.Pages
         public SearchPage()
         {
             this.InitializeComponent();
+        }
+
+
+
+        public string SearchFilter
+        {
+            get { return (string)GetValue(SearchFilterProperty); }
+            set { SetValue(SearchFilterProperty, value); }
+        }
+
+        public static readonly DependencyProperty SearchFilterProperty =
+            DependencyProperty.Register("SearchFilter", typeof(string), typeof(SearchPage), new PropertyMetadata("Relevance"));
+
+        public enum FilterModes
+        {
+            Relevance,
+            Views,
+            UploadDate,
+            Rating
+        }
+        FilterModes FilterMode;
+
+        private void RadioMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
+        {
+            var radio= (RadioMenuFlyoutItem)sender;
+            if(radio.IsChecked)
+            {
+                var text=(radio.Text.Replace(" ", ""));
+                if(Enum.TryParse(text, out FilterModes mode))
+                {
+                    FilterMode = mode;
+                    SearchFilter = radio.Text;
+                }
+            }
         }
     }
 }
