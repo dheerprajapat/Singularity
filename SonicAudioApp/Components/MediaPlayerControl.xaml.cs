@@ -17,7 +17,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 
-// The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
 namespace SonicAudioApp.Components
 {
@@ -31,14 +30,12 @@ namespace SonicAudioApp.Components
         }
 
 
-
         public string Position
         {
             get { return (string)GetValue(PositionProperty); }
             set { SetValue(PositionProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for Position.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionProperty =
             DependencyProperty.Register("Position", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata("00:00"));
 
@@ -49,7 +46,6 @@ namespace SonicAudioApp.Components
             set { SetValue(TotalDurationProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for TotalDuration.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TotalDurationProperty =
             DependencyProperty.Register("TotalDuration", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata("00:00"));
 
@@ -61,7 +57,6 @@ namespace SonicAudioApp.Components
             set { SetValue(MaxValueProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for MaxValue.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaxValueProperty =
             DependencyProperty.Register("MaxValue", typeof(int), typeof(MediaPlayerControl), new PropertyMetadata(0));
 
@@ -73,7 +68,6 @@ namespace SonicAudioApp.Components
             set { SetValue(PositionValueProperty, value); }
         }
 
-        // Using a DependencyProperty as the backing store for PositionValue.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionValueProperty =
             DependencyProperty.Register("PositionValue", typeof(int), typeof(MediaPlayerControl), new PropertyMetadata(0));
 
@@ -140,6 +134,33 @@ namespace SonicAudioApp.Components
         private void Volume_SliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
             AudioPlayer.Volume = e.NewValue/100.0;
+            SoundIcon.Glyph = GetVolumeIcon();
+        }
+
+        private void SoundIcon_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (AudioPlayer.ISMuted)
+            {
+                AudioPlayer.ISMuted = false;
+                SoundIcon.Glyph = GetVolumeIcon();
+            }
+            else
+            {
+                AudioPlayer.ISMuted = true;
+                SoundIcon.Glyph = "\ue74f";
+            }
+        }
+
+        private string GetVolumeIcon()
+        {
+            var val = (int)(AudioPlayer.Volume*100);
+            return val switch
+            {
+                >75=> "\ue995",
+                <=75 and >50 => "\ue994",
+                <=50  and >25 => "\ue993",
+                _ => "\ue992",
+            };
         }
     }
 }

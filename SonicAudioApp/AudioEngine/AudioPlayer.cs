@@ -22,7 +22,11 @@ public static class AudioPlayer
         set => Audio.Volume = value;
     }
 
-
+    public static bool ISMuted
+    {
+        get => Audio.IsMuted;
+        set=> Audio.IsMuted = value;
+    }
 
     static AudioPlayer()
     {
