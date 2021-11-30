@@ -27,8 +27,10 @@ namespace SonicAudioApp.Components
             this.InitializeComponent();
             DataContext = this;
             AudioPlayer.PositionChanged += AudioPlayer_PositionChanged;
+            AudioPlayer.PlaybackStateChanged += AudioPlayer_PlaybackStateChanged;
         }
 
+       
 
         public string Position
         {
@@ -92,6 +94,7 @@ namespace SonicAudioApp.Components
         ~MediaPlayerControl()
         {
             AudioPlayer.PositionChanged-=AudioPlayer_PositionChanged;
+            AudioPlayer.PlaybackStateChanged -= AudioPlayer_PlaybackStateChanged;
         }
 
         private Dictionary<UIElement, Brush> PreviousColors = new Dictionary<UIElement, Brush>();
@@ -157,10 +160,37 @@ namespace SonicAudioApp.Components
             return val switch
             {
                 >75=> "\ue995",
-                <=75 and >50 => "\ue994",
-                <=50  and >25 => "\ue993",
+                <=75 and >25 => "\ue994",
+                <=25  and >10 => "\ue993",
                 _ => "\ue992",
             };
+        }
+
+        private async void AudioPlayer_PlaybackStateChanged(Windows.Media.Playback.MediaPlaybackSession sender, object args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Paused)
+                {
+                    PlayPauseIcon.Glyph = "\uf5b0";
+                }
+                else if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Playing)
+                {
+                    PlayPauseIcon.Glyph = "\uf8ae";
+                }
+            });
+        }
+
+        private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
+        {
+            if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Paused)
+            {
+                AudioPlayer.Resume();
+            }
+            else if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Playing)
+            {
+                AudioPlayer.Stop();
+            }
         }
     }
 }

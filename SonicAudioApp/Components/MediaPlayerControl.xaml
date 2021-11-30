@@ -48,10 +48,12 @@
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="14" 
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
-                <Button CornerRadius="50" Width="40" Height="40">
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;"
-                              Foreground="DeepSkyBlue"
-                              FontSize="20" />
+                <Button CornerRadius="50" Width="44" Height="44" x:Name="PlayPauseButton" Foreground="DeepSkyBlue" 
+                        Click="PlayPauseButton_Click">
+                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;" 
+                              x:Name="PlayPauseIcon" Foreground="DeepSkyBlue"
+                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                              FontSize="18" />
                 </Button>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe893;" FontSize="14" 
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>

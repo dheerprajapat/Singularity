@@ -28,12 +28,14 @@ public static class AudioPlayer
         set=> Audio.IsMuted = value;
     }
 
+    public static MediaPlaybackState PlaybackState => Audio.PlaybackSession.PlaybackState;
+
     static AudioPlayer()
     {
         Audio.MediaEnded += Audio_MediaEnded;
         Audio.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
+        Audio.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
     }
-
 
 
     public static void Play()
@@ -42,10 +44,21 @@ public static class AudioPlayer
             return;
 
         var currentSong = AudioQueue.Current;
-
-        Audio.Source = MediaSource.CreateFromUri(new(currentSong.Url));
+        var currentSource = MediaSource.CreateFromUri(new(currentSong.Url));
+        Audio.Source = currentSource;
         
         Audio.Play();
+    }
+    public static void Resume()
+    {
+        if (AudioQueue.Count == 0)
+            return;
+
+        Audio.Play();
+    }
+    public static void Stop()
+    {
+        Audio.Pause();
     }
 
     private static void Audio_MediaEnded(MediaPlayer sender, object args)
@@ -65,6 +78,12 @@ public static class AudioPlayer
     {
         PositionChanged?.Invoke(sender, args);
     }
-    public delegate void PositionChangedHandler(MediaPlaybackSession sender, object args);
-    public static event PositionChangedHandler PositionChanged;
+    private static void PlaybackSession_PlaybackStateChanged(MediaPlaybackSession sender, object args)
+    {
+        PlaybackStateChanged?.Invoke(sender, args);
+    }
+    public delegate void PlaybackStateHandler(MediaPlaybackSession sender, object args);
+    public static event PlaybackStateHandler PositionChanged;
+
+    public static event PlaybackStateHandler PlaybackStateChanged;
 }
