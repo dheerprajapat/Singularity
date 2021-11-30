@@ -91,7 +91,6 @@ namespace SonicAudioApp.Components
 
                 Position = ConvertTimeSpanToDuration(AudioPlayer.Position);
                 PositionValue =(int) AudioPlayer.Position.TotalSeconds;
-                
                 var max=(int)AudioPlayer.TotalDuration.TotalSeconds;
                 if(MaxValue!=max)
                     MaxValue = max;
@@ -131,6 +130,15 @@ namespace SonicAudioApp.Components
             sb.Append(':');
             sb.Append(time.Seconds.ToString().PadLeft(2, '0'));
             return sb.ToString();
+        }
+
+        private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            if (e.NewValue - e.OldValue <= 1.5)
+                return;
+
+            var slider = sender as Slider;
+            AudioPlayer.UpdatePosition(TimeSpan.FromSeconds(e.NewValue));
         }
     }
 }

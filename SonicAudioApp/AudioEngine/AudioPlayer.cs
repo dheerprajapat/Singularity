@@ -14,14 +14,8 @@ public static class AudioPlayer
     public static TimeSpan TotalDuration => Audio.PlaybackSession is not null?
         Audio.PlaybackSession.NaturalDuration:TimeSpan.Zero;
     public static TimeSpan Position
-    {
-        get => Audio.PlaybackSession is not null ? Audio.PlaybackSession.Position : TimeSpan.Zero;
-        set
-        {
-            if (Audio.PlaybackSession is not null)
-                Audio.PlaybackSession.Position = value;
-        }
-    }
+        => Audio.PlaybackSession is not null ? Audio.PlaybackSession.Position : TimeSpan.Zero;
+  
     static AudioPlayer()
     {
         Audio.MediaEnded += Audio_MediaEnded;
@@ -49,6 +43,11 @@ public static class AudioPlayer
             return;
 
         Play();
+    }
+    public static void UpdatePosition(TimeSpan time)
+    {
+        if (Audio.PlaybackSession is not null)
+            Audio.PlaybackSession.Position = time;
     }
     private static void PlaybackSession_PositionChanged(MediaPlaybackSession sender, object args)
     {
