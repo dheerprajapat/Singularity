@@ -79,8 +79,6 @@ namespace SonicAudioApp.Components
 
 
 
-
-
         private async void AudioPlayer_PositionChanged(Windows.Media.Playback.MediaPlaybackSession sender, object args)
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
@@ -136,9 +134,12 @@ namespace SonicAudioApp.Components
         {
             if (e.NewValue - e.OldValue <= 1.5)
                 return;
-
-            var slider = sender as Slider;
             AudioPlayer.UpdatePosition(TimeSpan.FromSeconds(e.NewValue));
+        }
+
+        private void Volume_SliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+        {
+            AudioPlayer.Volume = e.NewValue/100.0;
         }
     }
 }

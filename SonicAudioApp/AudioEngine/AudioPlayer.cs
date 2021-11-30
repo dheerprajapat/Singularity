@@ -10,12 +10,20 @@ namespace SonicAudioApp.AudioEngine;
 
 public static class AudioPlayer
 {
-    private static MediaPlayer Audio=new MediaPlayer();
-    public static TimeSpan TotalDuration => Audio.PlaybackSession is not null?
-        Audio.PlaybackSession.NaturalDuration:TimeSpan.Zero;
+    private static MediaPlayer Audio = new MediaPlayer();
+    public static TimeSpan TotalDuration => Audio.PlaybackSession is not null ?
+        Audio.PlaybackSession.NaturalDuration : TimeSpan.Zero;
     public static TimeSpan Position
         => Audio.PlaybackSession is not null ? Audio.PlaybackSession.Position : TimeSpan.Zero;
-  
+
+    public static double Volume
+    {
+        get => Audio.Volume;
+        set => Audio.Volume = value;
+    }
+
+
+
     static AudioPlayer()
     {
         Audio.MediaEnded += Audio_MediaEnded;
