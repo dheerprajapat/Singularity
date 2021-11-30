@@ -15,6 +15,8 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using SonicAudioApp.AudioEngine;
+using SonicAudioApp.Models;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -51,6 +53,11 @@ namespace SonicAudioApp
 
             //Register a handler for when the window changes focus
             Window.Current.Activated += Current_Activated;
+
+
+            AudioQueue.Add(new("https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/396/fearless-1586951971-4hvTByxSmH.mp3", null, null));
+
+            AudioPlayer.Play();
         }
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {

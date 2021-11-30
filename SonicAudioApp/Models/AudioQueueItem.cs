@@ -8,16 +8,14 @@ namespace SonicAudioApp.Models;
 
 public record AudioQueueItem
 {
-    public AudioQueueItem(string url, string name, string singers, long duration)
+    public AudioQueueItem(string url, string name, string singers)
     {
         Url = url;
         Name = name;
         Singers = singers;
-        Duration = duration;
     }
 
     public string Url { get; }
     public string Name { get; }
     public string Singers { get; }
-    public long Duration { get; }
 }

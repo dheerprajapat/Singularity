@@ -12,7 +12,7 @@ public static class AudioQueue
 
     public static void Add(AudioQueueItem song)=>Queue.Add(song);
 
-    public static AudioQueueItem? Current => Queue.FirstOrDefault(null);
+    public static AudioQueueItem? Current => Queue.Count > 0 ? Queue[0] : null;
     public static AudioQueueItem? Next()
     {
         if(Repeat==LoopMode.NoLoop && Queue.Count>=1)
@@ -26,6 +26,8 @@ public static class AudioQueue
 
         return Current;
     }
+
+    public static int Count=> Queue.Count;
 
     public static AudioQueueItem? Previous()
     {
