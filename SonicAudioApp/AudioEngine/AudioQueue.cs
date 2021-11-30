@@ -1,0 +1,50 @@
+﻿using SonicAudioApp.Models;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace SonicAudioApp.AudioEngine;
+public static class AudioQueue
+{
+    private static List<AudioQueueItem> Queue = new();
+
+    public static void Add(AudioQueueItem song)=>Queue.Add(song);
+
+    public static AudioQueueItem? Current => Queue.FirstOrDefault(null);
+    public static AudioQueueItem? Next()
+    {
+        if(Repeat==LoopMode.NoLoop && Queue.Count>=1)
+                Queue.RemoveAt(0);
+        else if(Repeat==LoopMode.LoopAll && Queue.Count >= 1)
+        {
+            var item = Queue[0];
+            Queue.RemoveAt(0);
+            Add(item);
+        }
+
+        return Current;
+    }
+
+    public static AudioQueueItem? Previous()
+    {
+        if(Queue.Count>=1)
+        {
+            var last=Queue[Queue.Count-1];
+            Queue.RemoveAt(Queue.Count-1);
+            Queue.Insert(0, last);
+        }
+
+        return Current;
+    }
+
+    public static LoopMode Repeat = LoopMode.NoLoop;
+
+}
+public enum LoopMode
+{
+    NoLoop,
+    LoopSingle,
+    LoopAll
+}

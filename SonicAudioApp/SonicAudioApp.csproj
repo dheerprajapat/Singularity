@@ -119,12 +119,14 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="AudioEngine\AudioQueue.cs" />
     <Compile Include="Components\MediaPlayerControl.xaml.cs">
       <DependentUpon>MediaPlayerControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Models\AudioQueueItem.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -175,4 +177,9 @@
   <Target Name="AfterBuild">
   </Target>
   -->
+
+    <PropertyGroup>
+    <LangVersion>10.0</LangVersion>
+    <nullable>enable</nullable>
+  </PropertyGroup>
 </Project>
