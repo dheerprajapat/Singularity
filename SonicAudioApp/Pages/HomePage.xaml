@@ -9,7 +9,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
     <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock>Search</TextBlock>
+        <TextBlock>Home</TextBlock>
     </Grid>
 
     </Page>

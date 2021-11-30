@@ -4,10 +4,11 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:local="using:SonicAudioApp.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:pages="using:SonicAudioApp.Pages"
     mc:Ignorable="d"
     x:Name="sharedNavMenu"
     d:DesignHeight="720"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     d:DesignWidth="1024">
 
     <Grid>
@@ -40,8 +41,9 @@
             <muxc:NavigationView x:Name="NavigationViewControl"
             IsTitleBarAutoPaddingEnabled="False"            
             IsBackButtonVisible="Visible" SelectionChanged="NavigationViewControl_SelectionChanged"
-            Header="" 
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
+            Header="Header"
+            AlwaysShowHeader="False"
             Canvas.ZIndex="0">
                 <muxc:NavigationView.MenuItems>
                     <muxc:NavigationViewItem Icon="Home" Content="Home" x:Name="homePage"/>
@@ -51,7 +53,9 @@
                     <muxc:NavigationViewItem Icon="Like" Content="Liked Song"/>
                 </muxc:NavigationView.MenuItems>
                 <Grid>
-                    <Frame x:Name="contentFrame"/>
+                    <Frame x:Name="contentFrame">
+                        <pages:HomePage/>
+                    </Frame>
                 </Grid>
             </muxc:NavigationView>
         </Grid>

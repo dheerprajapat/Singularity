@@ -6,10 +6,15 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:components="using:SonicAudioApp.Components"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <Grid Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
-        <TextBlock>Search</TextBlock>
-    </Grid>
+    <StackPanel >
+        <AutoSuggestBox QueryIcon="Find"
+                       PlaceholderText="Search here" Width="400" Height="40"/>
+        <Grid>
+            <Rectangle/>
+        </Grid>
+    </StackPanel>
 
 </Page>
