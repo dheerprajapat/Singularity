@@ -33,7 +33,7 @@ namespace SonicAudioApp
 
             AudioQueue.Add(new("https://ncsmusic.s3.eu-west-1.amazonaws.com/tracks/000/000/396/fearless-1586951971-4hvTByxSmH.mp3", null, null));
 
-            AudioPlayer.Play();
+            //AudioPlayer.Play();
         }
     }
 }

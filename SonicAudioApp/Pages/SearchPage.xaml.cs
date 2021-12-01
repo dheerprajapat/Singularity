@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using SonicAudioApp.Services.Ytdl;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -13,21 +14,18 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-
-// The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=234238
+using YoutubeExplode.Common;
 
 namespace SonicAudioApp.Pages
 {
-    /// <summary>
-    /// An empty page that can be used on its own or navigated to within a Frame.
-    /// </summary>
     public sealed partial class SearchPage : Page
     {
+        YoutubeExplode.YoutubeClient Client=new YoutubeExplode.YoutubeClient();
         public SearchPage()
         {
             this.InitializeComponent();
+            YoutubeSearch.GetJson("levitating");
         }
-
 
 
         public string SearchFilter
@@ -46,7 +44,6 @@ namespace SonicAudioApp.Pages
             UploadDate,
             Rating
         }
-        FilterModes FilterMode;
 
         private void RadioMenuFlyoutItem_Click(object sender, RoutedEventArgs e)
         {
@@ -56,9 +53,21 @@ namespace SonicAudioApp.Pages
                 var text=(radio.Text.Replace(" ", ""));
                 if(Enum.TryParse(text, out FilterModes mode))
                 {
-                    FilterMode = mode;
                     SearchFilter = radio.Text;
                 }
+            }
+        }
+
+        private void SearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
+        {
+        }
+
+        private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
+        {
+           await foreach (var item in  Client.Search.GetVideosAsync(sender.Text))
+            {
+                Console.WriteLine(item.Title);
+                Console.WriteLine(item.Url);
             }
         }
     }

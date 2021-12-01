@@ -12,8 +12,8 @@
 
     <StackPanel Padding="20 40 20 20" Orientation="Vertical">
         <StackPanel Orientation="Horizontal" Spacing="20">
-            <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center"
-                       PlaceholderText="Search here" Width="400" Height="40" HorizontalAlignment="Left"/>
+            <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center" x:Name="SearchBox" SuggestionChosen="SearchBox_SuggestionChosen" QuerySubmitted="SearchBox_QuerySubmitted"
+                       PlaceholderText="Search here" Width="400" Height="40" HorizontalAlignment="Left" />
             <TextBlock VerticalAlignment="Center" Foreground="LightGray">Filter By</TextBlock>
             <Button Content="{Binding ElementName=searchPage,Path=SearchFilter}">
                 <Button.Flyout>
@@ -28,7 +28,7 @@
         </StackPanel>
        
         <Grid>
-            <Rectangle/>
+            <Rectangle Fill="{ThemeResource SystemControlAcrylicElementBrush}" Width="200" Height="50"/>
         </Grid>
     </StackPanel>
 
