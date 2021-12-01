@@ -14,7 +14,7 @@
     <StackPanel Padding="20 50 20 10" Orientation="Vertical">
         <StackPanel Orientation="Horizontal" Spacing="20" Margin="0 20 20 20">
             <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center" x:Name="SearchBox" SuggestionChosen="SearchBox_SuggestionChosen" QuerySubmitted="SearchBox_QuerySubmitted"
-                       PlaceholderText="Search here" Width="400" Height="40" HorizontalAlignment="Left" />
+                       PlaceholderText="Search here" Width="400" Height="40" HorizontalAlignment="Left"/>
             <TextBlock VerticalAlignment="Center" Foreground="LightGray">Filter By</TextBlock>
             <Button Content="{Binding ElementName=searchPage,Path=SearchFilter}">
                 <Button.Flyout>
@@ -32,7 +32,9 @@
 
              <TextBlock Text="Top Results" FontSize="24"/>
             <!--songs list-->
-            <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}">
+            <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}" ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+                
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Margin" Value="20 10 0 10"/>
@@ -48,11 +50,11 @@
                             </Grid.ColumnDefinitions>
                             <!--Song Thumbnail-->
                             <Image 
-                 Source="../Assets/Square44x44Logo.png"  Width="80" Height="80"/>
+                 Source="{Binding ThumbnailUrl}"  Width="80" Height="80"/>
                             <!--Song Name and Authod-->
                             <StackPanel Orientation="Vertical" Spacing="2" Margin="5 5 5 5" Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock FontSize="16" FontWeight="SemiBold" >This is song name</TextBlock>
-                                <TextBlock FontSize="12">Singer 1,Singer 2</TextBlock>
+                                <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Title}"/>
+                                <TextBlock FontSize="12" Text="{Binding Singers}"/>
                             </StackPanel>
                             <!--Like Button-->
                             <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->

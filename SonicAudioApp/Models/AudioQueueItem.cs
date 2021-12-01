@@ -8,14 +8,10 @@ namespace SonicAudioApp.Models;
 
 public record AudioQueueItem
 {
-    public AudioQueueItem(string url, string name, string singers)
-    {
-        Url = url;
-        Name = name;
-        Singers = singers;
-    }
-
-    public string Url { get; }
-    public string Name { get; }
-    public string Singers { get; }
+    public string Url { get; set; }
+    public string Title { get; set; }
+    public string Singers { get; set; }
+    public string ThumbnailUrl { get; set; }
+    public string Id { get; set; }
+    public string VideoUrl { get; set; }
 }

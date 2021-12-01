@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Models;
 using SonicAudioApp.Services.Ytdl;
 using System;
@@ -15,11 +16,14 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
+using YoutubeExplode;
+using YoutubeExplode.Videos.Streams;
 
 namespace SonicAudioApp.Pages
 {
     public sealed partial class SearchPage : Page
     {
+        public static YoutubeClient Youtube = new YoutubeClient();
         public SearchPage()
         {
             this.InitializeComponent();
@@ -63,11 +67,24 @@ namespace SonicAudioApp.Pages
 
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var res=await YoutubeSearch.GetVideosAsync("Madonna - Frozen (Sickick Remix)");
+            if (string.IsNullOrWhiteSpace(sender.Text))
+                return;
+
+            var res=await YoutubeSearch.GetVideosAsync(sender.Text);
+            var newList = new List<AudioQueueItem>();
+
             foreach(var item in res)
             {
-
+                newList.Add(new AudioQueueItem
+                {
+                    Id=item.VideoId,
+                    Title=item.Title,
+                    ThumbnailUrl=item.Image,
+                    Singers=item.Author.Name,
+                    VideoUrl=item.Url
+                });
             }
+            Songs=newList;
         }
 
 
@@ -79,9 +96,18 @@ namespace SonicAudioApp.Pages
 
         public static readonly DependencyProperty SongsProperty =
             DependencyProperty.Register("Songs", typeof(List<AudioQueueItem>), typeof(SearchPage), new PropertyMetadata(
-                new List<AudioQueueItem> { new AudioQueueItem("test url",null,null), new AudioQueueItem("test url 2", null, null) }
+                new List<AudioQueueItem> {  }
             ));
 
-
+        private async void topResultGrid_ItemClick(object sender, ItemClickEventArgs e)
+        {
+            var s = sender as ListView;
+            var c = Songs[s.SelectedIndex];
+            var streamManifest = await Youtube.Videos.Streams.GetManifestAsync(c.Id);
+            var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
+            c.Url = streamInfo.Url;
+            AudioQueue.Add(c);
+            AudioPlayer.Play();
+        }
     }
 }

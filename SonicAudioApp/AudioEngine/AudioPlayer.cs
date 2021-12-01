@@ -35,8 +35,8 @@ public static class AudioPlayer
         Audio.MediaEnded += Audio_MediaEnded;
         Audio.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
         Audio.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
+        Audio.SourceChanged += Audio_SourceChanged;
     }
-
 
     public static void Play()
     {
@@ -77,8 +77,15 @@ public static class AudioPlayer
     {
         PlaybackStateChanged?.Invoke(sender, args);
     }
+    private static void Audio_SourceChanged(MediaPlayer sender, object args)
+    {
+        SourceChanged?.Invoke(sender, args);
+    }
+
     public delegate void PlaybackStateHandler(MediaPlaybackSession sender, object args);
     public static event PlaybackStateHandler PositionChanged;
-
     public static event PlaybackStateHandler PlaybackStateChanged;
+    public delegate void SourceChangedHandler(MediaPlayer sender, object args);
+    public static event SourceChangedHandler SourceChanged;
+
 }

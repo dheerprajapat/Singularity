@@ -28,9 +28,45 @@ namespace SonicAudioApp.Components
             DataContext = this;
             AudioPlayer.PositionChanged += AudioPlayer_PositionChanged;
             AudioPlayer.PlaybackStateChanged += AudioPlayer_PlaybackStateChanged;
+            AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
         }
 
-       
+        public string Title
+        {
+            get { return (string)GetValue(TitleProperty); }
+            set { SetValue(TitleProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty TitleProperty =
+            DependencyProperty.Register("Title", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata(0));
+
+
+
+        public string Thumbnail
+        {
+            get { return (string)GetValue(MyPropertyProperty); }
+            set { SetValue(MyPropertyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MyPropertyProperty =
+            DependencyProperty.Register("MyProperty", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata(""));
+
+
+
+        public string Singers
+        {
+            get { return (string)GetValue(SingersProperty); }
+            set { SetValue(SingersProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Singers.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SingersProperty =
+            DependencyProperty.Register("Singers", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata(0));
+
+
+
 
         public string Position
         {
@@ -95,6 +131,7 @@ namespace SonicAudioApp.Components
         {
             AudioPlayer.PositionChanged-=AudioPlayer_PositionChanged;
             AudioPlayer.PlaybackStateChanged -= AudioPlayer_PlaybackStateChanged;
+            AudioPlayer.SourceChanged-= AudioPlayer_SourceChanged;
         }
 
         private Dictionary<UIElement, Brush> PreviousColors = new Dictionary<UIElement, Brush>();
@@ -196,6 +233,15 @@ namespace SonicAudioApp.Components
             {
                 AudioPlayer.Stop();
             }
+        }
+        private async void AudioPlayer_SourceChanged(Windows.Media.Playback.MediaPlayer sender, object args)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
+            {
+                Title = AudioQueue.Current.Title;
+                Thumbnail = AudioQueue.Current.ThumbnailUrl;
+                Singers= AudioQueue.Current.Singers;
+            });
         }
     }
 }

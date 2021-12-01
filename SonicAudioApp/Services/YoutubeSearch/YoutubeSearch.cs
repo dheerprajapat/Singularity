@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 namespace SonicAudioApp.Services.Ytdl;
 public static class YoutubeSearch
 {
-    public static async Task<string> GetJsonAsync(string query, uint amount=1, CancellationToken token = default)
+    public static async Task<string> GetJsonAsync(string query, uint amount=20, CancellationToken token = default)
     {
         try
         {
@@ -35,7 +35,7 @@ public static class YoutubeSearch
             throw new Exception("Failed to search for given query");
         }
     }
-    public static async Task<IReadOnlyList<SearchResult>> GetVideosAsync(string query, uint amount = 2, CancellationToken token = default)
+    public static async Task<IReadOnlyList<SearchResult>> GetVideosAsync(string query, uint amount = 20, CancellationToken token = default)
     {
         
         try
