@@ -32,8 +32,9 @@
 
              <TextBlock Text="Top Results" FontSize="24"/>
             <!--songs list-->
-            <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}" ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True"
-                      ScrollViewer.VerticalScrollBarVisibility="Auto">
+            <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}"
+                      ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True"
+                      ScrollViewer.VerticalScrollBarVisibility="Visible">
                 
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">

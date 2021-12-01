@@ -109,7 +109,7 @@ namespace SonicAudioApp.Pages
             var streamManifest = await Youtube.Videos.Streams.GetManifestAsync(c.Id);
             var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
             c.Url = streamInfo.Url;
-            AudioQueue.Add(c);
+            AudioQueue.Add(c,true);
             AudioPlayer.Play();
         }
     }

@@ -28,7 +28,7 @@
                  Source="{Binding ElementName=mediaPlayerControl, Path=Thumbnail}"  Width="80" Height="80"/>
             <!--Song Name and Authod-->
             <StackPanel Orientation="Vertical" Spacing="2" Margin="5 5 5 5" Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding ElementName=mediaPlayerControl, Path=Title}"/>
+                <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding ElementName=mediaPlayerControl, Path=Title}" TextTrimming="WordEllipsis"/>
                 <TextBlock FontSize="12" Text="{Binding ElementName=mediaPlayerControl, Path=Singers}"/>
             </StackPanel>
             <!--Like Button-->

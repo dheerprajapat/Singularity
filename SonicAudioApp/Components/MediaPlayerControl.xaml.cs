@@ -15,6 +15,7 @@ using Windows.UI.Xaml.Controls.Primitives;
 using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
+using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
 
 
@@ -39,19 +40,19 @@ namespace SonicAudioApp.Components
 
         // Using a DependencyProperty as the backing store for Title.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty TitleProperty =
-            DependencyProperty.Register("Title", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata(0));
+            DependencyProperty.Register("Title", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata(""));
 
 
 
-        public string Thumbnail
+        public ImageSource Thumbnail
         {
-            get { return (string)GetValue(MyPropertyProperty); }
+            get { return (ImageSource)GetValue(MyPropertyProperty); }
             set { SetValue(MyPropertyProperty, value); }
         }
 
         // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MyPropertyProperty =
-            DependencyProperty.Register("MyProperty", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata(""));
+            DependencyProperty.Register("Thumbnail", typeof(ImageSource), typeof(MediaPlayerControl), new PropertyMetadata(new BitmapImage()));
 
 
 
@@ -63,7 +64,7 @@ namespace SonicAudioApp.Components
 
         // Using a DependencyProperty as the backing store for Singers.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty SingersProperty =
-            DependencyProperty.Register("Singers", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata(0));
+            DependencyProperty.Register("Singers", typeof(string), typeof(MediaPlayerControl), new PropertyMetadata(""));
 
 
 
@@ -126,7 +127,10 @@ namespace SonicAudioApp.Components
                 {
                     MaxValue = max;
                     Title = AudioQueue.Current.Title;
-                    Thumbnail = AudioQueue.Current.ThumbnailUrl;
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.UriSource = new(AudioQueue.Current.ThumbnailUrl);
+                    Thumbnail = bitmapImage;
+
                     Singers = AudioQueue.Current.Singers;
                 }
             });
@@ -244,8 +248,10 @@ namespace SonicAudioApp.Components
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
                 Title = AudioQueue.Current.Title;
-                Thumbnail = AudioQueue.Current.ThumbnailUrl;
-                Singers= AudioQueue.Current.Singers;
+                BitmapImage bitmapImage = new BitmapImage();
+                bitmapImage.UriSource = new(AudioQueue.Current.ThumbnailUrl);
+                Thumbnail = bitmapImage;
+                Singers = AudioQueue.Current.Singers;
             });
         }
     }

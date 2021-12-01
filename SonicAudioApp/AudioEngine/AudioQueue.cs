@@ -10,7 +10,18 @@ public static class AudioQueue
 {
     private static List<AudioQueueItem> Queue = new();
 
-    public static void Add(AudioQueueItem song)=>Queue.Add(song);
+    public static void Add(AudioQueueItem song,bool atstart=false)
+    {
+        if(Queue.Contains(song))
+        {
+            Queue.Remove(song);
+        }
+        if(!atstart)
+            Queue.Add(song);
+        else
+            Queue.Insert(0, song);
+
+    }
 
     public static AudioQueueItem? Current => Queue.Count > 0 ? Queue[0] : null;
     public static AudioQueueItem? Next()
