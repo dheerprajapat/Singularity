@@ -1,4 +1,5 @@
 ﻿using Microsoft.UI.Xaml.Controls;
+using SonicAudioApp.Models;
 using SonicAudioApp.Services.Ytdl;
 using System;
 using System.Collections.Generic;
@@ -22,6 +23,7 @@ namespace SonicAudioApp.Pages
         public SearchPage()
         {
             this.InitializeComponent();
+
         }
 
 
@@ -67,5 +69,19 @@ namespace SonicAudioApp.Pages
 
             }
         }
+
+
+        public List<AudioQueueItem> Songs
+        {
+            get { return (List<AudioQueueItem>)GetValue(SongsProperty); }
+            set { SetValue(SongsProperty, value); }
+        }
+
+        public static readonly DependencyProperty SongsProperty =
+            DependencyProperty.Register("Songs", typeof(List<AudioQueueItem>), typeof(SearchPage), new PropertyMetadata(
+                new List<AudioQueueItem> { new AudioQueueItem("test url",null,null), new AudioQueueItem("test url 2", null, null) }
+            ));
+
+
     }
 }

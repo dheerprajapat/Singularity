@@ -8,10 +8,11 @@
     mc:Ignorable="d"
     x:Name="searchPage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
+    xmlns:data="using:SonicAudioApp.Models"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <StackPanel Padding="20 50 20 20" Orientation="Vertical">
-        <StackPanel Orientation="Horizontal" Spacing="20">
+    <StackPanel Padding="20 50 20 10" Orientation="Vertical">
+        <StackPanel Orientation="Horizontal" Spacing="20" Margin="0 20 20 20">
             <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center" x:Name="SearchBox" SuggestionChosen="SearchBox_SuggestionChosen" QuerySubmitted="SearchBox_QuerySubmitted"
                        PlaceholderText="Search here" Width="400" Height="40" HorizontalAlignment="Left" />
             <TextBlock VerticalAlignment="Center" Foreground="LightGray">Filter By</TextBlock>
@@ -26,32 +27,43 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
-        <StackPanel Orientation="Horizontal" Spacing="320">
-            <TextBlock Text="Top Result" FontSize="24"
-        Margin="0 10 0 0" FontWeight="SemiBold"/>
-            <TextBlock Text="Songs" FontSize="24"
-        Margin="0 10 0 0" FontWeight="SemiBold"/>
-        </StackPanel>
-
-        <Grid Padding="0 10 20 20">
+        <Grid ColumnSpacing="10" RowSpacing="20">
             <Grid.RowDefinitions>
-                <RowDefinition Height="300"/>
-                <RowDefinition Height="*"/>
+                <RowDefinition Height="30"/>
+                <RowDefinition Height="1*"/>
+                <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
             <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="400"/>
-                <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1.3*"/>
             </Grid.ColumnDefinitions>
             <Grid.Resources>
                 <SolidColorBrush x:Key="SystemControlRevealFocusVisualBrush" Color="#FF0063B1" />
                 <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="#FF000000" />
             </Grid.Resources>
-            <Button Width="400" Height="300"
+
+            <TextBlock Text="Top Result" FontSize="24"/>
+            <TextBlock Text="Songs" FontSize="24" Grid.Column="1"/>
+
+            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
           FocusVisualPrimaryThickness="2"
           FocusVisualSecondaryThickness="1"
-          FocusVisualMargin="-3"
+          FocusVisualMargin="-3" MinHeight="200"
           FocusVisualPrimaryBrush="{StaticResource SystemControlRevealFocusVisualBrush}"
           FocusVisualSecondaryBrush="{StaticResource SystemControlFocusVisualSecondaryBrush}" />
+            <!--songs list-->
+            <ListView x:Name="songsGrid" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ElementName=searchPage,Path=Songs}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="data:AudioQueueItem">
+                        <TextBlock Text="{x:Bind Url}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+
+            <!--playlists-->
+            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
+                <TextBlock Text="Playlists" FontSize="24" FontWeight="SemiBold"/>
+            </StackPanel>
         </Grid>
     </StackPanel>
 
