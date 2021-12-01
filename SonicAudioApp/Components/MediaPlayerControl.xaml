@@ -25,11 +25,11 @@
             </Grid.ColumnDefinitions>
             <!--Song Thumbnail-->
             <Image 
-                 Source="../Assets/Square44x44Logo.png"  Width="80" Height="80"/>
+                 Source="{Binding ElementName=mediaPlayerControl, Path=Thumbnail}"  Width="80" Height="80"/>
             <!--Song Name and Authod-->
             <StackPanel Orientation="Vertical" Spacing="2" Margin="5 5 5 5" Grid.Column="1" VerticalAlignment="Center">
-                <TextBlock FontSize="16" FontWeight="SemiBold" >This is song name</TextBlock>
-                <TextBlock FontSize="12">Singer 1,Singer 2</TextBlock>
+                <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding ElementName=mediaPlayerControl, Path=Title}"/>
+                <TextBlock FontSize="12" Text="{Binding ElementName=mediaPlayerControl, Path=Singers}"/>
             </StackPanel>
             <!--Like Button-->
             <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->

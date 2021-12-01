@@ -102,6 +102,9 @@ namespace SonicAudioApp.Pages
         private async void topResultGrid_ItemClick(object sender, ItemClickEventArgs e)
         {
             var s = sender as ListView;
+            if (s.SelectedIndex < 0 || s.SelectedIndex >= Songs.Count)
+                return;
+
             var c = Songs[s.SelectedIndex];
             var streamManifest = await Youtube.Videos.Streams.GetManifestAsync(c.Id);
             var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();

@@ -122,8 +122,13 @@ namespace SonicAudioApp.Components
                 Position = ConvertTimeSpanToDuration(AudioPlayer.Position);
                 PositionValue =(int) AudioPlayer.Position.TotalSeconds;
                 var max=(int)AudioPlayer.TotalDuration.TotalSeconds;
-                if(MaxValue!=max)
+                if (MaxValue != max)
+                {
                     MaxValue = max;
+                    Title = AudioQueue.Current.Title;
+                    Thumbnail = AudioQueue.Current.ThumbnailUrl;
+                    Singers = AudioQueue.Current.Singers;
+                }
             });
         }
 
