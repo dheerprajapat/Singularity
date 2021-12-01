@@ -38,7 +38,7 @@ public static class AudioPlayer
         Audio.SourceChanged += Audio_SourceChanged;
     }
 
-    public static void Play(bool begin=false)
+    public static void Play(bool begin=true)
     {
         if (AudioQueue.Count == 0)
             return;
@@ -59,13 +59,25 @@ public static class AudioPlayer
         Audio.Pause();
     }
 
-    private static void Audio_MediaEnded(MediaPlayer sender, object args)
+    public static void PlayNext()
     {
-        var next=AudioQueue.Next();
+        var next = AudioQueue.Next();
         if (next is null)
             return;
-
         Play();
+    }
+    public static void PlayPrevious()
+    {
+        var p = AudioQueue.Previous();
+        if (p is null)
+            return;
+        Play();
+    }
+
+
+    private static void Audio_MediaEnded(MediaPlayer sender, object args)
+    {
+        PlayNext();
     }
     public static void UpdatePosition(TimeSpan time)
     {

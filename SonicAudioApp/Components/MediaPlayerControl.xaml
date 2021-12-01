@@ -47,7 +47,7 @@
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8b1;" FontSize="14" 
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="14" 
-                              PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
+                              PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited" x:Name="previousBtn" PointerPressed="previousBtn_PointerPressed"/>
                 <Button CornerRadius="50" Width="44" Height="44" x:Name="PlayPauseButton" Foreground="DeepSkyBlue" 
                         Click="PlayPauseButton_Click">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;" 
@@ -55,7 +55,7 @@
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                               FontSize="18" />
                 </Button>
-                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe893;" FontSize="14" 
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe893;" FontSize="14"  x:Name="nextPlayBtn" PointerPressed="nextPlayBtn_PointerPressed"
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe895;" FontSize="14" 
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>

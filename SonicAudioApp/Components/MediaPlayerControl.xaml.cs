@@ -225,7 +225,8 @@ namespace SonicAudioApp.Components
                 {
                     PlayPauseIcon.Glyph = "\uf8ae";
                 }
-                else if(AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Buffering)
+                else if(AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Buffering
+                    || AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Opening)
                 {
                     PlayPauseIcon.Glyph = "\uebd3";
                 }
@@ -236,7 +237,7 @@ namespace SonicAudioApp.Components
         {
             if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Paused)
             {
-                AudioPlayer.Play();
+                AudioPlayer.Play(false);
             }
             else if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Playing)
             {
@@ -253,6 +254,16 @@ namespace SonicAudioApp.Components
                 Thumbnail = bitmapImage;
                 Singers = AudioQueue.Current.Singers;
             });
+        }
+
+        private void previousBtn_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            AudioPlayer.PlayPrevious();
+        }
+
+        private void nextPlayBtn_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            AudioPlayer.PlayNext();
         }
     }
 }

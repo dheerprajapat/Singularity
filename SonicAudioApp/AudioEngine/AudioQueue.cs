@@ -52,9 +52,16 @@ public static class AudioQueue
     {
         if(Queue.Count>=1)
         {
-            var last=Queue[Queue.Count-1];
-            Queue.RemoveAt(Queue.Count-1);
-            Queue.Insert(0, last);
+            if (AudioPlayer.Position > TimeSpan.FromSeconds(5))
+            {
+                AudioPlayer.UpdatePosition(TimeSpan.FromSeconds(0));
+            }
+            else
+            {
+                var last = Queue[Queue.Count - 1];
+                Queue.RemoveAt(Queue.Count - 1);
+                Queue.Insert(0, last);
+            }
         }
 
         return Current;
