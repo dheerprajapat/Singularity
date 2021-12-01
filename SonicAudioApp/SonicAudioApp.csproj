@@ -139,6 +139,7 @@
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\YoutubeSearch\Models\SearchResult.cs" />
     <Compile Include="Services\YoutubeSearch\YoutubeHelperExtensions.cs" />
     <Compile Include="Services\YoutubeSearch\YoutubeSearch.cs" />
   </ItemGroup>
@@ -201,7 +202,6 @@
     <None Include="Native\Vendor/**">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-   
   </ItemGroup>
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
     <VisualStudioVersion>14.0</VisualStudioVersion>

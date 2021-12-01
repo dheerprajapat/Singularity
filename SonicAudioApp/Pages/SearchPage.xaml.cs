@@ -61,7 +61,7 @@ namespace SonicAudioApp.Pages
 
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-            var res=await YoutubeSearch.GetJsonAsync("Madonna - Frozen (Sickick Remix)");
+            var res=await YoutubeSearch.GetVideosAsync("Madonna - Frozen (Sickick Remix)");
             foreach(var item in res)
             {
 

@@ -1,5 +1,6 @@
 ﻿using Newtonsoft.Json;
 using SonicAudioApp.Native;
+using SonicAudioApp.Services.YoutubeSearch.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
@@ -11,7 +12,7 @@ using System.Threading.Tasks;
 namespace SonicAudioApp.Services.Ytdl;
 public static class YoutubeSearch
 {
-    public static async Task<string> GetJsonAsync(string query, uint amount=2, CancellationToken token = default)
+    public static async Task<string> GetJsonAsync(string query, uint amount=1, CancellationToken token = default)
     {
         try
         {
@@ -32,6 +33,19 @@ public static class YoutubeSearch
         catch
         {
             throw new Exception("Failed to search for given query");
+        }
+    }
+    public static async Task<IReadOnlyList<SearchResult>> GetVideosAsync(string query, uint amount = 2, CancellationToken token = default)
+    {
+        
+        try
+        {
+            var resp=await GetJsonAsync(query, amount, token);
+            return JsonConvert.DeserializeObject<List<SearchResult>>(resp);
+        }
+        catch
+        {
+            throw new Exception("Can't parse the search results");
         }
     }
 }
