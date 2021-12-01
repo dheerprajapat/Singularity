@@ -38,7 +38,7 @@ public static class AudioPlayer
         Audio.SourceChanged += Audio_SourceChanged;
     }
 
-    public static void Play()
+    public static void Play(bool begin=false)
     {
         if (AudioQueue.Count == 0)
             return;
@@ -46,8 +46,11 @@ public static class AudioPlayer
         var currentSong = AudioQueue.Current;
         var currentSource = MediaSource.CreateFromUri(new(currentSong.Url));
 
-        if (Audio.Source == null)
+        if (begin)
+        {
             Audio.Source = currentSource;
+            UpdatePosition(TimeSpan.Zero);
+        }
         
         Audio.Play();
     }

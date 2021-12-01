@@ -32,7 +32,7 @@
                     Width="16" 
                     Height="16"/>
                     <TextBlock x:Name="AppTitle"
-                    Text="Sonic Audio"
+                    Text="Singularity"
                     VerticalAlignment="Center"
                     Margin="12, 0, 0, 0"
                     Style="{StaticResource CaptionTextBlockStyle}" />
