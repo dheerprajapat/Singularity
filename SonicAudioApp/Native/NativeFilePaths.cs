@@ -9,8 +9,10 @@ namespace SonicAudioApp.Native;
 public static class NativeFilePaths
 {
     private readonly static string BaseDirectory = AppDomain.CurrentDomain.BaseDirectory;
-    public readonly static string NativePath = Path.Combine(BaseDirectory,"Native");
-    public readonly static string VendorPath = Path.Combine(NativePath, "Vendor");
-    public readonly static string YtdlPath = Path.Combine(VendorPath, "ytdl.exe");
+    private readonly static string NativePath = Path.Combine(BaseDirectory,"Native");
+    private  readonly static string VendorPath = Path.Combine(NativePath, "Vendor");
+    public readonly static string YouTubeSearchDir = Path.Combine(VendorPath, "YouTubeSearch");
+
+    public readonly static string YouTubeSearchExePath = Path.Combine(YouTubeSearchDir, "ytsearch.exe");
 
 }

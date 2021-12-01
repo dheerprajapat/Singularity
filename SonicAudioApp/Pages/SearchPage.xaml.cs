@@ -14,17 +14,14 @@ using Windows.UI.Xaml.Data;
 using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
-using YoutubeExplode.Common;
 
 namespace SonicAudioApp.Pages
 {
     public sealed partial class SearchPage : Page
     {
-        YoutubeExplode.YoutubeClient Client=new YoutubeExplode.YoutubeClient();
         public SearchPage()
         {
             this.InitializeComponent();
-            YoutubeSearch.GetJson("levitating");
         }
 
 
@@ -64,10 +61,10 @@ namespace SonicAudioApp.Pages
 
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
-           await foreach (var item in  Client.Search.GetVideosAsync(sender.Text))
+            var res=await YoutubeSearch.GetJsonAsync("Madonna - Frozen (Sickick Remix)");
+            foreach(var item in res)
             {
-                Console.WriteLine(item.Title);
-                Console.WriteLine(item.Url);
+
             }
         }
     }
