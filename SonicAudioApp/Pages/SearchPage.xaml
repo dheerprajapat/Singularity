@@ -27,44 +27,50 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
-        <Grid ColumnSpacing="10" RowSpacing="20">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1.3*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.Resources>
-                <SolidColorBrush x:Key="SystemControlRevealFocusVisualBrush" Color="#FF0063B1" />
-                <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="#FF000000" />
-            </Grid.Resources>
+        
+        <StackPanel Orientation="Vertical" Spacing="20">
 
-            <TextBlock Text="Top Result" FontSize="24"/>
-            <TextBlock Text="Songs" FontSize="24" Grid.Column="1"/>
-
-            <Button VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Grid.Row="1"
-          FocusVisualPrimaryThickness="2"
-          FocusVisualSecondaryThickness="1"
-          FocusVisualMargin="-3" MinHeight="200"
-          FocusVisualPrimaryBrush="{StaticResource SystemControlRevealFocusVisualBrush}"
-          FocusVisualSecondaryBrush="{StaticResource SystemControlFocusVisualSecondaryBrush}" />
+             <TextBlock Text="Top Result" FontSize="24"/>
             <!--songs list-->
-            <ListView x:Name="songsGrid" Grid.Row="1" Grid.Column="1" ItemsSource="{Binding ElementName=searchPage,Path=Songs}">
+            <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="20 0 0 0"/>
+                        <Setter Property="Height" Value="40"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:AudioQueueItem">
                         <TextBlock Text="{x:Bind Url}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <TextBlock Text="Songs" FontSize="24"/>
 
-            <!--playlists-->
-            <StackPanel Grid.Row="2" Grid.Column="0" Grid.ColumnSpan="2">
-                <TextBlock Text="Playlists" FontSize="24" FontWeight="SemiBold"/>
-            </StackPanel>
-        </Grid>
+                <!--songs list-->
+            <ListView x:Name="songsGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}">
+                <ListView.ItemContainerStyle>
+                    <Style TargetType="ListViewItem">
+                        <Setter Property="Margin" Value="20 0 0 0"/>
+                        <Setter Property="Height" Value="40"/>
+                    </Style>
+                </ListView.ItemContainerStyle>
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="data:AudioQueueItem">
+                        <TextBlock Text="{x:Bind Url}"/>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </StackPanel>
+
+            
+            <!--Button  Grid.Row="1"
+            FocusVisualPrimaryThickness="2"
+            FocusVisualSecondaryThickness="1"
+            FocusVisualMargin="-3" Height="200" Width="300"
+            FocusVisualPrimaryBrush="{StaticResource SystemControlRevealFocusVisualBrush}"
+            FocusVisualSecondaryBrush="{StaticResource SystemControlFocusVisualSecondaryBrush}" /-->
+
     </StackPanel>
 
 </Page>
