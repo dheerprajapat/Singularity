@@ -10,7 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <StackPanel Padding="20 40 20 20" Orientation="Vertical">
+    <StackPanel Padding="20 50 20 20" Orientation="Vertical">
         <StackPanel Orientation="Horizontal" Spacing="20">
             <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center" x:Name="SearchBox" SuggestionChosen="SearchBox_SuggestionChosen" QuerySubmitted="SearchBox_QuerySubmitted"
                        PlaceholderText="Search here" Width="400" Height="40" HorizontalAlignment="Left" />
@@ -26,9 +26,32 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
-       
-        <Grid>
-            <Rectangle Fill="{ThemeResource SystemControlAcrylicElementBrush}" Width="200" Height="50"/>
+        <StackPanel Orientation="Horizontal" Spacing="320">
+            <TextBlock Text="Top Result" FontSize="24"
+        Margin="0 10 0 0" FontWeight="SemiBold"/>
+            <TextBlock Text="Songs" FontSize="24"
+        Margin="0 10 0 0" FontWeight="SemiBold"/>
+        </StackPanel>
+
+        <Grid Padding="0 10 20 20">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="300"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="400"/>
+                <ColumnDefinition Width="*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.Resources>
+                <SolidColorBrush x:Key="SystemControlRevealFocusVisualBrush" Color="#FF0063B1" />
+                <SolidColorBrush x:Key="SystemControlFocusVisualSecondaryBrush" Color="#FF000000" />
+            </Grid.Resources>
+            <Button Width="400" Height="300"
+          FocusVisualPrimaryThickness="2"
+          FocusVisualSecondaryThickness="1"
+          FocusVisualMargin="-3"
+          FocusVisualPrimaryBrush="{StaticResource SystemControlRevealFocusVisualBrush}"
+          FocusVisualSecondaryBrush="{StaticResource SystemControlFocusVisualSecondaryBrush}" />
         </Grid>
     </StackPanel>
 
