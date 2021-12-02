@@ -28,13 +28,14 @@
                     <Image x:Name="AppFontIcon"
                     HorizontalAlignment="Left" 
                     VerticalAlignment="Center"
-                    Source="Assets/Square44x44Logo.png" 
-                    Width="16" 
-                    Height="16"/>
+                     Margin="12 0 0 0"
+                    Source="../Assets/Square44x44Logo.scale-200.png" 
+                    Width="32" 
+                    Height="32"/>
                     <TextBlock x:Name="AppTitle"
                     Text="Singularity"
                     VerticalAlignment="Center"
-                    Margin="12, 0, 0, 0"
+                    Margin="5, 0, 0, 0"
                     Style="{StaticResource CaptionTextBlockStyle}" />
                 </StackPanel>
             </Border>
@@ -42,7 +43,7 @@
             IsTitleBarAutoPaddingEnabled="False"            
             IsBackButtonVisible="Visible" SelectionChanged="NavigationViewControl_SelectionChanged"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
-            Header="Header"
+            Header=""
             AlwaysShowHeader="False"
             Canvas.ZIndex="0">
                 <muxc:NavigationView.MenuItems>
@@ -53,7 +54,7 @@
                     <muxc:NavigationViewItem Icon="Like" Content="Liked Song"/>
                 </muxc:NavigationView.MenuItems>
                 <Grid>
-                    <Frame x:Name="contentFrame">
+                    <Frame x:Name="contentFrame" Margin="0 20 0 0">
                         <pages:HomePage/>
                     </Frame>
                 </Grid>
