@@ -46,7 +46,7 @@
             <TextBlock Text="Top Results" FontSize="20"/>
             <!--songs list-->
             <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}"
-                      ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True" Grid.Row="1" CanDrag="False"
+                      ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True" Grid.Row="1"
                       ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
 
                 <ListView.ItemContainerStyle>
@@ -58,7 +58,7 @@
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:AudioQueueItem">
                         <Grid Padding="10 10 10 10" HorizontalAlignment="Stretch" x:Name="songItemGrid"
-                              PointerEntered="songItemGrid_PointerEntered" PointerExited="songItemGrid_PointerExited">
+                              >
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="*"/>
@@ -76,34 +76,22 @@
                                 <TextBlock FontSize="12" Text="{Binding Singers}"
                                            TextTrimming="CharacterEllipsis"/>
                             </StackPanel>
-                            <!--Like Button-->
-                            <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->
-                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{Binding Liked, Converter={StaticResource likeButtonBoolToGlyphConvertor}}" Foreground="SeaGreen" Grid.Column="2"
-                                      VerticalAlignment="Center" HorizontalAlignment="Left" PointerPressed="LikeButton_PointerPressed"
-                                      Visibility="Collapsed" x:Name="LikeButton"/>
                             <TextBlock Text="{Binding DurationString}" Grid.Column="3" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                            <Button Grid.Column="4" Background="Transparent" BorderBrush="Transparent" Visibility="Collapsed">
+                            <Button Grid.Column="4" Background="Transparent" BorderBrush="Transparent">
                                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe712;" Foreground="White" 
                                 Name="moreItems" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <Button.Flyout>
-                                    <MenuFlyout>
-                                        <muxc:RadioMenuFlyoutItem Text="Download"></muxc:RadioMenuFlyoutItem>
-                                        <muxc:RadioMenuFlyoutItem Text="Add to Playlist"></muxc:RadioMenuFlyoutItem>
-                                        <muxc:RadioMenuFlyoutItem Text="Show Stats"></muxc:RadioMenuFlyoutItem>
-                                        <muxc:RadioMenuFlyoutItem Text="Share"></muxc:RadioMenuFlyoutItem>
-                                    </MenuFlyout>
+                                    <muxc:CommandBarFlyout Placement="Left" x:Name="songMenuFlyout">
+                                        <AppBarButton Icon="Like" Label="Like" ToolTipService.ToolTip="Like"/>
+                                        <AppBarButton Icon="Download" Label="Download" ToolTipService.ToolTip="Download"/>
+                                        <AppBarButton Icon="Share" Label="Share"  ToolTipService.ToolTip="Share"/>
+                                        <muxc:CommandBarFlyout.SecondaryCommands>
+                                            <AppBarButton Label="Add Playlist"/>
+                                            <AppBarButton  Label="Show Stats"/>
+                                        </muxc:CommandBarFlyout.SecondaryCommands>
+                                    </muxc:CommandBarFlyout>
                                 </Button.Flyout>
                             </Button>
-                            <VisualStateManager.VisualStateGroups>
-                                <VisualStateGroup>
-                                    <VisualState x:Name="Normal"/>
-                                    <VisualState x:Name="PointerOver">
-                                        <VisualState.Setters>
-                                            <Setter Target="songItemGrid.Background" Value="Red"/>
-                                        </VisualState.Setters>
-                                    </VisualState>
-                                </VisualStateGroup>
-                            </VisualStateManager.VisualStateGroups>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
