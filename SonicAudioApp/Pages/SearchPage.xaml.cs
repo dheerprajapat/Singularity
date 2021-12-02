@@ -1,6 +1,7 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Models;
+using SonicAudioApp.Services.YoutubeSearch;
 using SonicAudioApp.Services.Ytdl;
 using System;
 using System.Collections.Generic;
@@ -27,7 +28,6 @@ namespace SonicAudioApp.Pages
         public SearchPage()
         {
             this.InitializeComponent();
-
         }
 
 
@@ -63,6 +63,7 @@ namespace SonicAudioApp.Pages
 
         private void SearchBox_SuggestionChosen(AutoSuggestBox sender, AutoSuggestBoxSuggestionChosenEventArgs args)
         {
+            SearchBox_QuerySubmitted(sender, null);
         }
 
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
@@ -110,6 +111,15 @@ namespace SonicAudioApp.Pages
             var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
             c.Url = streamInfo.Url;
             AudioQueue.AddAndPlay(c);
+        }
+
+
+        private async void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+        {
+            if (string.IsNullOrWhiteSpace(sender.Text))
+                return;
+            sender.ItemsSource = await SearchSuggestions.SuggestionsAsync(sender.Text);
+
         }
     }
 }
