@@ -5,10 +5,14 @@
     xmlns:local="using:SonicAudioApp.Components"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:ct="using:SonicAudioApp.Converters"
     mc:Ignorable="d"
     d:DesignHeight="100"
     x:Name="mediaPlayerControl"
     d:DesignWidth="800">
+    <UserControl.Resources>
+        <ct:LikeButtonBoolToGlyphConvertor x:Key="likeButtonBoolToGlyphConvertor"/>
+    </UserControl.Resources>
     <Grid>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="1.5*"/>
@@ -33,9 +37,9 @@
             </StackPanel>
             <!--Like Button-->
             <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->
-            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEB52;" Foreground="SeaGreen" Grid.Column="2" 
-                          x:Name="LikeButton"
-                          PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
+            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{Binding ElementName=mediaPlayerControl, Path=IsLiked, Converter={StaticResource likeButtonBoolToGlyphConvertor }}" 
+                      Foreground="SeaGreen" Grid.Column="2" x:Name="LikeButton"
+                      PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
         </Grid>
 
         <!--central media control panel-->

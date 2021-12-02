@@ -32,6 +32,20 @@ namespace SonicAudioApp.Components
             AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
         }
 
+
+
+        public bool IsLiked
+        {
+            get { return (bool)GetValue(IsLikedProperty); }
+            set { SetValue(IsLikedProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for IsLiked.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty IsLikedProperty =
+            DependencyProperty.Register("IsLiked", typeof(bool), typeof(MediaPlayerControl), new PropertyMetadata(false));
+
+
+
         public string Title
         {
             get { return (string)GetValue(TitleProperty); }
