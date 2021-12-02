@@ -11,7 +11,11 @@
     xmlns:data="using:SonicAudioApp.Models"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <StackPanel Padding="20 50 20 10" Orientation="Vertical">
+    <Grid Padding="20 50 20 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Spacing="20" Margin="0 20 20 20">
             <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center" x:Name="SearchBox" SuggestionChosen="SearchBox_SuggestionChosen"
                             QuerySubmitted="SearchBox_QuerySubmitted" TextChanged="SearchBox_TextChanged"
@@ -28,15 +32,19 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
-        
-        <StackPanel Orientation="Vertical" Spacing="20">
 
-             <TextBlock Text="Top Results" FontSize="24"/>
+        <Grid RowSpacing="20" Grid.Row="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="40"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+
+            <TextBlock Text="Top Results" FontSize="24"/>
             <!--songs list-->
             <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}"
-                      ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True"
-                      ScrollViewer.VerticalScrollBarVisibility="Visible">
-                
+                      ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True" Grid.Row="1"
+                      ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
+
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Margin" Value="20 10 0 10"/>
@@ -67,16 +75,8 @@
                 </ListView.ItemTemplate>
             </ListView>
 
-        </StackPanel>
+        </Grid>
 
-            
-            <!--Button  Grid.Row="1"
-            FocusVisualPrimaryThickness="2"
-            FocusVisualSecondaryThickness="1"
-            FocusVisualMargin="-3" Height="200" Width="300"
-            FocusVisualPrimaryBrush="{StaticResource SystemControlRevealFocusVisualBrush}"
-            FocusVisualSecondaryBrush="{StaticResource SystemControlFocusVisualSecondaryBrush}" /-->
-
-    </StackPanel>
+    </Grid>
 
 </Page>
