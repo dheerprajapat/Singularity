@@ -35,15 +35,20 @@ public static class YoutubeSearch
             throw new Exception("Failed to search for given query");
         }
     }
-    public static async Task<IReadOnlyList<SearchResult>> GetVideosAsync(string query, uint amount = 20, CancellationToken token = default)
+    public static async Task<IReadOnlyList<SearchResult>> GetVideosAsync(string query, uint amount = 10, CancellationToken token = default)
     {
         
         try
         {
             var resp=await GetJsonAsync(query, amount, token);
-            return JsonConvert.DeserializeObject<List<SearchResult>>(resp);
+            var settings = new JsonSerializerSettings
+            {
+                NullValueHandling = NullValueHandling.Ignore,
+                MissingMemberHandling = MissingMemberHandling.Ignore
+            };
+            return JsonConvert.DeserializeObject<List<SearchResult>>(resp,settings);
         }
-        catch
+        catch(Exception ex)
         {
             throw new Exception("Can't parse the search results");
         }

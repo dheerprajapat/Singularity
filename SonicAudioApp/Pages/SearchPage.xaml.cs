@@ -1,5 +1,6 @@
 ﻿using Microsoft.UI.Xaml.Controls;
 using SonicAudioApp.AudioEngine;
+using SonicAudioApp.Components;
 using SonicAudioApp.Models;
 using SonicAudioApp.Services.YoutubeSearch;
 using SonicAudioApp.Services.Ytdl;
@@ -82,7 +83,8 @@ namespace SonicAudioApp.Pages
                     Title=item.Title,
                     ThumbnailUrl=item.Image,
                     Singers=item.Author.Name,
-                    VideoUrl=item.Url
+                    VideoUrl=item.Url,
+                    DurationString=MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds))
                 });
             }
             Songs=newList;

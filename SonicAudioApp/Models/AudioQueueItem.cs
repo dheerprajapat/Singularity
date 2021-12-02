@@ -15,4 +15,5 @@ public record AudioQueueItem
     public string Id { get; set; }
     public string VideoUrl { get; set; }
     public bool Liked { get; set; } = false;
+    public string DurationString { get; set; }
 }
