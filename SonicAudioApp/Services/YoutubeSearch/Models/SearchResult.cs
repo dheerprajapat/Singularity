@@ -11,7 +11,7 @@ public class Duration
 {
     [JsonConstructor]
     public Duration(
-        [JsonProperty("seconds")] int seconds,
+        [JsonProperty("seconds")] long  seconds,
         [JsonProperty("timestamp")] string timestamp
     )
     {
@@ -20,7 +20,7 @@ public class Duration
     }
 
     [JsonProperty("seconds")]
-    public int Seconds { get; }
+    public long Seconds { get; }
 
     [JsonProperty("timestamp")]
     public string Timestamp { get; }
@@ -56,11 +56,11 @@ public class SearchResult
         [JsonProperty("description")] string description,
         [JsonProperty("image")] string image,
         [JsonProperty("thumbnail")] string thumbnail,
-        [JsonProperty("seconds")] int seconds,
+        [JsonProperty("seconds")] long seconds,
         [JsonProperty("timestamp")] string timestamp,
         [JsonProperty("duration")] Duration duration,
         [JsonProperty("ago")] string ago,
-        [JsonProperty("views")] int views,
+        [JsonProperty("views")] long views,
         [JsonProperty("author")] Author author
     )
     {
@@ -101,7 +101,7 @@ public class SearchResult
     public string Thumbnail { get; }
 
     [JsonProperty("seconds")]
-    public int Seconds { get; }
+    public long Seconds { get; }
 
     [JsonProperty("timestamp")]
     public string Timestamp { get; }
@@ -113,7 +113,7 @@ public class SearchResult
     public string Ago { get; }
 
     [JsonProperty("views")]
-    public int Views { get; }
+    public long Views { get; }
 
     [JsonProperty("author")]
     public Author Author { get; }

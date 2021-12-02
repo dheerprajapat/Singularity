@@ -50,7 +50,7 @@ public static class YoutubeSearch
         }
         catch(Exception ex)
         {
-            throw new Exception("Can't parse the search results");
+            throw new Exception(ex.Message);
         }
     }
 }
