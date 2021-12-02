@@ -33,13 +33,13 @@
             </Button>
         </StackPanel>
 
-        <Grid RowSpacing="20" Grid.Row="1">
+        <Grid RowSpacing="10" Grid.Row="1">
             <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
+                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Top Results" FontSize="24"/>
+            <TextBlock Text="Top Results" FontSize="20"/>
             <!--songs list-->
             <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}"
                       ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True" Grid.Row="1"
