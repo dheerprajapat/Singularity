@@ -279,5 +279,11 @@ namespace SonicAudioApp.Components
         {
             AudioPlayer.PlayNext();
         }
+
+        private void LikeButton_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if (AudioQueue.Count >= 1)
+                IsLiked= !IsLiked;
+        }
     }
 }

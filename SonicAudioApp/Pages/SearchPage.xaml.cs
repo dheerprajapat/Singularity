@@ -130,8 +130,8 @@ namespace SonicAudioApp.Pages
             var g = sender as Grid;
             foreach (var c in g.Children.OfType<FontIcon>())
             {
-                if(c.Visibility!=Visibility.Visible)
-                c.Visibility = Visibility.Visible;
+                //if(c.Visibility!=Visibility.Visible)
+               // c.Visibility = Visibility.Visible;
             }
         }
 
@@ -143,9 +143,16 @@ namespace SonicAudioApp.Pages
                 if (c.Name == "likeButton" && c.Glyph == "\uEB52")
                     continue;
 
-                c.Visibility =Visibility.Collapsed;
+                //c.Visibility =Visibility.Collapsed;
             }
 
+        }
+
+        private void LikeButton_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            var s = sender as FontIcon;
+            var c=s.DataContext as AudioQueueItem;
+            c.Liked = !c.Liked;
         }
     }
 }

@@ -38,7 +38,7 @@
             <!--Like Button-->
             <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->
             <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{Binding ElementName=mediaPlayerControl, Path=IsLiked, Converter={StaticResource likeButtonBoolToGlyphConvertor }}" 
-                      Foreground="SeaGreen" Grid.Column="2" x:Name="LikeButton"
+                      Foreground="SeaGreen" Grid.Column="2" x:Name="LikeButton" PointerPressed="LikeButton_PointerPressed"
                       PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
         </Grid>
 
