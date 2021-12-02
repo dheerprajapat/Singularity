@@ -5,11 +5,15 @@
     xmlns:local="using:SonicAudioApp.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:ct="using:SonicAudioApp.Converters"
     mc:Ignorable="d"
     x:Name="searchPage"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}" 
     xmlns:data="using:SonicAudioApp.Models"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
+    <Page.Resources>
+        <ct:LikeButtonBoolToGlyphConvertor x:Key="likeButtonBoolToGlyphConvertor"/>
+    </Page.Resources>
 
     <Grid Padding="20 50 20 10">
         <Grid.RowDefinitions>
@@ -48,28 +52,32 @@
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
                         <Setter Property="Margin" Value="20 10 0 10"/>
+                        <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="data:AudioQueueItem">
-                        <Grid Padding="10 10 10 10">
+                        <Grid Padding="10 10 10 10" HorizontalAlignment="Stretch" x:Name="songItemGrid"
+                              PointerEntered="songItemGrid_PointerEntered" PointerExited="songItemGrid_PointerExited">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="100"/>
                                 <ColumnDefinition Width="*"/>
                                 <ColumnDefinition Width="40"/>
                             </Grid.ColumnDefinitions>
                             <!--Song Thumbnail-->
-                            <Image 
-                 Source="{Binding ThumbnailUrl}"  Width="80" Height="80"/>
+                            <Image Source="{Binding ThumbnailUrl}"  
+                                   Width="80" Height="80"/>
                             <!--Song Name and Authod-->
                             <StackPanel Orientation="Vertical" Spacing="2" Margin="5 5 5 5" Grid.Column="1" VerticalAlignment="Center">
-                                <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Title}"/>
-                                <TextBlock FontSize="12" Text="{Binding Singers}"/>
+                                <TextBlock FontSize="16" FontWeight="SemiBold" Text="{Binding Title}"
+                                           TextTrimming="CharacterEllipsis"/>
+                                <TextBlock FontSize="12" Text="{Binding Singers}"
+                                           TextTrimming="CharacterEllipsis"/>
                             </StackPanel>
                             <!--Like Button-->
                             <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->
-                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xEB52;" Foreground="SeaGreen" Grid.Column="2" 
-                          x:Name="LikeButton"/>
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{Binding Liked, Converter={StaticResource likeButtonBoolToGlyphConvertor}}" Foreground="SeaGreen" Grid.Column="2" 
+                                Name="LikeButton" VerticalAlignment="Center" HorizontalAlignment="Left"/>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>

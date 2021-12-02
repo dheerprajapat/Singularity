@@ -121,5 +121,29 @@ namespace SonicAudioApp.Pages
             sender.ItemsSource = await SearchSuggestions.SuggestionsAsync(sender.Text);
 
         }
+
+        private Dictionary<Grid, bool> MouseInside = new();
+        private void songItemGrid_PointerEntered(object sender, PointerRoutedEventArgs e)
+        {
+            var g = sender as Grid;
+            foreach (var c in g.Children.OfType<FontIcon>())
+            {
+                if(c.Visibility!=Visibility.Visible)
+                c.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void songItemGrid_PointerExited(object sender, PointerRoutedEventArgs e)
+        {
+            var g=sender as Grid;
+            foreach(var c in g.Children.OfType<FontIcon>())
+            {
+                if (c.Name == "likeButton" && c.Glyph == "\uEB52")
+                    continue;
+
+                c.Visibility =Visibility.Collapsed;
+            }
+
+        }
     }
 }

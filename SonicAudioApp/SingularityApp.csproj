@@ -127,6 +127,7 @@
     <Compile Include="Components\SharedNavMenu.xaml.cs">
       <DependentUpon>SharedNavMenu.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\LikeButtonBoolToGlyphConvertor.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
