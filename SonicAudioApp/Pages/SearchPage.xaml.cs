@@ -6,6 +6,7 @@ using SonicAudioApp.Services.YoutubeSearch;
 using SonicAudioApp.Services.Ytdl;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -130,20 +131,40 @@ namespace SonicAudioApp.Pages
             var g = sender as Grid;
             foreach (var c in g.Children.OfType<FontIcon>())
             {
-                //if(c.Visibility!=Visibility.Visible)
-               // c.Visibility = Visibility.Visible;
+                 c.Visibility = Visibility.Visible;
+            }
+            foreach (var c in g.Children.OfType<Button>())
+            {
+                //if (c.Name == "likeButton" && c.Glyph == "\uEB52")
+                //   continue;
+                c.Visibility = Visibility.Visible;
             }
         }
 
         private void songItemGrid_PointerExited(object sender, PointerRoutedEventArgs e)
         {
             var g=sender as Grid;
-            foreach(var c in g.Children.OfType<FontIcon>())
+            var p=e.GetCurrentPoint(g).Position;
+            var col = e.GetIntermediatePoints(g).Last().Position;
+            Debug.WriteLine(p+ " "+col);
+            Debug.WriteLine(g.ActualWidth + " " + g.ActualHeight);
+            
+            if ((p.X >= 0 && p.X < g.ActualWidth) && (p.Y >= 0 && p.Y <= g.ActualHeight))
+                return;
+            
+            foreach (var c in g.Children.OfType<FontIcon>())
             {
-                if (c.Name == "likeButton" && c.Glyph == "\uEB52")
-                    continue;
+                //if (c.Name == "likeButton" && c.Glyph == "\uEB52")
+                 //   continue;
 
-                //c.Visibility =Visibility.Collapsed;
+                c.Visibility =Visibility.Collapsed;
+            }
+            foreach (var c in g.Children.OfType<Button>())
+            {
+                //if (c.Name == "likeButton" && c.Glyph == "\uEB52")
+                //   continue;
+
+                c.Visibility = Visibility.Collapsed;
             }
 
         }
@@ -153,6 +174,44 @@ namespace SonicAudioApp.Pages
             var s = sender as FontIcon;
             var c=s.DataContext as AudioQueueItem;
             c.Liked = !c.Liked;
+        }
+
+        private void songItemGrid_PointerMoved(object sender, PointerRoutedEventArgs e)
+        {
+            var g = sender as Grid;
+            var p = e.GetCurrentPoint(g).Position;
+
+            var ttv = g.TransformToVisual(Window.Current.Content);
+            Point screenCoords = ttv.TransformPoint(new Point(0, 0));
+
+
+            Debug.WriteLine(screenCoords);
+            if ((p.X >= 0 && p.X < g.ActualWidth) && (p.Y >= 0 && p.Y <= g.ActualHeight))
+            {
+                foreach (var c in g.Children.OfType<FontIcon>())
+                {
+                    c.Visibility = Visibility.Visible;
+                }
+                foreach (var c in g.Children.OfType<Button>())
+                {
+                    //if (c.Name == "likeButton" && c.Glyph == "\uEB52")
+                    //   continue;
+                    c.Visibility = Visibility.Visible;
+                }
+            }
+            else
+            {
+                foreach (var c in g.Children.OfType<FontIcon>())
+                {
+                    c.Visibility = Visibility.Collapsed;
+                }
+                foreach (var c in g.Children.OfType<Button>())
+                {
+                    //if (c.Name == "likeButton" && c.Glyph == "\uEB52")
+                    //   continue;
+                    c.Visibility = Visibility.Collapsed;
+                }
+            }
         }
     }
 }

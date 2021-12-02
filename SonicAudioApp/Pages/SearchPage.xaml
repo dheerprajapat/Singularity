@@ -46,12 +46,12 @@
             <TextBlock Text="Top Results" FontSize="20"/>
             <!--songs list-->
             <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}"
-                      ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True" Grid.Row="1"
+                      ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True" Grid.Row="1" CanDrag="False"
                       ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
 
                 <ListView.ItemContainerStyle>
                     <Style TargetType="ListViewItem">
-                        <Setter Property="Margin" Value="20 10 0 10"/>
+                        <Setter Property="Margin" Value="10 10 10 10"/>
                         <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                     </Style>
                 </ListView.ItemContainerStyle>
@@ -78,10 +78,11 @@
                             </StackPanel>
                             <!--Like Button-->
                             <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->
-                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{Binding Liked, Converter={StaticResource likeButtonBoolToGlyphConvertor}}" Foreground="SeaGreen" Grid.Column="2" 
-                                Name="LikeButton" VerticalAlignment="Center" HorizontalAlignment="Left" PointerPressed="LikeButton_PointerPressed" />
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{Binding Liked, Converter={StaticResource likeButtonBoolToGlyphConvertor}}" Foreground="SeaGreen" Grid.Column="2"
+                                      VerticalAlignment="Center" HorizontalAlignment="Left" PointerPressed="LikeButton_PointerPressed"
+                                      Visibility="Collapsed" x:Name="LikeButton"/>
                             <TextBlock Text="{Binding DurationString}" Grid.Column="3" VerticalAlignment="Center" FontWeight="SemiBold"/>
-                            <Button Grid.Column="4" Background="Transparent" BorderBrush="Transparent" >
+                            <Button Grid.Column="4" Background="Transparent" BorderBrush="Transparent" Visibility="Collapsed">
                                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe712;" Foreground="White" 
                                 Name="moreItems" VerticalAlignment="Center" HorizontalAlignment="Left" />
                                 <Button.Flyout>
@@ -93,6 +94,16 @@
                                     </MenuFlyout>
                                 </Button.Flyout>
                             </Button>
+                            <VisualStateManager.VisualStateGroups>
+                                <VisualStateGroup>
+                                    <VisualState x:Name="Normal"/>
+                                    <VisualState x:Name="PointerOver">
+                                        <VisualState.Setters>
+                                            <Setter Target="songItemGrid.Background" Value="Red"/>
+                                        </VisualState.Setters>
+                                    </VisualState>
+                                </VisualStateGroup>
+                            </VisualStateManager.VisualStateGroups>
                         </Grid>
                     </DataTemplate>
                 </ListView.ItemTemplate>
