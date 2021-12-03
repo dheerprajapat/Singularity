@@ -31,8 +31,19 @@ namespace SonicAudioApp.Pages
         public SearchPage()
         {
             this.InitializeComponent();
+            CheckedPreserveMode();
         }
 
+        void CheckedPreserveMode()
+        {
+            if (SearchedItems.Count == 0)
+                return;
+
+            topResultLabel.Visibility = Visibility.Visible;
+            LoadingVisibilty = Visibility.Collapsed;
+            infoPanel.Visibility = Visibility.Collapsed;
+            Songs = SearchedItems;
+        }
 
 
         public Visibility LoadingVisibilty
@@ -53,6 +64,8 @@ namespace SonicAudioApp.Pages
 
         public static readonly DependencyProperty SearchFilterProperty =
             DependencyProperty.Register("SearchFilter", typeof(string), typeof(SearchPage), new PropertyMetadata("Relevance"));
+
+        public static List<AudioQueueItem> SearchedItems = new();
 
         public enum FilterModes
         {
@@ -104,10 +117,10 @@ namespace SonicAudioApp.Pages
                         ThumbnailUrl = item.Image,
                         Singers = item.Author.Name,
                         VideoUrl = item.Url,
-                        DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds))
+                        DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds.Value))
                     });
                 }
-                Songs = newList;
+                SearchedItems = Songs = newList;
             }
             finally
             {
@@ -148,13 +161,6 @@ namespace SonicAudioApp.Pages
                 return;
             sender.ItemsSource = await SearchSuggestions.SuggestionsAsync(sender.Text);
 
-        }
-
-        private void LikeButton_PointerPressed(object sender, PointerRoutedEventArgs e)
-        {
-            var s = sender as FontIcon;
-            var c=s.DataContext as AudioQueueItem;
-            c.Liked = !c.Liked;
         }
 
     }

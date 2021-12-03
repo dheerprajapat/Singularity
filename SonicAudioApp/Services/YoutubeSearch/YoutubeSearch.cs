@@ -44,7 +44,7 @@ public static class YoutubeSearch
             var settings = new JsonSerializerSettings
             {
                 NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore
+                MissingMemberHandling = MissingMemberHandling.Ignore,
             };
             return JsonConvert.DeserializeObject<List<SearchResult>>(resp,settings);
         }

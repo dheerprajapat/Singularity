@@ -11,8 +11,8 @@ public class Duration
 {
     [JsonConstructor]
     public Duration(
-        [JsonProperty("seconds")] long  seconds,
-        [JsonProperty("timestamp")] string timestamp
+        [JsonProperty("seconds")] long?  seconds,
+        [JsonProperty("timestamp")] string? timestamp
     )
     {
         this.Seconds = seconds;
@@ -20,18 +20,18 @@ public class Duration
     }
 
     [JsonProperty("seconds")]
-    public long Seconds { get; }
+    public long? Seconds { get; }
 
     [JsonProperty("timestamp")]
-    public string Timestamp { get; }
+    public string? Timestamp { get; }
 }
 
 public class Author
 {
     [JsonConstructor]
     public Author(
-        [JsonProperty("name")] string name,
-        [JsonProperty("url")] string url
+        [JsonProperty("name")] string? name,
+        [JsonProperty("url")] string? url
     )
     {
         this.Name = name;
@@ -39,28 +39,28 @@ public class Author
     }
 
     [JsonProperty("name")]
-    public string Name { get; }
+    public string? Name { get; }
 
     [JsonProperty("url")]
-    public string Url { get; }
+    public string? Url { get; }
 }
 
 public class SearchResult
 {
     [JsonConstructor]
     public SearchResult(
-        [JsonProperty("type")] string type,
-        [JsonProperty("videoId")] string videoId,
-        [JsonProperty("url")] string url,
-        [JsonProperty("title")] string title,
-        [JsonProperty("description")] string description,
-        [JsonProperty("image")] string image,
-        [JsonProperty("thumbnail")] string thumbnail,
-        [JsonProperty("seconds")] long seconds,
-        [JsonProperty("timestamp")] string timestamp,
+        [JsonProperty("type")] string? type,
+        [JsonProperty("videoId")] string? videoId,
+        [JsonProperty("url")] string? url,
+        [JsonProperty("title")] string? title,
+        [JsonProperty("description")] string? description,
+        [JsonProperty("image")] string? image,
+        [JsonProperty("thumbnail")] string? thumbnail,
+        [JsonProperty("seconds")] long? seconds,
+        [JsonProperty("timestamp")] string? timestamp,
         [JsonProperty("duration")] Duration duration,
-        [JsonProperty("ago")] string ago,
-        [JsonProperty("views")] long views,
+        [JsonProperty("ago")] string? ago,
+        [JsonProperty("views")] long? views,
         [JsonProperty("author")] Author author
     )
     {
@@ -80,42 +80,42 @@ public class SearchResult
     }
 
     [JsonProperty("type")]
-    public string Type { get; }
+    public string? Type { get; }
 
     [JsonProperty("videoId")]
-    public string VideoId { get; }
+    public string? VideoId { get; }
 
     [JsonProperty("url")]
-    public string Url { get; }
+    public string? Url { get; }
 
     [JsonProperty("title")]
-    public string Title { get; }
+    public string? Title { get; }
 
     [JsonProperty("description")]
-    public string Description { get; }
+    public string? Description { get; }
 
     [JsonProperty("image")]
-    public string Image { get; }
+    public string? Image { get; }
 
     [JsonProperty("thumbnail")]
-    public string Thumbnail { get; }
+    public string? Thumbnail { get; }
 
     [JsonProperty("seconds")]
-    public long Seconds { get; }
+    public long? Seconds { get; }
 
     [JsonProperty("timestamp")]
-    public string Timestamp { get; }
+    public string? Timestamp { get; }
 
     [JsonProperty("duration")]
-    public Duration Duration { get; }
+    public Duration? Duration { get; }
 
     [JsonProperty("ago")]
-    public string Ago { get; }
+    public string? Ago { get; }
 
     [JsonProperty("views")]
-    public long Views { get; }
+    public long? Views { get; }
 
     [JsonProperty("author")]
-    public Author Author { get; }
+    public Author? Author { get; }
 }
 
