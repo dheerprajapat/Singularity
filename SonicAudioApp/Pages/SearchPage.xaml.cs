@@ -34,6 +34,17 @@ namespace SonicAudioApp.Pages
         }
 
 
+
+        public Visibility LoadingVisibilty
+        {
+            get { return (Visibility)GetValue(LoadingVisibiltyProperty); }
+            set { SetValue(LoadingVisibiltyProperty, value); }
+        }
+
+        public static readonly DependencyProperty LoadingVisibiltyProperty =
+            DependencyProperty.Register("LoadingVisibilty", typeof(Visibility), typeof(SearchPage), new PropertyMetadata(Visibility.Collapsed));
+
+
         public string SearchFilter
         {
             get { return (string)GetValue(SearchFilterProperty); }
@@ -74,22 +85,34 @@ namespace SonicAudioApp.Pages
             if (string.IsNullOrWhiteSpace(sender.Text))
                 return;
 
-            var res=await YoutubeSearch.GetVideosAsync(sender.Text);
-            var newList = new List<AudioQueueItem>();
+            LoadingVisibilty = Visibility.Visible;
+            topResultLabel.Text = "";
 
-            foreach(var item in res)
+            try
             {
-                newList.Add(new AudioQueueItem
+
+                var res = await YoutubeSearch.GetVideosAsync(sender.Text);
+                var newList = new List<AudioQueueItem>();
+
+                foreach (var item in res)
                 {
-                    Id=item.VideoId,
-                    Title=item.Title,
-                    ThumbnailUrl=item.Image,
-                    Singers=item.Author.Name,
-                    VideoUrl=item.Url,
-                    DurationString=MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds))
-                });
+                    newList.Add(new AudioQueueItem
+                    {
+                        Id = item.VideoId,
+                        Title = item.Title,
+                        ThumbnailUrl = item.Image,
+                        Singers = item.Author.Name,
+                        VideoUrl = item.Url,
+                        DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds))
+                    });
+                }
+                Songs = newList;
             }
-            Songs=newList;
+            finally
+            {
+                LoadingVisibilty = Visibility.Collapsed;
+                topResultLabel.Text = "Top Results";
+            }
         }
 
 

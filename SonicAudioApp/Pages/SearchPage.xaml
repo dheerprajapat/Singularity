@@ -43,8 +43,9 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="Top Results" FontSize="20"/>
+            <TextBlock Text="" FontSize="20" x:Name="topResultLabel"/>
             <!--songs list-->
+            <muxc:ProgressRing IsActive="True" Grid.Row="1" Visibility="{Binding ElementName=searchPage, Path=LoadingVisibilty}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
             <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=searchPage,Path=Songs}"
                       ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True" Grid.Row="1"
                       ScrollViewer.VerticalScrollBarVisibility="Auto" VerticalAlignment="Stretch">
