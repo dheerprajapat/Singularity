@@ -30,25 +30,21 @@
         </Button>
         <StackPanel Orientation="Vertical" Grid.Row="1">
             <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Recently Played"/>
-            <ListView IsItemClickEnabled="False">
-                <ListView.ItemsPanel>
-                    <ItemsPanelTemplate>
-                        <StackPanel Orientation="Horizontal"></StackPanel>
-                    </ItemsPanelTemplate>
-                </ListView.ItemsPanel>
-                <ListView.Items>
-                    <ListViewItem>
+            <muxc:ScrollView Padding="0 0 0 10" ContentOrientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto">
+                <StackPanel Orientation="Horizontal" Padding="10" Spacing="10">
+                    <Button Padding="0">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/heart.jpg"/>
-                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Liked Song" Grid.Row="1"/>
+                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Like" Grid.Row="1"/>
                         </Grid>
-                    </ListViewItem>
-                </ListView.Items>
-            </ListView>
+                    </Button>
+                  
+                </StackPanel>
+            </muxc:ScrollView>
         </StackPanel>
     </ListView>
 
