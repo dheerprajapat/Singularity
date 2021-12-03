@@ -39,7 +39,7 @@
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/heart.jpg"/>
-                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Like" Grid.Row="1"/>
+                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Liked" Grid.Row="1"/>
                         </Grid>
                     </Button>
                   
