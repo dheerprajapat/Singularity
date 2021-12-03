@@ -238,7 +238,7 @@ namespace SonicAudioApp.Components
                 }
                 else if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Playing)
                 {
-                    PlayPauseIcon.Foreground = new SolidColorBrush(Colors.DeepPink);
+                    PlayPauseIcon.Foreground = new SolidColorBrush(Colors.IndianRed);
                     PlayPauseIcon.Glyph = "\uf8ae";
                 }
                 else if(AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Buffering
