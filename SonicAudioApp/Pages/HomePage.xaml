@@ -12,16 +12,16 @@
     >
 
 
-    <Grid Padding="20 30 20 20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="400"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-
-
+    <ListView Padding="20 30 20 20" SelectionMode="None">
+        <ListView.ItemContainerStyle>
+            <Style TargetType="ListViewItem">
+                <Setter Property="Margin" Value="0"/>
+                <Setter Property="Padding" Value="0"/>
+            </Style>
+        </ListView.ItemContainerStyle>
         <Button Padding="0" CornerRadius="12">
             <Grid>
-                <Image Stretch="Fill"  Opacity="0.6"
+                <Image Stretch="Fill"  Opacity="0.6" MaxHeight="400"
                Source="../Assets/vec.jpg">
                 </Image>
                 <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Explore"/>
@@ -30,7 +30,26 @@
         </Button>
         <StackPanel Orientation="Vertical" Grid.Row="1">
             <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Recently Played"/>
+            <ListView IsItemClickEnabled="False">
+                <ListView.ItemsPanel>
+                    <ItemsPanelTemplate>
+                        <StackPanel Orientation="Horizontal"></StackPanel>
+                    </ItemsPanelTemplate>
+                </ListView.ItemsPanel>
+                <ListView.Items>
+                    <ListViewItem>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/heart.jpg"/>
+                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Liked Song" Grid.Row="1"/>
+                        </Grid>
+                    </ListViewItem>
+                </ListView.Items>
+            </ListView>
         </StackPanel>
-    </Grid>
+    </ListView>
 
     </Page>
