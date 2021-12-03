@@ -12,14 +12,25 @@
     >
 
 
-    <StackPanel Padding="20 30 20 20" Orientation="Vertical">
-        <StackPanel Orientation="Horizontal" Spacing="20">
-            <TextBlock>Home</TextBlock>
-        </StackPanel>
+    <Grid Padding="20 30 20 20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="400"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
 
-        <Grid>
-            <Rectangle/>
-        </Grid>
-    </StackPanel>
+
+        <Button Padding="0" CornerRadius="12">
+            <Grid>
+                <Image Stretch="Fill"  Opacity="0.6"
+               Source="../Assets/vec.jpg">
+                </Image>
+                <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Explore"/>
+            </Grid>
+            
+        </Button>
+        <StackPanel Orientation="Vertical" Grid.Row="1">
+            <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Recently Played"/>
+        </StackPanel>
+    </Grid>
 
     </Page>
