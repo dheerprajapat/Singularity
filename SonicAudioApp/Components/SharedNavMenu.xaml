@@ -11,7 +11,7 @@
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     d:DesignWidth="1024">
 
-    <Grid>
+    <Grid x:Name="mainGrid">
         <Grid.RowDefinitions>
             <RowDefinition Height="*"/>
             <RowDefinition Height="100"/>
@@ -61,7 +61,7 @@
             </muxc:NavigationView>
         </Grid>
         <!--Media Player controls Grid -->
-        <local:MediaPlayerControl Grid.Row="1"/>
+        <local:MediaPlayerControl Grid.Row="1" x:Name="mediaPlayer"/>
 
     </Grid>
 

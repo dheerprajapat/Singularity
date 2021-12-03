@@ -36,7 +36,7 @@ namespace SonicAudioApp.Components
         public static readonly DependencyProperty ChildContentProperty =
             DependencyProperty.Register("ChildContent", typeof(object), typeof(SharedNavMenu), new PropertyMetadata(""));
 
-
+        GridLength mediaPlayerHt;
         public SharedNavMenu()
         {
             this.InitializeComponent();
@@ -64,7 +64,36 @@ namespace SonicAudioApp.Components
             //Register a handler for when the window changes focus
             Window.Current.Activated += Current_Activated;
 
+            if (AudioQueue.Current == null)
+            {
+                var last=mainGrid.RowDefinitions.Last();
+                mainGrid.RowDefinitions.Remove(last);
+                mediaPlayerHt = last.Height;
+                mediaPlayer.Visibility = Visibility.Collapsed;
+            }
+
+            //hide player if no
+            AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
+
         }
+        ~SharedNavMenu()
+        {
+            AudioPlayer.SourceChanged -= AudioPlayer_SourceChanged;
+        }
+
+        private async void AudioPlayer_SourceChanged(Windows.Media.Playback.MediaPlayer sender, object args)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal,() =>
+            {
+                if (mediaPlayer.Visibility == Visibility.Collapsed)
+                {
+                    mainGrid.RowDefinitions.Add(new RowDefinition() { Height = mediaPlayerHt });
+                    mediaPlayer.Visibility = Visibility.Visible;
+                }
+            });
+            
+        }
+
         private void CoreTitleBar_LayoutMetricsChanged(CoreApplicationViewTitleBar sender, object args)
         {
             UpdateTitleBarLayout(sender);

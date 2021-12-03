@@ -55,7 +55,7 @@
                 <Button CornerRadius="50" Width="44" Height="44" x:Name="PlayPauseButton" Foreground="DeepSkyBlue" 
                         Click="PlayPauseButton_Click">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;" 
-                              x:Name="PlayPauseIcon" Foreground="DeepSkyBlue"
+                              x:Name="PlayPauseIcon" Foreground="DeepPink"
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                               FontSize="18" />
                 </Button>

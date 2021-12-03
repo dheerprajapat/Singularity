@@ -233,15 +233,18 @@ namespace SonicAudioApp.Components
             {
                 if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Paused)
                 {
+                    PlayPauseIcon.Foreground=new SolidColorBrush(Colors.DeepSkyBlue);
                     PlayPauseIcon.Glyph = "\uf5b0";
                 }
                 else if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Playing)
                 {
+                    PlayPauseIcon.Foreground = new SolidColorBrush(Colors.DeepPink);
                     PlayPauseIcon.Glyph = "\uf8ae";
                 }
                 else if(AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Buffering
                     || AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Opening)
                 {
+                    PlayPauseIcon.Foreground = new SolidColorBrush(Colors.White);
                     PlayPauseIcon.Glyph = "\uebd3";
                 }
             });
