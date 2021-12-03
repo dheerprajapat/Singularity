@@ -36,7 +36,17 @@
                 </Button.Flyout>
             </Button>
         </StackPanel>
-
+        
+        <StackPanel Orientation="Vertical" Grid.Row="1"
+                    x:Name="infoPanel" Spacing="10"
+                    VerticalAlignment="Center" HorizontalAlignment="Center">
+            <!--Icon from -->
+            <FontIcon FontFamily="Segoe Fluent Icons" 
+                      Glyph="&#xE8D6;" FontSize="30"
+                       Grid.Column="2"/>
+            <TextBlock>Searched Items will appear here, type song name or any related keyword in above text box.</TextBlock>
+        </StackPanel>
+        
         <Grid RowSpacing="10" Grid.Row="1">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>

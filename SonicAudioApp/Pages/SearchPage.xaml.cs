@@ -86,6 +86,7 @@ namespace SonicAudioApp.Pages
                 return;
 
             LoadingVisibilty = Visibility.Visible;
+            infoPanel.Visibility = Visibility.Collapsed;
             topResultLabel.Text = "";
 
             try
