@@ -119,6 +119,7 @@ namespace SonicAudioApp.Pages
         {
             SearchBox_QuerySubmitted(sender, null);
         }
+        private SortedSet<long> RecentResultDict = new();
 
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
@@ -128,11 +129,18 @@ namespace SonicAudioApp.Pages
             LoadingVisibilty = Visibility.Visible;
             infoPanel.Visibility = Visibility.Collapsed;
             topResultLabel.Text = "";
-
+            var ts = DateTime.Now.Ticks;
             try
             {
 
                 var res = await YoutubeSearch.GetVideosAsync(sender.Text);
+                if (RecentResultDict.Count > 0 && RecentResultDict.Last() > ts)
+                    return;
+                if(RecentResultDict.Count > 0)
+                {
+                    RecentResultDict.Clear();
+                    RecentResultDict.Add(ts);
+                }
                 var newList = new List<AudioQueueItem>();
 
                 foreach (var item in res)
