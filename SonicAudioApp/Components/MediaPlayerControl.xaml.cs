@@ -165,7 +165,7 @@ namespace SonicAudioApp.Components
                 PreviousColors.Add(icon, icon.Foreground);
 
             if (icon.Name == "LikeButton")
-                icon.Foreground = new SolidColorBrush(Colors.Green);
+                icon.Foreground = new SolidColorBrush(Colors.Pink);
             else
                 icon.Foreground = new SolidColorBrush(Colors.DeepSkyBlue);
         }

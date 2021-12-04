@@ -6,6 +6,7 @@ using SonicAudioApp.Services.YoutubeSearch;
 using SonicAudioApp.Services.Ytdl;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
@@ -32,6 +33,35 @@ namespace SonicAudioApp.Pages
         {
             this.InitializeComponent();
             CheckedPreserveMode();
+            AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
+        }
+        ~SearchPage()
+        {
+            AudioPlayer.SourceChanged -= AudioPlayer_SourceChanged;
+        }
+        int previousWaveIndex = -1;
+        private async void AudioPlayer_SourceChanged(Windows.Media.Playback.MediaPlayer sender, object args)
+        {
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                if (AudioQueue.Current == null)
+                    return;
+
+                if(previousWaveIndex!=-1 && previousWaveIndex<Songs.Count)
+                {
+                    Songs[previousWaveIndex].WaveformVisibilty = Visibility.Collapsed;
+                }
+                var ind=Songs.IndexOf(AudioQueue.Current);
+                if(ind!=-1)
+                {
+                    Songs[ind].WaveformVisibilty=Visibility.Visible;
+                }
+                
+                //int gind = topResultGrid.SelectedIndex;
+                //topResultGrid.UpdateLayout();
+                //need to modify the listuw
+            });
+
         }
 
         void CheckedPreserveMode()
@@ -65,7 +95,7 @@ namespace SonicAudioApp.Pages
         public static readonly DependencyProperty SearchFilterProperty =
             DependencyProperty.Register("SearchFilter", typeof(string), typeof(SearchPage), new PropertyMetadata("Relevance"));
 
-        public static List<AudioQueueItem> SearchedItems = new();
+        public static ObservableCollection<AudioQueueItem> SearchedItems = new();
 
         public enum FilterModes
         {
@@ -120,7 +150,7 @@ namespace SonicAudioApp.Pages
                         DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds.Value))
                     });
                 }
-                SearchedItems = Songs = newList;
+                SearchedItems = Songs = new(newList);
             }
             finally
             {
@@ -130,15 +160,15 @@ namespace SonicAudioApp.Pages
         }
 
 
-        public List<AudioQueueItem> Songs
+        public ObservableCollection<AudioQueueItem> Songs
         {
-            get { return (List<AudioQueueItem>)GetValue(SongsProperty); }
+            get { return (ObservableCollection<AudioQueueItem>)GetValue(SongsProperty); }
             set { SetValue(SongsProperty, value); }
         }
 
         public static readonly DependencyProperty SongsProperty =
-            DependencyProperty.Register("Songs", typeof(List<AudioQueueItem>), typeof(SearchPage), new PropertyMetadata(
-                new List<AudioQueueItem> {  }
+            DependencyProperty.Register("Songs", typeof(ObservableCollection<AudioQueueItem>), typeof(SearchPage), new PropertyMetadata(
+                new ObservableCollection<AudioQueueItem> {  }
             ));
 
         private async void topResultGrid_ItemClick(object sender, ItemClickEventArgs e)
@@ -148,9 +178,12 @@ namespace SonicAudioApp.Pages
                 return;
 
             var c = Songs[s.SelectedIndex];
-            var streamManifest = await Youtube.Videos.Streams.GetManifestAsync(c.Id);
-            var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
-            c.Url = streamInfo.Url;
+            if (c.Url == null)
+            {
+                var streamManifest = await Youtube.Videos.Streams.GetManifestAsync(c.Id);
+                var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
+                c.Url = streamInfo.Url;
+            }
             AudioQueue.AddAndPlay(c);
         }
 
