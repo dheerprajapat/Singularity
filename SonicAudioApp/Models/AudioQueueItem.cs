@@ -17,7 +17,16 @@ public record AudioQueueItem:INotifyPropertyChanged
     public string ThumbnailUrl { get; set; }
     public string Id { get; set; }
     public string VideoUrl { get; set; }
-    public bool Liked { get; set; } = false;
+    private bool liked = false;
+    public bool Liked
+    {
+        get => liked;
+        set
+        {
+            liked = value;
+            NotifyPropertyChanged();
+        }
+    }
     public string DurationString { get; set; }
 
     private Visibility waveformVisibilty=Visibility.Collapsed;
