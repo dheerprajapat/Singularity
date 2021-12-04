@@ -56,14 +56,7 @@ namespace SonicAudioApp.Components
             //get current song
             var c = Songs[s.SelectedIndex];
 
-            //if it has URL
-            if (c.Url == null)
-            {
-                var streamManifest = await YoutubeManager.Youtube.Videos.Streams.GetManifestAsync(c.Id);
-                //get highest audio
-                var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
-                c.Url = streamInfo.Url;
-            }
+            await YoutubeManager.UpdateUrlAsync(c);
             AudioQueue.AddAndPlay(c);
         }
 
@@ -88,5 +81,18 @@ namespace SonicAudioApp.Components
 
         }
 
+        private async void addToQBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var d=(AudioQueueItem)((AppBarButton)e.OriginalSource).DataContext;
+            if(d is not null)
+            {
+                await YoutubeManager.UpdateUrlAsync(d);
+
+                if (AudioQueue.Count==0)
+                    AudioQueue.AddAndPlay(d);
+                else
+                    AudioQueue.Add(d);
+            }
+        }
     }
 }

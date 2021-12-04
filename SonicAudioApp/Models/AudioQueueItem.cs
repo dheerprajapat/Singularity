@@ -1,4 +1,6 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using SonicAudioApp.Services.YoutubeSearch;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -11,7 +13,7 @@ namespace SonicAudioApp.Models;
 
 public record AudioQueueItem:INotifyPropertyChanged
 {
-    public string Url { get; set; }
+    public string Url { get;set; }
     public string Title { get; set; }
     public string Singers { get; set; }
     public string ThumbnailUrl { get; set; }
