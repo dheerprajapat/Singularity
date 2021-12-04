@@ -47,7 +47,7 @@ namespace SonicAudioApp.Pages
                 if (AudioQueue.Current == null)
                     return;
 
-                if(previousWaveIndex!=-1 && previousWaveIndex<Songs.Count)
+                if(previousWaveIndex!=-1 && Songs.Count>previousWaveIndex)
                 {
                     Songs[previousWaveIndex].WaveformVisibilty = Visibility.Collapsed;
                 }
@@ -56,10 +56,7 @@ namespace SonicAudioApp.Pages
                 {
                     Songs[ind].WaveformVisibilty=Visibility.Visible;
                 }
-                
-                //int gind = topResultGrid.SelectedIndex;
-                //topResultGrid.UpdateLayout();
-                //need to modify the listuw
+                previousWaveIndex = ind;
             });
 
         }
