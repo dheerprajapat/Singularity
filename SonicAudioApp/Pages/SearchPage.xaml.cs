@@ -32,32 +32,6 @@ namespace SonicAudioApp.Pages
         {
             this.InitializeComponent();
             CheckedPreserveMode();
-            AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
-        }
-        ~SearchPage()
-        {
-            AudioPlayer.SourceChanged -= AudioPlayer_SourceChanged;
-        }
-        int previousWaveIndex = -1;
-        private async void AudioPlayer_SourceChanged(Windows.Media.Playback.MediaPlayer sender, object args)
-        {
-            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
-            {
-                if (AudioQueue.Current == null)
-                    return;
-
-                if(previousWaveIndex!=-1 && Songs.Count>previousWaveIndex)
-                {
-                    Songs[previousWaveIndex].WaveformVisibilty = Visibility.Collapsed;
-                }
-                var ind=Songs.IndexOf(AudioQueue.Current);
-                if(ind!=-1)
-                {
-                    Songs[ind].WaveformVisibilty=Visibility.Visible;
-                }
-                previousWaveIndex = ind;
-            });
-
         }
 
         void CheckedPreserveMode()
