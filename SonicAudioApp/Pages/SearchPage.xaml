@@ -54,7 +54,7 @@
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
 
-            <TextBlock Text="" FontSize="20" x:Name="topResultLabel"/>
+            <TextBlock Text="Top Results" FontSize="20" x:Name="topResultLabel"/>
             <!--songs list-->
             <muxc:ProgressRing IsActive="True" Grid.Row="1" Visibility="{Binding ElementName=searchPage, Path=LoadingVisibilty}" VerticalAlignment="Center" HorizontalAlignment="Center"/>
            
