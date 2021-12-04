@@ -3,6 +3,7 @@ using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Components;
 using SonicAudioApp.Models;
 using SonicAudioApp.Services.YoutubeSearch;
+using SonicAudioApp.Services.YoutubeSearch.Models;
 using SonicAudioApp.Services.Ytdl;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,7 @@ using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Security.Cryptography;
 using Windows.Devices.Input;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -93,46 +95,34 @@ namespace SonicAudioApp.Pages
         {
             SearchBox_QuerySubmitted(sender, null);
         }
-        private SortedSet<long> RecentResultDict = new();
 
+        long previousSearchTimeStamp = -1;
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(sender.Text))
                 return;
 
+            //show loading spinner and hide everything else
             LoadingVisibilty = Visibility.Visible;
             infoPanel.Visibility = Visibility.Collapsed;
             topResultLabel.Text = "";
-            var ts = DateTime.Now.Ticks;
+
+            var currentTimeStamp = DateTime.Now.Ticks;
             try
             {
 
                 var res = await YoutubeSearch.GetVideosAsync(sender.Text);
-                if (RecentResultDict.Count > 0 && RecentResultDict.Last() > ts)
-                    return;
-                if(RecentResultDict.Count > 0)
-                {
-                    RecentResultDict.Clear();
-                    RecentResultDict.Add(ts);
-                }
-                var newList = new List<AudioQueueItem>();
 
-                foreach (var item in res)
-                {
-                    newList.Add(new AudioQueueItem
-                    {
-                        Id = item.VideoId,
-                        Title = item.Title,
-                        ThumbnailUrl = item.Image,
-                        Singers = item.Author.Name,
-                        VideoUrl = item.Url,
-                        DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds.Value))
-                    });
-                }
-                SearchedItems = Songs = new(newList);
+                if (previousSearchTimeStamp>currentTimeStamp)
+                    return;
+
+                previousSearchTimeStamp = currentTimeStamp;
+
+                AssignCollectionFromSearchResult(res);
             }
             finally
             {
+                //hide loading spinner and show everything else
                 LoadingVisibilty = Visibility.Collapsed;
                 topResultLabel.Text = "Top Results";
             }
@@ -147,8 +137,7 @@ namespace SonicAudioApp.Pages
         public static readonly DependencyProperty SongsProperty =
             DependencyProperty.Register("Songs", typeof(ObservableCollection<AudioQueueItem>), typeof(SearchPage), new PropertyMetadata(
                 new ObservableCollection<AudioQueueItem> {  }
-            ));
-
+         ));
 
         private async void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
         {
@@ -156,6 +145,25 @@ namespace SonicAudioApp.Pages
                 return;
             sender.ItemsSource = await SearchSuggestions.SuggestionsAsync(sender.Text);
 
+        }
+
+        private void AssignCollectionFromSearchResult(IReadOnlyList<SearchResult> searchResult)
+        {
+            var newList = new List<AudioQueueItem>();
+
+            foreach (var item in searchResult)
+            {
+                newList.Add(new AudioQueueItem
+                {
+                    Id = item.VideoId,
+                    Title = item.Title,
+                    ThumbnailUrl = item.Image,
+                    Singers = item.Author.Name,
+                    VideoUrl = item.Url,
+                    DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds.Value))
+                });
+            }
+            SearchedItems = Songs = new(newList);
         }
 
     }

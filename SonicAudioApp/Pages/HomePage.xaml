@@ -21,7 +21,7 @@
         </ListView.ItemContainerStyle>
         <Button Padding="0" CornerRadius="12">
             <Grid>
-                <Image Stretch="Fill"  Opacity="0.6" MaxHeight="400"
+                <Image Stretch="Fill"  Opacity="0.6" MaxHeight="320"
                Source="../Assets/vec.jpg">
                 </Image>
                 <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Explore"/>
@@ -29,7 +29,7 @@
             
         </Button>
         <StackPanel Orientation="Vertical" Grid.Row="1">
-            <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Recently Played"/>
+            <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Suggestions"/>
             <muxc:ScrollView Padding="0 0 0 10" ContentOrientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Horizontal" Padding="10" Spacing="10">
                     <Button Padding="0">
@@ -42,7 +42,17 @@
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Liked" Grid.Row="1"/>
                         </Grid>
                     </Button>
-                  
+                    <Button Padding="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
+                        </Grid>
+                    </Button>
+
                 </StackPanel>
             </muxc:ScrollView>
         </StackPanel>
