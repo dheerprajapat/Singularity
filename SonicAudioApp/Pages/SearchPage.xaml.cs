@@ -28,7 +28,6 @@ namespace SonicAudioApp.Pages
 {
     public sealed partial class SearchPage : Page
     {
-        public static YoutubeClient Youtube = new YoutubeClient();
         public SearchPage()
         {
             this.InitializeComponent();
@@ -92,6 +91,7 @@ namespace SonicAudioApp.Pages
         public static readonly DependencyProperty SearchFilterProperty =
             DependencyProperty.Register("SearchFilter", typeof(string), typeof(SearchPage), new PropertyMetadata("Relevance"));
 
+        //this is cache of searched songs for next load
         public static ObservableCollection<AudioQueueItem> SearchedItems = new();
 
         public enum FilterModes
@@ -164,7 +164,6 @@ namespace SonicAudioApp.Pages
             }
         }
 
-
         public ObservableCollection<AudioQueueItem> Songs
         {
             get { return (ObservableCollection<AudioQueueItem>)GetValue(SongsProperty); }
@@ -175,22 +174,6 @@ namespace SonicAudioApp.Pages
             DependencyProperty.Register("Songs", typeof(ObservableCollection<AudioQueueItem>), typeof(SearchPage), new PropertyMetadata(
                 new ObservableCollection<AudioQueueItem> {  }
             ));
-
-        private async void topResultGrid_ItemClick(object sender, ItemClickEventArgs e)
-        {
-            var s = sender as ListView;
-            if (s.SelectedIndex < 0 || s.SelectedIndex >= Songs.Count)
-                return;
-
-            var c = Songs[s.SelectedIndex];
-            if (c.Url == null)
-            {
-                var streamManifest = await Youtube.Videos.Streams.GetManifestAsync(c.Id);
-                var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();
-                c.Url = streamInfo.Url;
-            }
-            AudioQueue.AddAndPlay(c);
-        }
 
 
         private async void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
