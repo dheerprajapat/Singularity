@@ -42,7 +42,7 @@
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Liked" Grid.Row="1"/>
                         </Grid>
                     </Button>
-                    <Button Padding="0">
+                    <Button Padding="0" x:Name="focusBtn" Click="focusBtn_Click">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"/>
@@ -51,7 +51,7 @@
                             <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
                         </Grid>
-                    </Button>
+                    </Button >
 
                 </StackPanel>
             </muxc:ScrollView>

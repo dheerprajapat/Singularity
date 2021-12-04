@@ -5,10 +5,13 @@
     xmlns:local="using:SonicAudioApp.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
     mc:Ignorable="d"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    x:Name="playlistViwer"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <Grid>
-
+        <TextBlock Text="{Binding ElementName=playlistViwer, Path=PlayListUrl}"/>
     </Grid>
 </Page>

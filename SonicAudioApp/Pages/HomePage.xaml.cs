@@ -26,5 +26,24 @@ namespace SonicAudioApp.Pages
         {
             this.InitializeComponent();
         }
+
+        private void focusBtn_Click(object sender, RoutedEventArgs e)
+        {
+            GoToPlaylist("https://www.youtube.com/playlist?list=PLzJK4umy8SSl0kUsUzVsBQCWgJVyZdZz6");
+        }
+        void GoToPlaylist(string url)
+        {
+            var frame = FindParent<Frame>(this);
+            frame.Navigate(typeof(PlaylistViewerPage),url);
+        }
+        private static T FindParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+        {
+            var parent = VisualTreeHelper.GetParent(dependencyObject);
+
+            if (parent == null) return null;
+
+            var parentT = parent as T;
+            return parentT ?? FindParent<T>(parent);
+        }
     }
 }
