@@ -52,7 +52,7 @@
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="14" 
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited" x:Name="previousBtn" PointerPressed="previousBtn_PointerPressed"/>
-                <Button CornerRadius="50" Width="44" Height="44" x:Name="PlayPauseButton" Foreground="DeepSkyBlue" 
+                <Button CornerRadius="50" Width="44" Height="44" x:Name="PlayPauseButton" Foreground="IndianRed" 
                         Click="PlayPauseButton_Click">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;" 
                               x:Name="PlayPauseIcon" Foreground="IndianRed"
