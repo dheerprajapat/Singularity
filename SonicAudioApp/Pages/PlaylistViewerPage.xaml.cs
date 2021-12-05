@@ -100,6 +100,11 @@ namespace SonicAudioApp.Pages
         // Using a DependencyProperty as the backing store for PlayListUrl.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PlayListUrlProperty =
             DependencyProperty.Register("PlayListUrl", typeof(string), typeof(PlaylistViewerPage), new PropertyMetadata(""));
-        
+
+        private void backBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var contentFrame=HomePage.FindParent<Frame>(this);
+            contentFrame.Navigate(typeof(HomePage));
+        }
     }
 }

@@ -36,7 +36,7 @@ namespace SonicAudioApp.Pages
             var frame = FindParent<Frame>(this);
             frame.NavigateToType(typeof(PlaylistViewerPage), url, new FrameNavigationOptions { IsNavigationStackEnabled=true});
         }
-        private static T FindParent<T>(DependencyObject dependencyObject) where T : DependencyObject
+        public static T FindParent<T>(DependencyObject dependencyObject) where T : DependencyObject
         {
             var parent = VisualTreeHelper.GetParent(dependencyObject);
 

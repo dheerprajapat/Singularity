@@ -27,7 +27,10 @@
                         <media:BackdropBlurBrush Amount="2"/>
                     </Rectangle.Fill>
                 </Rectangle>
-                <StackPanel Orientation="Vertical">
+                <StackPanel Orientation="Vertical" Margin="10">
+                    <Button x:Name="backBtn" Click="backBtn_Click">
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE72B;" FontSize="14"/>
+                    </Button>
                     <TextBlock FontWeight="Bold" FontSize="24" Margin="10"
                            Text="{Binding ElementName=playlistViwer, Path=Currentplaylist.Title}"/>
                     <TextBlock FontWeight="SemiBold" FontSize="20" Margin="10"

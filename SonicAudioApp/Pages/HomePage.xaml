@@ -5,7 +5,7 @@
     xmlns:local="using:SonicAudioApp.Pages"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
@@ -50,6 +50,11 @@
                             </Grid.RowDefinitions>
                             <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
+                            <Rectangle>
+                                <Rectangle.Fill>
+                                    <media:BackdropBlurBrush Amount="2"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
                         </Grid>
                     </Button >
 
