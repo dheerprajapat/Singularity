@@ -12,29 +12,30 @@
     x:Name="playlistViwer"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <Grid RowSpacing="10" Padding="10 20 10 10">
+    <Grid RowSpacing="10" Padding="10 30 10 10">
         <Grid.RowDefinitions>
-            <RowDefinition Height="300"/>
+            <RowDefinition Height="256"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <muxc:ProgressRing x:Name="progress"/>
         <Grid RowSpacing="10">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="40"/>
-                <RowDefinition Height="*"/>
-                <RowDefinition Height="64"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="300"/>
-                <ColumnDefinition Width="*"/>
-            </Grid.ColumnDefinitions>
-            <Image Grid.Row="1"
-                Source="{Binding ElementName=playlistViwer, Path=Currentplaylist.Thumbnail}" Stretch="Fill"/>
-            <Rectangle Grid.Row="1">
-                <Rectangle.Fill>
-                    <media:BackdropBlurBrush Amount="1"/>
-                </Rectangle.Fill>
-            </Rectangle>
+            
+            <Grid CornerRadius="10">
+                <Image  Source="{Binding ElementName=playlistViwer, Path=Currentplaylist.Thumbnail}" Stretch="Fill"/>
+                <Rectangle>
+                    <Rectangle.Fill>
+                        <media:BackdropBlurBrush Amount="2"/>
+                    </Rectangle.Fill>
+                </Rectangle>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock FontWeight="Bold" FontSize="24" Margin="10"
+                           Text="{Binding ElementName=playlistViwer, Path=Currentplaylist.Title}"/>
+                    <TextBlock FontWeight="SemiBold" FontSize="20" Margin="10"
+                           Text="{Binding ElementName=playlistViwer, Path=Currentplaylist.Author}"/>
+
+                </StackPanel>
+            </Grid>
+           
 
         </Grid>
         <components:SongListControl Grid.Row="1" Songs="{Binding ElementName=playlistViwer, Path=Songs}"/>
