@@ -188,5 +188,13 @@ namespace SonicAudioApp.Components
             if(contentFrame is not null)
             contentFrame.NavigateToType(pageType, null, navOptions);
         }
+
+        private void NavigationViewControl_BackRequested(Microsoft.UI.Xaml.Controls.NavigationView sender, Microsoft.UI.Xaml.Controls.NavigationViewBackRequestedEventArgs args)
+        {
+            if (contentFrame.CanGoBack)
+            {
+                contentFrame.GoBack();
+            }
+        }
     }
 }

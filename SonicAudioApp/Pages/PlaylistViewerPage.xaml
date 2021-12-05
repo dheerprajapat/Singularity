@@ -16,7 +16,8 @@
             <RowDefinition Height="260"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid>
+        <muxc:ProgressRing x:Name="progress"/>
+        <Grid RowSpacing="10">
             <Image Source="{Binding ElementName=playlistViwer, Path=Currentplaylist.Thumbnail}" Stretch="Fill"/>
         </Grid>
         <components:SongListControl Grid.Row="1" Songs="{Binding ElementName=playlistViwer, Path=Songs}"/>

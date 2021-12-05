@@ -87,6 +87,7 @@ namespace SonicAudioApp.Pages
                     list.Last().WaveformVisibilty = Visibility.Visible;
                 }
             }
+            progress.Visibility = Visibility.Collapsed;
             Songs = new(list);
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)

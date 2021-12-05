@@ -40,7 +40,7 @@
                 </StackPanel>
             </Border>
             <muxc:NavigationView x:Name="NavigationViewControl"
-            IsTitleBarAutoPaddingEnabled="False"            
+            IsTitleBarAutoPaddingEnabled="False" IsBackEnabled="True" BackRequested="NavigationViewControl_BackRequested"
             IsBackButtonVisible="Visible" SelectionChanged="NavigationViewControl_SelectionChanged"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             Header=""
@@ -54,7 +54,7 @@
                     <muxc:NavigationViewItem Icon="Like" Content="Liked Song"/>
                 </muxc:NavigationView.MenuItems>
                 <Grid>
-                    <Frame x:Name="contentFrame" Margin="0 20 0 0">
+                    <Frame x:Name="contentFrame" Margin="0 20 0 0" >
                         <pages:HomePage/>
                     </Frame>
                 </Grid>
