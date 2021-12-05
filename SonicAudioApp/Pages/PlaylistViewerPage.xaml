@@ -18,7 +18,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <muxc:ProgressRing x:Name="progress"/>
-        <Grid RowSpacing="10">
+        <Grid RowSpacing="10" x:Name="playlistHeaderGrid" Visibility="Collapsed">
             
             <Grid CornerRadius="10">
                 <Image  Source="{Binding ElementName=playlistViwer, Path=Currentplaylist.Thumbnail}" Stretch="Fill"/>

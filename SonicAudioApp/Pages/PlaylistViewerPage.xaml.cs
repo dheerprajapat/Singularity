@@ -66,6 +66,9 @@ namespace SonicAudioApp.Pages
         {
             var info =await YoutubeManager.Youtube.Playlists.GetAsync(PlayListUrl);
 
+            progress.Visibility = Visibility.Collapsed;
+            playlistHeaderGrid.Visibility= Visibility.Visible;
+
             Currentplaylist=new() { Title=info.Title,Thumbnail=info.Thumbnails.GetWithHighestResolution().Url,Author=info.Author.Title};
 
             var songs= await YoutubeManager.Youtube.Playlists.GetVideosAsync(PlayListUrl);
@@ -87,7 +90,6 @@ namespace SonicAudioApp.Pages
                     list.Last().WaveformVisibilty = Visibility.Visible;
                 }
             }
-            progress.Visibility = Visibility.Collapsed;
             Songs = new(list);
         }
         protected override void OnNavigatedTo(NavigationEventArgs e)
