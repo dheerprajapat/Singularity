@@ -41,7 +41,7 @@
             </Border>
             <muxc:NavigationView x:Name="NavigationViewControl"
             IsTitleBarAutoPaddingEnabled="False" IsBackEnabled="True" BackRequested="NavigationViewControl_BackRequested"
-            IsBackButtonVisible="Visible" SelectionChanged="NavigationViewControl_SelectionChanged"
+            IsBackButtonVisible="Collapsed" SelectionChanged="NavigationViewControl_SelectionChanged"
             DisplayModeChanged="NavigationViewControl_DisplayModeChanged"
             Header=""
             AlwaysShowHeader="False"
