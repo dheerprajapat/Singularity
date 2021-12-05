@@ -67,6 +67,11 @@ namespace SonicAudioApp.Components
                 if (AudioQueue.Current == null)
                     return;
 
+                foreach (var s in Songs)
+                {
+                    s.WaveformVisibilty = Visibility.Collapsed;
+                }
+
                 if (previousWaveIndex != -1 && Songs.Count > previousWaveIndex)
                 {
                     Songs[previousWaveIndex].WaveformVisibilty = Visibility.Collapsed;
