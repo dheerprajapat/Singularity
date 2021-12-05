@@ -25,6 +25,7 @@
     
     
     <!-- Add your application specific runtime directives here. -->
+	  <Assembly  Name="System.Text.Json" Dynamic="Required All" />
 
 
   </Application>
