@@ -6,6 +6,7 @@ using SonicAudioApp.Services.YoutubeSearch;
 using SonicAudioApp.Services.YoutubeSearch.Models;
 using SonicAudioApp.Services.Ytdl;
 using System;
+using System.Collections.Concurrent;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
@@ -96,7 +97,7 @@ namespace SonicAudioApp.Pages
             SearchBox_QuerySubmitted(sender, null);
         }
 
-        long previousSearchTimeStamp = -1;
+        SortedSet<long> previousTimeStampSet = new();
         private async void SearchBox_QuerySubmitted(AutoSuggestBox sender, AutoSuggestBoxQuerySubmittedEventArgs args)
         {
             if (string.IsNullOrWhiteSpace(sender.Text))
@@ -113,10 +114,11 @@ namespace SonicAudioApp.Pages
 
                 var res = await YoutubeSearch.GetVideosAsync(sender.Text);
 
-                if (previousSearchTimeStamp>currentTimeStamp)
+                if (previousTimeStampSet.Count>0 && previousTimeStampSet.Last()>currentTimeStamp)
                     return;
 
-                previousSearchTimeStamp = currentTimeStamp;
+                previousTimeStampSet.Clear();
+                previousTimeStampSet.Add(currentTimeStamp);
 
                 AssignCollectionFromSearchResult(res);
             }
@@ -162,6 +164,11 @@ namespace SonicAudioApp.Pages
                     VideoUrl = item.Url,
                     DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds.Value))
                 });
+
+                if(AudioQueue.Current!=null && AudioQueue.Current==newList.Last())
+                {
+                    newList.Last().WaveformVisibilty = Visibility.Visible;
+                }
             }
             SearchedItems = Songs = new(newList);
         }
