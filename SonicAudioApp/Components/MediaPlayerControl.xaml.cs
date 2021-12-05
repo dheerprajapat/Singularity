@@ -253,11 +253,11 @@ namespace SonicAudioApp.Components
             });
         }
 
-        private void PlayPauseButton_Click(object sender, RoutedEventArgs e)
+        private async void PlayPauseButton_Click(object sender, RoutedEventArgs e)
         {
             if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Paused)
             {
-                AudioPlayer.Play(false);
+                await AudioPlayer.PlayAsync(false);
             }
             else if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Playing)
             {
@@ -276,14 +276,14 @@ namespace SonicAudioApp.Components
             });
         }
 
-        private void previousBtn_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void previousBtn_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            AudioPlayer.PlayPrevious();
+           await AudioPlayer.PlayPreviousAsync();
         }
 
-        private void nextPlayBtn_PointerPressed(object sender, PointerRoutedEventArgs e)
+        private async void nextPlayBtn_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            AudioPlayer.PlayNext();
+            await AudioPlayer.PlayNextAsync();
         }
 
         private void LikeButton_PointerPressed(object sender, PointerRoutedEventArgs e)

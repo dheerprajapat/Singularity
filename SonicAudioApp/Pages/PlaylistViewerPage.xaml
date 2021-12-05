@@ -37,7 +37,7 @@
                            Text="{Binding ElementName=playlistViwer, Path=Currentplaylist.Author}"/>
 
                     <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
-                        <Button Width="50" Height="50" CornerRadius="50">
+                        <Button Width="50" Height="50" CornerRadius="50" x:Name="playAllBtn" Click="playAllBtn_Click">
                             <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;" 
                               x:Name="PlayPauseIcon" Foreground="IndianRed"
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"

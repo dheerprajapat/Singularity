@@ -57,7 +57,7 @@ namespace SonicAudioApp.Components
             var c = Songs[s.SelectedIndex];
 
             await YoutubeManager.UpdateUrlAsync(c);
-            AudioQueue.AddAndPlay(c);
+            await AudioQueue.AddAndPlayAsync(c);
         }
 
         private async void AudioPlayer_SourceChanged(Windows.Media.Playback.MediaPlayer sender, object args)
@@ -94,7 +94,7 @@ namespace SonicAudioApp.Components
                 await YoutubeManager.UpdateUrlAsync(d);
 
                 if (AudioQueue.Count==0)
-                    AudioQueue.AddAndPlay(d);
+                    await AudioQueue.AddAndPlayAsync(d);
                 else
                     AudioQueue.Add(d);
             }

@@ -108,5 +108,18 @@ namespace SonicAudioApp.Pages
             var contentFrame=HomePage.FindParent<Frame>(this);
             contentFrame.Navigate(typeof(HomePage));
         }
+
+        private async void playAllBtn_Click(object sender, RoutedEventArgs e)
+        {
+            int i = 0;
+            foreach (var s in Songs)
+            {
+                if (i == 0)
+                    await AudioQueue.AddAndPlayAsync(s);
+                else
+                    AudioQueue.InsertAt(s,i);
+                i++;
+            }
+        }
     }
 }

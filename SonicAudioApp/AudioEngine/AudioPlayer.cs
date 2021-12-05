@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SonicAudioApp.Services.YoutubeSearch;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -38,12 +39,14 @@ public static class AudioPlayer
         Audio.SourceChanged += Audio_SourceChanged;
     }
 
-    public static void Play(bool begin=true)
+    public static async Task PlayAsync(bool begin=true)
     {
         if (AudioQueue.Count == 0)
             return;
 
         var currentSong = AudioQueue.Current;
+        if (currentSong.Url == null) 
+            await YoutubeManager.UpdateUrlAsync(currentSong);
         var currentSource = MediaSource.CreateFromUri(new(currentSong.Url));
 
         if (begin)
@@ -59,25 +62,25 @@ public static class AudioPlayer
         Audio.Pause();
     }
 
-    public static void PlayNext()
+    public static async Task PlayNextAsync()
     {
         var next = AudioQueue.Next();
         if (next is null)
             return;
-        Play();
+        await PlayAsync();
     }
-    public static void PlayPrevious()
+    public static async Task PlayPreviousAsync()
     {
         var p = AudioQueue.Previous();
         if (p is null)
             return;
-        Play();
+        await PlayAsync();
     }
 
 
-    private static void Audio_MediaEnded(MediaPlayer sender, object args)
+    private static async void Audio_MediaEnded(MediaPlayer sender, object args)
     {
-        PlayNext();
+        await PlayNextAsync();
     }
     public static void UpdatePosition(TimeSpan time)
     {

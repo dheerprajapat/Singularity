@@ -19,7 +19,7 @@ public static class AudioQueue
         Queue.Add(song);
 
     }
-    public static void AddAndPlay(AudioQueueItem song)
+    public static async Task AddAndPlayAsync(AudioQueueItem song)
     {
         if (Queue.Contains(song))
         {
@@ -27,7 +27,15 @@ public static class AudioQueue
         }
         Queue.Insert(0, song);
 
-        AudioPlayer.Play(true);
+        await AudioPlayer.PlayAsync(true);
+    }
+    public static void InsertAt(AudioQueueItem song,int ind=1)
+    {
+        if (Queue.Contains(song))
+        {
+            Queue.Remove(song);
+        }
+        Queue.Insert(ind, song);
 
     }
 
