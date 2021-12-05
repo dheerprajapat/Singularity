@@ -235,17 +235,20 @@ namespace SonicAudioApp.Components
                 {
                     PlayPauseIcon.Foreground=new SolidColorBrush(Colors.DeepSkyBlue);
                     PlayPauseIcon.Glyph = "\uf5b0";
+                    AudioQueue.Current.WaveformVisibilty = Visibility.Collapsed;
                 }
                 else if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Playing)
                 {
                     PlayPauseIcon.Foreground = new SolidColorBrush(Colors.IndianRed);
                     PlayPauseIcon.Glyph = "\uf8ae";
+                    AudioQueue.Current.WaveformVisibilty = Visibility.Visible;
                 }
                 else if(AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Buffering
                     || AudioPlayer.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Opening)
                 {
                     PlayPauseIcon.Foreground = new SolidColorBrush(Colors.White);
                     PlayPauseIcon.Glyph = "\uebd3";
+                    AudioQueue.Current.WaveformVisibilty = Visibility.Collapsed;
                 }
             });
         }

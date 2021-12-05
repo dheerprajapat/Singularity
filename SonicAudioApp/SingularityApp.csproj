@@ -135,6 +135,7 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Models\AudioQueueItem.cs" />
+    <Compile Include="Models\PlaylistInfo.cs" />
     <Compile Include="Native\NativeFilePaths.cs" />
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
