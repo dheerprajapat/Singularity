@@ -102,14 +102,13 @@ namespace SonicAudioApp.Pages
 
         private async void playAllBtn_Click(object sender, RoutedEventArgs e)
         {
-            int i = 0;
-            foreach (var s in Songs)
+            for (int i = 0; i < Songs.Count; i++)
             {
+                AudioQueueItem s = Songs[i];
                 if (i == 0)
                     await AudioQueue.AddAndPlayAsync(s);
                 else
                     AudioQueue.InsertAt(s,i);
-                i++;
             }
         }
     }
