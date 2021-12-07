@@ -5,18 +5,9 @@ using SonicAudioApp.Services.YoutubeSearch;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
-using System.Threading.Tasks;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
-using Windows.UI.Xaml.Controls.Primitives;
-using Windows.UI.Xaml.Data;
-using Windows.UI.Xaml.Input;
-using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using YoutubeExplode.Common;
 
@@ -67,11 +58,11 @@ namespace SonicAudioApp.Pages
             var info =await YoutubeManager.Youtube.Playlists.GetAsync(PlayListUrl);
 
             progress.Visibility = Visibility.Collapsed;
-            playlistHeaderGrid.Visibility= Visibility.Visible;
+            playlistHeaderGrid.Visibility = Visibility.Visible;
 
-            Currentplaylist=new() { Title=info.Title,Thumbnail=info.Thumbnails.GetWithHighestResolution().Url,Author=info.Author.Title};
+            Currentplaylist = new() { Title = info.Title, Thumbnail = info.Thumbnails.GetWithHighestResolution().Url, Author = info.Author.Title };
 
-            var songs= await YoutubeManager.Youtube.Playlists.GetVideosAsync(PlayListUrl);
+            var songs = await YoutubeManager.Youtube.Playlists.GetVideosAsync(PlayListUrl);
             var list = new List<AudioQueueItem>();
             foreach(var song in songs)
             {
