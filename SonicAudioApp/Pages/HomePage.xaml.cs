@@ -48,5 +48,15 @@ namespace SonicAudioApp.Pages
             var parentT = parent as T;
             return parentT ?? FindParent<T>(parent);
         }
+
+        private void romanticBtn_Click(object sender, RoutedEventArgs e)
+        {
+            GoToPlaylist("https://www.youtube.com/playlist?list=PLgzTt0k8mXzE6H9DDgiY7Pd8pKZteis48");
+        }
+
+        private void chillBtn_Click(object sender, RoutedEventArgs e)
+        {
+            GoToPlaylist("https://www.youtube.com/playlist?list=PLgzTt0k8mXzEpH7-dOCHqRZOsakqXmzmG");
+        }
     }
 }

@@ -57,6 +57,36 @@
                             </Rectangle>
                         </Grid>
                     </Button >
+                    <Button Padding="0" x:Name="romanticBtn" Click="romanticBtn_Click">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Romantic" Grid.Row="1"/>
+                            <Rectangle>
+                                <Rectangle.Fill>
+                                    <media:BackdropBlurBrush Amount="2"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Grid>
+                    </Button >
+                    <Button Padding="0" x:Name="chillBtn" Click="chillBtn_Click">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Chill" Grid.Row="1"/>
+                            <Rectangle>
+                                <Rectangle.Fill>
+                                    <media:BackdropBlurBrush Amount="2"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Grid>
+                    </Button >
 
                 </StackPanel>
             </muxc:ScrollView>
