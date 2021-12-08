@@ -78,7 +78,7 @@
                                 <RowDefinition Height="200"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/chill.jpg"/>
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Chill" Grid.Row="1"/>
                             <Rectangle>
                                 <Rectangle.Fill>
