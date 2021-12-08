@@ -52,7 +52,7 @@
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
                             <Rectangle>
                                 <Rectangle.Fill>
-                                    <media:BackdropBlurBrush Amount="2"/>
+                                    <media:BackdropBlurBrush Amount="0.5"/>
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Grid>
@@ -63,11 +63,11 @@
                                 <RowDefinition Height="200"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/romantic.jpg"/>
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Romantic" Grid.Row="1"/>
                             <Rectangle>
                                 <Rectangle.Fill>
-                                    <media:BackdropBlurBrush Amount="2"/>
+                                    <media:BackdropBlurBrush Amount="0.1"/>
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Grid>
@@ -82,7 +82,7 @@
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Chill" Grid.Row="1"/>
                             <Rectangle>
                                 <Rectangle.Fill>
-                                    <media:BackdropBlurBrush Amount="2"/>
+                                    <media:BackdropBlurBrush Amount="0.5"/>
                                 </Rectangle.Fill>
                             </Rectangle>
                         </Grid>
