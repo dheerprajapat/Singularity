@@ -106,7 +106,7 @@ namespace SonicAudioApp.Pages
             if (PageIntent.FromPage is HomePage)
             {
                 contentFrame= HomePage.FindParent<Frame>(this);
-                contentFrame.Navigate(typeof(MainPage));
+                contentFrame.Navigate(typeof(HomePage));
             }
         }
 
