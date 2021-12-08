@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
+using System.Text.Json;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -83,10 +84,13 @@ namespace SonicAudioApp.Pages
             }
             Songs = new(list);
         }
+
+        PageIntent<string> PageIntent;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            PlayListUrl = (string)e.Parameter;
+            PageIntent= (PageIntent<string>)e.Parameter;
+            PlayListUrl = PageIntent.Data;
             LoadInfoAsync();
         }
 
@@ -94,10 +98,16 @@ namespace SonicAudioApp.Pages
         public static readonly DependencyProperty PlayListUrlProperty =
             DependencyProperty.Register("PlayListUrl", typeof(string), typeof(PlaylistViewerPage), new PropertyMetadata(""));
 
+
         private void backBtn_Click(object sender, RoutedEventArgs e)
         {
-            var contentFrame=HomePage.FindParent<Frame>(this);
-            contentFrame.Navigate(typeof(HomePage));
+            Frame contentFrame=null;
+            var type=PageIntent.FromPage.GetType();
+            if (PageIntent.FromPage is HomePage)
+            {
+                contentFrame= HomePage.FindParent<Frame>(this);
+                contentFrame.Navigate(typeof(MainPage));
+            }
         }
 
         private async void playAllBtn_Click(object sender, RoutedEventArgs e)

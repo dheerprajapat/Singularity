@@ -1,4 +1,5 @@
-﻿using System;
+﻿using SonicAudioApp.Models;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -34,7 +35,9 @@ namespace SonicAudioApp.Pages
         void GoToPlaylist(string url)
         {
             var frame = FindParent<Frame>(this);
-            frame.NavigateToType(typeof(PlaylistViewerPage), url, new FrameNavigationOptions { IsNavigationStackEnabled=true});
+            var str=
+            frame.NavigateToType(typeof(PlaylistViewerPage), new PageIntent<string> { FromPage=this,Data=url},
+                new FrameNavigationOptions { IsNavigationStackEnabled=true});
         }
         public static T FindParent<T>(DependencyObject dependencyObject) where T : DependencyObject
         {
