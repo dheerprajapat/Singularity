@@ -24,7 +24,7 @@
                 <Image  Source="{Binding ElementName=playlistViwer, Path=Currentplaylist.Thumbnail}" Stretch="Fill"/>
                 <Rectangle>
                     <Rectangle.Fill>
-                        <media:BackdropBlurBrush Amount="2"/>
+                        <media:BackdropBlurBrush Amount="10"/>
                     </Rectangle.Fill>
                 </Rectangle>
                 <StackPanel Orientation="Vertical" Margin="10" Spacing="10">
