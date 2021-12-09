@@ -32,7 +32,7 @@
             <TextBlock Margin="10" FontWeight="SemiBold" FontSize="20" Text="Suggestions"/>
             <muxc:ScrollView Padding="0 0 0 10" ContentOrientation="Horizontal" ScrollViewer.HorizontalScrollBarVisibility="Auto">
                 <StackPanel Orientation="Horizontal" Padding="10" Spacing="10">
-                    <Button Padding="0">
+                    <Button Padding="0" x:Name="likeBtn" Click="likeBtn_Click">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"/>

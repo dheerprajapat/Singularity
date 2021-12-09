@@ -7,6 +7,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
+using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Navigation;
@@ -91,7 +92,10 @@ namespace SonicAudioApp.Pages
             base.OnNavigatedTo(e);
             PageIntent= (PageIntent)e.Parameter;
             PlayListUrl = PageIntent.Url;
-            LoadInfoAsync();
+            if (PageIntent.Type == PlayListType.Youtube)
+                LoadInfoAsync();
+            else if (PageIntent.Type == PlayListType.Liked)
+                ProcessLikedSongs();
         }
 
         // Using a DependencyProperty as the backing store for PlayListUrl.  This enables animation, styling, binding, etc...
@@ -108,6 +112,26 @@ namespace SonicAudioApp.Pages
                 contentFrame= HomePage.FindParent<Frame>(this);
                 contentFrame.Navigate(typeof(HomePage));
             }
+        }
+
+        async void ProcessLikedSongs()
+        {
+            var users=await User.FindAllAsync();
+            var current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
+                            p.Type == UserType.LocalUser).FirstOrDefault();
+
+            // user may have username
+            var data = await current.GetPropertyAsync(KnownUserProperties.DisplayName);
+            string displayName = (string)data;
+
+            Currentplaylist = new PlaylistInfo
+            {
+                Author = displayName,
+                Title="Liked",
+                Thumbnail= "../Assets/heart.jpg"
+            };
+            progress.Visibility = Visibility.Collapsed;
+            playlistHeaderGrid.Visibility = Visibility.Visible;
         }
 
         private async void playAllBtn_Click(object sender, RoutedEventArgs e)

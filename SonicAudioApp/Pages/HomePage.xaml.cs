@@ -39,6 +39,13 @@ namespace SonicAudioApp.Pages
             frame.NavigateToType(typeof(PlaylistViewerPage), new PageIntent { FromPage=this,Url=url},
                 new FrameNavigationOptions { IsNavigationStackEnabled=true});
         }
+        void GoToLikedSongs()
+        {
+            var frame = FindParent<Frame>(this);
+            var str =
+            frame.NavigateToType(typeof(PlaylistViewerPage), new PageIntent { FromPage = this,Type=PlayListType.Liked },
+                new FrameNavigationOptions { IsNavigationStackEnabled = true });
+        }
         public static T FindParent<T>(DependencyObject dependencyObject) where T : DependencyObject
         {
             var parent = VisualTreeHelper.GetParent(dependencyObject);
@@ -57,6 +64,11 @@ namespace SonicAudioApp.Pages
         private void chillBtn_Click(object sender, RoutedEventArgs e)
         {
             GoToPlaylist("https://www.youtube.com/playlist?list=PLgzTt0k8mXzEpH7-dOCHqRZOsakqXmzmG");
+        }
+
+        private void likeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            GoToLikedSongs();
         }
     }
 }
