@@ -44,9 +44,11 @@ public static class AudioPlayer
         if (AudioQueue.Count == 0)
             return;
 
+
         var currentSong = AudioQueue.Current;
         if (currentSong.Url == null) 
             await YoutubeManager.UpdateUrlAsync(currentSong);
+        
         var currentSource = MediaSource.CreateFromUri(new(currentSong.Url));
 
         if (begin)
