@@ -7,9 +7,16 @@ using Windows.UI.Xaml.Controls;
 
 namespace SonicAudioApp.Models
 {
-    public class PageIntent<T>
+    public class PageIntent
     {
         public Page FromPage { get; set; }
-        public T Data { get; set; }
+        public object Data { get; set; }
+        public PlayListType Type { get; set; }
+        public string Url { get; set; }
+    }
+    public enum PlayListType
+    {
+        Youtube,
+        Liked
     }
 }

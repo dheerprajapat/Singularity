@@ -85,12 +85,12 @@ namespace SonicAudioApp.Pages
             Songs = new(list);
         }
 
-        PageIntent<string> PageIntent;
+        PageIntent PageIntent;
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            PageIntent= (PageIntent<string>)e.Parameter;
-            PlayListUrl = PageIntent.Data;
+            PageIntent= (PageIntent)e.Parameter;
+            PlayListUrl = PageIntent.Url;
             LoadInfoAsync();
         }
 
