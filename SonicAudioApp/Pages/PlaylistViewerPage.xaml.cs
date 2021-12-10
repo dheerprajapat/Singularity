@@ -1,6 +1,7 @@
 ﻿using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Components;
 using SonicAudioApp.Models;
+using SonicAudioApp.Services;
 using SonicAudioApp.Services.YoutubeSearch;
 using System;
 using System.Collections.Generic;
@@ -132,6 +133,8 @@ namespace SonicAudioApp.Pages
             };
             progress.Visibility = Visibility.Collapsed;
             playlistHeaderGrid.Visibility = Visibility.Visible;
+
+            Songs = LikedSongManager.LikedSongs;
         }
 
         private async void playAllBtn_Click(object sender, RoutedEventArgs e)
