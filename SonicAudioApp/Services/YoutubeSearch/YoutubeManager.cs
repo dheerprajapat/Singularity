@@ -14,6 +14,7 @@ namespace SonicAudioApp.Services.YoutubeSearch
         public static YoutubeClient Youtube = new YoutubeClient();
         public static async Task UpdateUrlAsync(AudioQueueItem c)
         {
+            c.LastUpdateTimeStamp = DateTime.Now.Ticks;
             var streamManifest = await Youtube.Videos.Streams.GetManifestAsync(c.Id);
             //get highest audio
             var streamInfo = streamManifest.GetAudioOnlyStreams().GetWithHighestBitrate();

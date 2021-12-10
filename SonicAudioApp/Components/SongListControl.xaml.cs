@@ -56,7 +56,6 @@ namespace SonicAudioApp.Components
             //get current song
             var c = Songs[s.SelectedIndex];
 
-            await YoutubeManager.UpdateUrlAsync(c);
             await AudioQueue.AddAndPlayAsync(c);
         }
 
@@ -91,8 +90,6 @@ namespace SonicAudioApp.Components
             var d=(AudioQueueItem)((AppBarButton)e.OriginalSource).DataContext;
             if(d is not null)
             {
-                await YoutubeManager.UpdateUrlAsync(d);
-
                 if (AudioQueue.Count==0)
                     await AudioQueue.AddAndPlayAsync(d);
                 else

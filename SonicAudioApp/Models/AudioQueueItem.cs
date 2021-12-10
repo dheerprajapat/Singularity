@@ -40,6 +40,10 @@ public record AudioQueueItem:INotifyPropertyChanged
             NotifyPropertyChanged();
         }
     }
+
+    //url is null or less than 1 hour 
+    public bool RenewRequired => Url==null || DateTime.Now.Ticks-LastUpdateTimeStamp>=36_00_000;
+    public long LastUpdateTimeStamp { get; set; } = 0;
     private void NotifyPropertyChanged([CallerMemberName] string propertyName = "")
     {
         if (PropertyChanged != null)
