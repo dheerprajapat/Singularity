@@ -2,8 +2,10 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 
 namespace SonicAudioApp.Services
@@ -11,13 +13,16 @@ namespace SonicAudioApp.Services
     public static class LikedSongManager
     {
         public static ObservableCollection<AudioQueueItem> LikedSongs=new ObservableCollection<AudioQueueItem>();
+        public const string LikeInfoFilePath = "liked.json";
         static LikedSongManager()
         {
+            LikedSongs=JsonSerializer.Deserialize<ObservableCollection<AudioQueueItem>>(File.ReadAllText(LikeInfoFilePath));
             LikedSongs.CollectionChanged += LikedSongs_CollectionChanged;
         }
 
         private static void LikedSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
+            File.WriteAllText(LikeInfoFilePath,JsonSerializer.Serialize(LikedSongs));
         }
         public static void Add(AudioQueueItem item)
         {
