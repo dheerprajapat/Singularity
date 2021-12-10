@@ -16,14 +16,23 @@ namespace SonicAudioApp.Services
         public const string LikeInfoFilePath = "liked.json";
         static LikedSongManager()
         {
+            CreateNewFileIfNotExists();
             LikedSongs=JsonSerializer.Deserialize<ObservableCollection<AudioQueueItem>>(File.ReadAllText(LikeInfoFilePath));
             LikedSongs.CollectionChanged += LikedSongs_CollectionChanged;
+        }
+
+        private static void CreateNewFileIfNotExists()
+        {
+            if (File.Exists(LikeInfoFilePath))
+                return;
+            File.Create(LikeInfoFilePath);
         }
 
         private static void LikedSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
             File.WriteAllText(LikeInfoFilePath,JsonSerializer.Serialize(LikedSongs));
         }
+
         public static void Add(AudioQueueItem item)
         {
             if (LikedSongs.Contains(item))

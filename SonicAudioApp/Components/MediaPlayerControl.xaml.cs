@@ -1,4 +1,5 @@
 ﻿using SonicAudioApp.AudioEngine;
+using SonicAudioApp.Services;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -288,8 +289,14 @@ namespace SonicAudioApp.Components
 
         private void LikeButton_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if (AudioQueue.Count >= 1)
+            if (AudioQueue.Count < 1)
+                return;
+
                 IsLiked= !IsLiked;
+            if(IsLiked)
+                LikedSongManager.Add(AudioQueue.Current);
+            else
+                LikedSongManager.Remove(AudioQueue.Current);
         }
     }
 }
