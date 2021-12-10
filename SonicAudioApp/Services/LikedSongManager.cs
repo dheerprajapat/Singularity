@@ -7,30 +7,35 @@ using System.Linq;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
+using Windows.Storage;
 
 namespace SonicAudioApp.Services
 {
     public static class LikedSongManager
     {
         public static ObservableCollection<AudioQueueItem> LikedSongs=new ObservableCollection<AudioQueueItem>();
-        public const string LikeInfoFilePath = "liked.json";
+        public const string LikeInfoKeyPath = "liked.json";
+        public static ApplicationDataContainer localSettings = Windows.Storage.ApplicationData.Current.LocalSettings;
+
         static LikedSongManager()
         {
-            CreateNewFileIfNotExists();
-            LikedSongs=JsonSerializer.Deserialize<ObservableCollection<AudioQueueItem>>(File.ReadAllText(LikeInfoFilePath));
+            LoadLikedSettingsIfNotExists();
             LikedSongs.CollectionChanged += LikedSongs_CollectionChanged;
         }
 
-        private static void CreateNewFileIfNotExists()
+        private static void LoadLikedSettingsIfNotExists()
         {
-            if (File.Exists(LikeInfoFilePath))
-                return;
-            File.Create(LikeInfoFilePath);
+            var content=localSettings.Values[LikeInfoKeyPath] as string;
+            if(content != null)
+            {
+                LikedSongs=new(JsonSerializer.Deserialize<List<AudioQueueItem>>(content));
+            }
         }
 
         private static void LikedSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            File.WriteAllText(LikeInfoFilePath,JsonSerializer.Serialize(LikedSongs));
+            var content=JsonSerializer.Serialize(LikedSongs.ToList());
+            localSettings.Values[LikeInfoKeyPath]= content;
         }
 
         public static void Add(AudioQueueItem item)
