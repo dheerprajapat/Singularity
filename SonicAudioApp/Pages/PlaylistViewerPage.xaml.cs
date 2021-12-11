@@ -97,11 +97,27 @@ namespace SonicAudioApp.Pages
                 LoadInfoAsync();
             else if (PageIntent.Type == PlayListType.Liked)
                 ProcessLikedSongs();
+            if(PageIntent.FromPage==null)
+            {
+                BackBtnVisibilty=Visibility.Collapsed;
+            }
         }
 
         // Using a DependencyProperty as the backing store for PlayListUrl.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PlayListUrlProperty =
             DependencyProperty.Register("PlayListUrl", typeof(string), typeof(PlaylistViewerPage), new PropertyMetadata(""));
+
+
+
+        public Visibility BackBtnVisibilty
+        {
+            get { return (Visibility)GetValue(BackBtnVisibiltyProperty); }
+            set { SetValue(BackBtnVisibiltyProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for BackBtnVisibilty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty BackBtnVisibiltyProperty =
+            DependencyProperty.Register("BackBtnVisibilty", typeof(Visibility), typeof(PlaylistViewerPage), new PropertyMetadata(Visibility.Visible));
 
 
         private void backBtn_Click(object sender, RoutedEventArgs e)

@@ -28,7 +28,7 @@
                     </Rectangle.Fill>
                 </Rectangle>
                 <StackPanel Orientation="Vertical" Margin="10" Spacing="10">
-                    <Button x:Name="backBtn" Click="backBtn_Click">
+                    <Button x:Name="backBtn" Click="backBtn_Click" Visibility="{Binding ElementName=playlistViwer,Path=BackBtnVisibilty}">
                         <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE72B;" FontSize="14"/>
                     </Button>
                     <TextBlock FontWeight="Bold" FontSize="24" Margin="10"

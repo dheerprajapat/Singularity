@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SonicAudioApp.Pages;
 using static System.Net.WebRequestMethods;
+using SonicAudioApp.Models;
 
 // The User Control item template is documented at https://go.microsoft.com/fwlink/?LinkId=234236
 
@@ -184,6 +185,12 @@ namespace SonicAudioApp.Components
             else if (itemContainer == searchPage)
             {
                 pageType = typeof(SearchPage);
+            }
+            else if(itemContainer==likePage)
+            {
+                if (contentFrame is not null)
+                    contentFrame.NavigateToType(typeof(PlaylistViewerPage), new PageIntent { Type=PlayListType.Liked }, navOptions);
+                return;
             }
             if(contentFrame is not null)
             contentFrame.NavigateToType(pageType, null, navOptions);
