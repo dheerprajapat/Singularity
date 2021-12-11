@@ -13,19 +13,26 @@ namespace SonicAudioApp.Services
 {
     public static class LikedSongManager
     {
-        public static ObservableCollection<AudioQueueItem> LikedSongs=new ObservableCollection<AudioQueueItem>();
+        public static ObservableCollection<AudioQueueItem> LikedSongs { get; set; } =new ObservableCollection<AudioQueueItem>();
         private static readonly string DirPath = $@"{DocPath}\Singularity";
         private static readonly string DocPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}";
         public static readonly string LikeInfoKeyPath = "liked.json";
         public static ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
-        static LikedSongManager()
+
+        private async static void LikedSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            LoadLikedSettingsIfNotExists();
-            LikedSongs.CollectionChanged += LikedSongs_CollectionChanged;
+             var content=JsonSerializer.Serialize(LikedSongs.ToList());
+             var folder = await StorageFolder.GetFolderFromPathAsync(DocPath);
+             folder = await folder.CreateFolderAsync("Singularity", CreationCollisionOption.OpenIfExists);
+             var file = await folder.CreateFileAsync(LikeInfoKeyPath, CreationCollisionOption.OpenIfExists);
+             using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
+             using var reader = new StreamWriter(stream.AsStream());
+             reader.Write(content);
+             
         }
 
-        private static async void LoadLikedSettingsIfNotExists()
+        public static async Task LoadLikedSettingsIfNotExists()
         {
             var folder = await StorageFolder.GetFolderFromPathAsync(DocPath);
             folder=await folder.CreateFolderAsync("Singularity", CreationCollisionOption.OpenIfExists);
@@ -42,18 +49,10 @@ namespace SonicAudioApp.Services
             {
                 v.WaveformVisibilty = Windows.UI.Xaml.Visibility.Collapsed;
             }
+            LikedSongs.CollectionChanged += LikedSongs_CollectionChanged;
+
         }
 
-        private static async void LikedSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            var content=JsonSerializer.Serialize(LikedSongs.ToList());
-            var folder = await StorageFolder.GetFolderFromPathAsync(DocPath);
-            folder = await folder.CreateFolderAsync("Singularity", CreationCollisionOption.OpenIfExists);
-            var file = await folder.CreateFileAsync(LikeInfoKeyPath, CreationCollisionOption.OpenIfExists);
-            using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-            using var reader = new StreamWriter(stream.AsStream());
-            reader.Write(content);
-        }
 
         public static void Add(AudioQueueItem item)
         {

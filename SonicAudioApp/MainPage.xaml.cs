@@ -17,6 +17,7 @@ using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Models;
+using SonicAudioApp.Services;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -30,6 +31,11 @@ namespace SonicAudioApp
         public MainPage()
         {
             this.InitializeComponent();
+        }
+
+        private async void SharedNavMenu_Loaded(object sender, RoutedEventArgs e)
+        {
+            await LikedSongManager.LoadLikedSettingsIfNotExists();
         }
     }
 }

@@ -10,7 +10,7 @@
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <components:SharedNavMenu>
+    <components:SharedNavMenu Loaded="SharedNavMenu_Loaded">
     </components:SharedNavMenu>
 
 </Page>
