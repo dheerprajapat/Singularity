@@ -130,7 +130,11 @@
     <Compile Include="Components\SongListControl.xaml.cs">
       <DependentUpon>SongListControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Converters\LikeBoolToIconElementConvertor.cs" />
+    <Compile Include="Converters\LikeBoolToTextConvertor.cs" />
+    <Compile Include="Converters\LikeBoolToTooltipConvertor.cs" />
     <Compile Include="Converters\LikeButtonBoolToGlyphConvertor.cs" />
+    <Compile Include="Converters\SliderValueDurationStringConverter.cs" />
     <Compile Include="MainPage.xaml.cs">
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>

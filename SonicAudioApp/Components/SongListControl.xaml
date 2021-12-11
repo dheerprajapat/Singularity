@@ -9,7 +9,13 @@
     mc:Ignorable="d"
     d:DesignHeight="300"
     x:Name="songListControl"
+    xmlns:ct="using:SonicAudioApp.Converters"
     d:DesignWidth="400">
+    <UserControl.Resources>
+        <ct:LikeBoolToTextConvertor x:Key="likeBoolToTextConvertor"/>
+        <ct:LikeBoolToIconElementConvertor x:Key="likeBoolToIconElementConvertor"/>
+        <ct:LikeBoolToTooltipConvertor x:Key="likeBoolToTooltipConvertor"/>
+    </UserControl.Resources>
 
     <ListView x:Name="topResultGrid" ItemsSource="{Binding ElementName=songListControl,Path=Songs}"
                       ItemClick="topResultGrid_ItemClick" IsItemClickEnabled="True">
@@ -47,7 +53,8 @@
                                 Name="moreItems" VerticalAlignment="Center" HorizontalAlignment="Left" />
                         <Button.Flyout>
                             <muxc:CommandBarFlyout Placement="Left" x:Name="songMenuFlyout">
-                                <AppBarButton Icon="Like" Label="Like" ToolTipService.ToolTip="Like"/>
+                                <AppBarButton Icon="{Binding Liked, Converter={StaticResource likeBoolToIconElementConvertor}}" Label="{Binding Liked, Converter={StaticResource likeBoolToTextConvertor}}" 
+                                 ToolTipService.ToolTip="{Binding Liked, Converter={StaticResource likeBoolToTooltipConvertor}}"/>
                                 <AppBarButton Icon="Download" Label="Download" ToolTipService.ToolTip="Download"/>
                                 <AppBarButton Icon="Share" Label="Share"  ToolTipService.ToolTip="Share"/>
                                 <muxc:CommandBarFlyout.SecondaryCommands>
