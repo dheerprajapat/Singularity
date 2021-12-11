@@ -32,8 +32,14 @@ namespace SonicAudioApp.Components
             AudioPlayer.PlaybackStateChanged += AudioPlayer_PlaybackStateChanged;
             AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
 
-            //get loop mode
+            //sync icons
+            SyncIcons();
+        }
+
+        void SyncIcons()
+        {
             GetRepeatIcon();
+            IsLiked = AudioQueue.Current != null ? AudioQueue.Current.Liked : false;
         }
 
 
@@ -277,6 +283,7 @@ namespace SonicAudioApp.Components
                 bitmapImage.UriSource = new(AudioQueue.Current.ThumbnailUrl);
                 Thumbnail = bitmapImage;
                 Singers = AudioQueue.Current.Singers;
+                IsLiked = AudioQueue.Current.Liked;
             });
         }
 
