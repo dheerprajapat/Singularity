@@ -1,5 +1,6 @@
 ﻿using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Models;
+using SonicAudioApp.Services;
 using SonicAudioApp.Services.YoutubeSearch;
 using System;
 using System.Collections.Generic;
@@ -87,13 +88,30 @@ namespace SonicAudioApp.Components
 
         private async void addToQBtn_Click(object sender, RoutedEventArgs e)
         {
-            var d=(AudioQueueItem)((AppBarButton)e.OriginalSource).DataContext;
+            var d=GetAudioItem(e.OriginalSource);
             if(d is not null)
             {
                 if (AudioQueue.Count==0)
                     await AudioQueue.AddAndPlayAsync(d);
                 else
                     AudioQueue.Add(d);
+            }
+        }
+        private AudioQueueItem GetAudioItem(object e)
+        {
+            return (AudioQueueItem)((AppBarButton)e).DataContext;
+        }
+
+        private void likedislikeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var d = GetAudioItem(e.OriginalSource);
+            if(d.Liked)
+            {
+                LikedSongManager.Remove(d);
+            }
+            else
+            {
+                LikedSongManager.Add(d);
             }
         }
     }

@@ -54,7 +54,7 @@
                         <Button.Flyout>
                             <muxc:CommandBarFlyout Placement="Left" x:Name="songMenuFlyout">
                                 <AppBarButton Icon="{Binding Liked, Converter={StaticResource likeBoolToIconElementConvertor}}" Label="{Binding Liked, Converter={StaticResource likeBoolToTextConvertor}}" 
-                                 ToolTipService.ToolTip="{Binding Liked, Converter={StaticResource likeBoolToTooltipConvertor}}"/>
+                                 ToolTipService.ToolTip="{Binding Liked, Converter={StaticResource likeBoolToTooltipConvertor}}" x:Name="likedislikeBtn" Click="likedislikeBtn_Click"/>
                                 <AppBarButton Icon="Download" Label="Download" ToolTipService.ToolTip="Download"/>
                                 <AppBarButton Icon="Share" Label="Share"  ToolTipService.ToolTip="Share"/>
                                 <muxc:CommandBarFlyout.SecondaryCommands>
