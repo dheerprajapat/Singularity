@@ -62,7 +62,7 @@
                 </Button>
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe893;" FontSize="14"  x:Name="nextPlayBtn" PointerPressed="nextPlayBtn_PointerPressed"
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
-                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe895;" FontSize="14" 
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF5E7;" FontSize="14" x:Name="loopMode" PointerPressed="loopMode_PointerPressed"
                               PointerEntered="FontIcon_PointerEntered" PointerExited="FontIcon_PointerExited"/>
             </StackPanel>
             <!--sider and timer-->

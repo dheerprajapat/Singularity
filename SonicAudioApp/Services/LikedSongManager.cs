@@ -30,6 +30,11 @@ namespace SonicAudioApp.Services
             {
                 LikedSongs=new(JsonSerializer.Deserialize<List<AudioQueueItem>>(content));
             }
+
+            foreach(var v in LikedSongs)
+            {
+                v.WaveformVisibilty = Windows.UI.Xaml.Visibility.Collapsed;
+            }
         }
 
         private static void LikedSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)

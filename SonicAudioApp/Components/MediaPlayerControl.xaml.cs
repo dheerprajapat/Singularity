@@ -31,6 +31,9 @@ namespace SonicAudioApp.Components
             AudioPlayer.PositionChanged += AudioPlayer_PositionChanged;
             AudioPlayer.PlaybackStateChanged += AudioPlayer_PlaybackStateChanged;
             AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
+
+            //get loop mode
+            loopMode_PointerPressed(null, null);
         }
 
 
@@ -297,6 +300,26 @@ namespace SonicAudioApp.Components
                 LikedSongManager.Add(AudioQueue.Current);
             else
                 LikedSongManager.Remove(AudioQueue.Current);
+        }
+
+       
+        private void loopMode_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            if(AudioQueue.Repeat==LoopMode.LoopSingle)
+            {
+                AudioQueue.Repeat=LoopMode.NoLoop;
+                loopMode.Glyph = "\uF5E7";
+            }
+            else if (AudioQueue.Repeat == LoopMode.NoLoop)
+            {
+                AudioQueue.Repeat = LoopMode.LoopAll;
+                loopMode.Glyph = "\uE8EE";
+            }
+            else
+            {
+                AudioQueue.Repeat = LoopMode.LoopSingle;
+                loopMode.Glyph = "\uE8ED";
+            }
         }
     }
 }
