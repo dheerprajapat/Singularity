@@ -33,7 +33,7 @@ namespace SonicAudioApp.Components
             AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
 
             //get loop mode
-            loopMode_PointerPressed(null, null);
+            GetRepeatIcon();
         }
 
 
@@ -305,19 +305,37 @@ namespace SonicAudioApp.Components
        
         private void loopMode_PointerPressed(object sender, PointerRoutedEventArgs e)
         {
-            if(AudioQueue.Repeat==LoopMode.LoopSingle)
+            SetNextRepeatMode();
+            GetRepeatIcon();
+        }
+        void SetNextRepeatMode()
+        {
+            if (AudioQueue.Repeat == LoopMode.LoopSingle)
             {
-                AudioQueue.Repeat=LoopMode.NoLoop;
-                loopMode.Glyph = "\uF5E7";
+                AudioQueue.Repeat = LoopMode.NoLoop;
             }
             else if (AudioQueue.Repeat == LoopMode.NoLoop)
             {
                 AudioQueue.Repeat = LoopMode.LoopAll;
-                loopMode.Glyph = "\uE8EE";
             }
             else
             {
                 AudioQueue.Repeat = LoopMode.LoopSingle;
+            }
+        }
+
+        void GetRepeatIcon()
+        {
+            if (AudioQueue.Repeat == LoopMode.LoopSingle)
+            {
+                loopMode.Glyph = "\uF5E7";
+            }
+            else if (AudioQueue.Repeat == LoopMode.NoLoop)
+            {
+                loopMode.Glyph = "\uE8EE";
+            }
+            else
+            {
                 loopMode.Glyph = "\uE8ED";
             }
         }
