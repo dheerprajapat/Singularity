@@ -43,11 +43,13 @@ namespace SonicAudioApp.Services
             if (LikedSongs.Contains(item))
                 return;
             LikedSongs.Add(item);
+            item.Liked = true;
         }
         public static void Remove(AudioQueueItem item)
         {
             if (LikedSongs.Contains(item))
                 LikedSongs.Remove(item);
+            item.Liked = false;
         }
     }
 }

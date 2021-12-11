@@ -13,10 +13,12 @@ namespace SonicAudioApp.Converters
         public object Convert(object value, Type targetType, object parameter, string language)
         {
             if (value == null)
-                return null;
+                return null; 
             if ((bool)value)
                 return new SymbolIcon(Symbol.Dislike);
-            return new SymbolIcon(Symbol.Dislike);
+
+            var c=SonicAudioApp.Services.LikedSongManager.LikedSongs;
+            return new SymbolIcon(Symbol.Like);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, string language)
