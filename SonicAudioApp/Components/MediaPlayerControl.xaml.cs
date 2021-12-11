@@ -328,15 +328,15 @@ namespace SonicAudioApp.Components
         {
             if (AudioQueue.Repeat == LoopMode.LoopSingle)
             {
-                loopMode.Glyph = "\uF5E7";
+                loopMode.Glyph = "\uE8ED";
             }
             else if (AudioQueue.Repeat == LoopMode.NoLoop)
             {
-                loopMode.Glyph = "\uE8EE";
+                loopMode.Glyph = "\uF5E7";
             }
             else
             {
-                loopMode.Glyph = "\uE8ED";
+                loopMode.Glyph = "\uE8EE";
             }
         }
     }
