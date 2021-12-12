@@ -15,7 +15,8 @@ namespace SonicAudioApp.Services
         {
             if (!Playlist.ContainsKey(playlistName))
                 Playlist.Add(playlistName, new ObservableCollection<AudioQueueItem>());
-            Playlist[playlistName].Add(item);
+            if(item is not null)
+                Playlist[playlistName].Add(item);
         }
         public static void Remove(string playlistName, AudioQueueItem item)
         {
@@ -24,8 +25,6 @@ namespace SonicAudioApp.Services
             if (!Playlist[playlistName].Contains(item))
                 return;
             Playlist[playlistName].Remove(item);
-            if(Playlist[playlistName].Count==0)
-                Playlist.Remove(playlistName);
         }
     }
 }
