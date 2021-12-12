@@ -186,6 +186,10 @@ namespace SonicAudioApp.Components
             {
                 pageType = typeof(SearchPage);
             }
+            else if (itemContainer == playlistPage)
+            {
+                pageType = typeof(PlaylistCollectionPage);
+            }
             else if(itemContainer==likePage)
             {
                 if (contentFrame is not null)

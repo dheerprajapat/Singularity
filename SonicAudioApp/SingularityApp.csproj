@@ -145,6 +145,9 @@
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\PlaylistCollectionPage.xaml.cs">
+      <DependentUpon>PlaylistCollectionPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\PlaylistViewerPage.xaml.cs">
       <DependentUpon>PlaylistViewerPage.xaml</DependentUpon>
     </Compile>
@@ -226,6 +229,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="Pages\HomePage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\PlaylistCollectionPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
