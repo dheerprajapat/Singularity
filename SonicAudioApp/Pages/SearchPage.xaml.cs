@@ -111,12 +111,12 @@ namespace SonicAudioApp.Pages
             var currentTimeStamp = DateTime.Now.Ticks;
             try
             {
+                if (previousTimeStampSet.Count > 0 && previousTimeStampSet.Last() > currentTimeStamp)
+                    return;
 
                 var res = await YoutubeSearch.GetVideosAsync(sender.Text);
 
-                if (previousTimeStampSet.Count>0 && previousTimeStampSet.Last()>currentTimeStamp)
-                    return;
-
+              
                 previousTimeStampSet.Clear();
                 previousTimeStampSet.Add(currentTimeStamp);
 
