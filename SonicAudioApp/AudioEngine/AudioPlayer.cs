@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
@@ -43,7 +44,6 @@ public static class AudioPlayer
     {
         if (AudioQueue.Count == 0)
             return;
-
 
         var currentSong = AudioQueue.Current;
         if (currentSong.RenewRequired) 

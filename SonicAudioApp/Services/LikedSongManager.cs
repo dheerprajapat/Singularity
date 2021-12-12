@@ -17,7 +17,6 @@ namespace SonicAudioApp.Services
         private static readonly string DirPath = $@"{DocPath}\Singularity";
         private static readonly string DocPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}";
         public static readonly string LikeInfoKeyPath = "liked.json";
-        public static ApplicationDataContainer localSettings = ApplicationData.Current.LocalSettings;
 
 
         private async static void LikedSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
