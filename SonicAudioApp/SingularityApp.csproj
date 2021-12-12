@@ -155,6 +155,7 @@
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\FileManager.cs" />
     <Compile Include="Services\LikedSongManager.cs" />
     <Compile Include="Services\PlaylistManager.cs" />
     <Compile Include="Services\YoutubeSearch\Models\SearchResult.cs" />

@@ -14,31 +14,18 @@ namespace SonicAudioApp.Services
     public static class LikedSongManager
     {
         public static ObservableCollection<AudioQueueItem> LikedSongs { get; set; } =new ObservableCollection<AudioQueueItem>();
-        private static readonly string DirPath = $@"{DocPath}\Singularity";
-        private static readonly string DocPath = $@"{Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments)}";
         public static readonly string LikeInfoKeyPath = "liked.json";
 
 
         private async static void LikedSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
              var content=JsonSerializer.Serialize(LikedSongs.ToList());
-             var folder = await StorageFolder.GetFolderFromPathAsync(DocPath);
-             folder = await folder.CreateFolderAsync("Singularity", CreationCollisionOption.OpenIfExists);
-             var file = await folder.CreateFileAsync(LikeInfoKeyPath, CreationCollisionOption.OpenIfExists);
-             using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
-             using var reader = new StreamWriter(stream.AsStream());
-             reader.Write(content);
-             
+             await FileManager.WriteAllText(LikeInfoKeyPath, content);
         }
 
         public static async Task LoadLikedSettingsIfNotExists()
         {
-            var folder = await StorageFolder.GetFolderFromPathAsync(DocPath);
-            folder=await folder.CreateFolderAsync("Singularity", CreationCollisionOption.OpenIfExists);
-            var file = await folder.CreateFileAsync(LikeInfoKeyPath, CreationCollisionOption.OpenIfExists);
-            using var stream= await file.OpenAsync(FileAccessMode.Read);
-            using var reader = new StreamReader(stream.AsStream());
-            var content = reader.ReadToEnd();
+            var content = await FileManager.ReadAllText(LikeInfoKeyPath);
             if(!string.IsNullOrWhiteSpace(content))
             {
                 LikedSongs=new(JsonSerializer.Deserialize<List<AudioQueueItem>>(content));
@@ -51,7 +38,6 @@ namespace SonicAudioApp.Services
             LikedSongs.CollectionChanged += LikedSongs_CollectionChanged;
 
         }
-
 
         public static void Add(AudioQueueItem item)
         {
