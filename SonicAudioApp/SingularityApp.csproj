@@ -173,6 +173,7 @@
     <Content Include="Assets\chill.jpg" />
     <Content Include="Assets\focus.jpg" />
     <Content Include="Assets\heart.jpg" />
+    <Content Include="Assets\playlist.jpg" />
     <Content Include="Assets\romantic.jpg" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />

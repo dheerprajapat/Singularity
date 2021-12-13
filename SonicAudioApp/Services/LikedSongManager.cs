@@ -44,7 +44,7 @@ namespace SonicAudioApp.Services
             if (LikedSongs.Contains(item))
                 return;
             item.Liked = true;
-            LikedSongs.Add(item);
+            LikedSongs.Insert(0,item);
         }
         public static void Remove(AudioQueueItem item)
         {

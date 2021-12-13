@@ -7,10 +7,26 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"  x:Name="playlistCollection"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:components="using:SonicAudioApp.Components"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
 
-    <Grid>
-        <TextBlock Text="Collection"/>
+    <Grid Margin="20 30 20 20" Background="Transparent">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="300"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid CornerRadius="20">
+            <Image Source="../Assets/playlist.jpg" Stretch="Fill"/>
+            <Rectangle>
+                <Rectangle.Fill>
+                    <media:BackdropBlurBrush Amount="20"/>
+                </Rectangle.Fill>
+            </Rectangle>
+            <TextBlock Text="Playlists" FontWeight="SemiBold" FontSize="20" Margin="10"/>
+            <StackPanel Orientation="Vertical" Margin="10 50 10 10">
+                <Button Content="New"/>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Page>
