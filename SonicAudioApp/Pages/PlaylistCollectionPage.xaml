@@ -6,27 +6,30 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d"  x:Name="playlistCollection"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:components="using:SonicAudioApp.Components"
-    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}">
+    Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
-    <Grid Margin="20 30 20 20" Background="Transparent">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="300"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <Grid CornerRadius="20">
-            <Image Source="../Assets/playlist.jpg" Stretch="Fill"/>
-            <Rectangle>
-                <Rectangle.Fill>
-                    <media:BackdropBlurBrush Amount="20"/>
-                </Rectangle.Fill>
-            </Rectangle>
-            <TextBlock Text="Playlists" FontWeight="SemiBold" FontSize="20" Margin="10"/>
-            <StackPanel Orientation="Vertical" Margin="10 50 10 10">
-                <Button Content="New"/>
-            </StackPanel>
-        </Grid>
-    </Grid>
+    <StackPanel Margin="20 30 20 20" Orientation="Vertical">
+        <TextBlock Text="Playlists" FontWeight="SemiBold" FontSize="20" Margin="10"/>
+        <GridView IsItemClickEnabled="False" CornerRadius="20" SelectionMode="None">
+            <Button Padding="0" x:Name="focusBtn">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                    <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <media:BackdropBlurBrush Amount="0.5"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
+            </Button >
+
+        </GridView>
+    </StackPanel>
 </Page>
