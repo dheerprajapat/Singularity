@@ -13,8 +13,23 @@
 
     <StackPanel Margin="20 30 20 20" Orientation="Vertical">
         <TextBlock Text="Playlists" FontWeight="SemiBold" FontSize="20" Margin="10"/>
-        <GridView IsItemClickEnabled="False" CornerRadius="20" SelectionMode="None">
+        <GridView IsItemClickEnabled="False" SelectionMode="None">
             <Button Padding="0" x:Name="focusBtn">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="200"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                    <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
+                    <Rectangle>
+                        <Rectangle.Fill>
+                            <media:BackdropBlurBrush Amount="0.5"/>
+                        </Rectangle.Fill>
+                    </Rectangle>
+                </Grid>
+            </Button >
+            <Button Padding="0">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition Height="200"/>
