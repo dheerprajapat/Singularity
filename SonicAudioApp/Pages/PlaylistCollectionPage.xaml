@@ -13,6 +13,7 @@
 
     <StackPanel Margin="20 30 20 20" Orientation="Vertical">
         <TextBlock Text="Playlists" FontWeight="SemiBold" FontSize="20" Margin="10"/>
+        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="14"/>
         <GridView IsItemClickEnabled="False" SelectionMode="None">
             <Button Padding="0" x:Name="focusBtn">
                 <Grid>
