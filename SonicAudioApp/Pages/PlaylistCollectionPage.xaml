@@ -19,7 +19,7 @@
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE948;" FontSize="20"/>
             </Button>
         </StackPanel>
-        <GridView IsItemClickEnabled="False" SelectionMode="None">
+        <GridView IsItemClickEnabled="False" SelectionMode="None" ItemsSource="{Binding ElementName=playlistCollection, Path=PlaylistInfos}">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="model:PlaylistInfo">
                     <Button Padding="0">

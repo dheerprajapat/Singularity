@@ -1,5 +1,7 @@
-﻿using System;
+﻿using SonicAudioApp.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -22,11 +24,29 @@ namespace SonicAudioApp.Pages
     /// </summary>
     public sealed partial class PlaylistCollectionPage : Page
     {
+
+
+
+
+        public ObservableCollection<PlaylistInfo> PlaylistInfos
+        {
+            get { return (ObservableCollection<PlaylistInfo>)GetValue(PlaylistInfosProperty); }
+            set { SetValue(PlaylistInfosProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PlaylistInfos.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlaylistInfosProperty =
+            DependencyProperty.Register("PlaylistInfos", typeof(ObservableCollection<PlaylistInfo>), typeof(PlaylistCollectionPage), new PropertyMetadata(new ObservableCollection<PlaylistInfo>()));
+
+
+
+
         public PlaylistCollectionPage()
         {
             this.InitializeComponent();
         }
 
+        
         private void Button_Click(object sender, RoutedEventArgs e)
         {
 
