@@ -46,15 +46,15 @@ namespace SonicAudioApp.Pages
             this.InitializeComponent();
         }
 
-        
-        private void Button_Click(object sender, RoutedEventArgs e)
+        private async void newBtn_Click(object sender, RoutedEventArgs e)
         {
+            ContentDialog cd = new ContentDialog()
+            {
+                Title = "Add New Playlist",
+                Content = "Ok",
+            };
 
-        }
-
-        private void newBtn_Click(object sender, RoutedEventArgs e)
-        {
-
+            await cd.ShowAsync();
         }
     }
 }
