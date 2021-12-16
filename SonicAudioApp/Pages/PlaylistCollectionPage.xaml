@@ -8,44 +8,38 @@
     mc:Ignorable="d"  x:Name="playlistCollection"
     xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
     xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:components="using:SonicAudioApp.Components"
+    xmlns:model="using:SonicAudioApp.Models"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
     muxc:BackdropMaterial.ApplyToRootOrPageBackground="True">
 
     <StackPanel Margin="20 30 20 20" Orientation="Vertical">
         <TextBlock Text="Playlists" FontWeight="SemiBold" FontSize="20" Margin="10"/>
-        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="14"/>
+        <StackPanel Orientation="Horizontal" Margin="10">
+            <Button x:Name="newBtn" Click="newBtn_Click">
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE948;" FontSize="20"/>
+            </Button>
+        </StackPanel>
         <GridView IsItemClickEnabled="False" SelectionMode="None">
-            <Button Padding="0" x:Name="focusBtn">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="200"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
-                    <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
-                    <Rectangle>
-                        <Rectangle.Fill>
-                            <media:BackdropBlurBrush Amount="0.5"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Grid>
-            </Button >
-            <Button Padding="0">
-                <Grid>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="200"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
-                    <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
-                    <Rectangle>
-                        <Rectangle.Fill>
-                            <media:BackdropBlurBrush Amount="0.5"/>
-                        </Rectangle.Fill>
-                    </Rectangle>
-                </Grid>
-            </Button >
+            <GridView.ItemTemplate>
+                <DataTemplate x:DataType="model:PlaylistInfo">
+                    <Button Padding="0">
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="200"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
+                            <Rectangle>
+                                <Rectangle.Fill>
+                                    <media:BackdropBlurBrush Amount="0.5"/>
+                                </Rectangle.Fill>
+                            </Rectangle>
+                        </Grid>
+                    </Button >
 
+                </DataTemplate>
+            </GridView.ItemTemplate>
         </GridView>
     </StackPanel>
 </Page>

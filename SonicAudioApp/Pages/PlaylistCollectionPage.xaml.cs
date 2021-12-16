@@ -26,5 +26,15 @@ namespace SonicAudioApp.Pages
         {
             this.InitializeComponent();
         }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
+
+        private void newBtn_Click(object sender, RoutedEventArgs e)
+        {
+
+        }
     }
 }
