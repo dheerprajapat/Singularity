@@ -25,7 +25,6 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Navigation;
 using YoutubeExplode;
-using YoutubeExplode.Search;
 using YoutubeExplode.Videos.Streams;
 
 namespace SonicAudioApp.Pages
@@ -150,24 +149,20 @@ namespace SonicAudioApp.Pages
 
         }
 
-        private void AssignCollectionFromSearchResult(IReadOnlyList<VideoSearchResult> searchResult)
+        private void AssignCollectionFromSearchResult(IReadOnlyList<SearchResult> searchResult)
         {
             var newList = new List<AudioQueueItem>();
 
             foreach (var item in searchResult)
             {
-                TimeSpan value = item.Duration.Value;
-                if(value== null)
-                    value = TimeSpan.Zero;
-
                 newList.Add(new AudioQueueItem
                 {
-                    Id = item.Id,
+                    Id = item.VideoId,
                     Title = item.Title,
-                    ThumbnailUrl = item.Thumbnails.OrderByDescending(x=>x.Resolution.Area).First().Url,
-                    Singers = item.Author.Title,
+                    ThumbnailUrl = item.Image,
+                    Singers = item.Author.Name,
                     VideoUrl = item.Url,
-                    DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(value)
+                    DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds.Value))
                 });
 
                 if(AudioQueue.Current!=null && AudioQueue.Current==newList.Last())

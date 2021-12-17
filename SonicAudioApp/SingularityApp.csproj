@@ -141,6 +141,7 @@
     <Compile Include="Models\AudioQueueItem.cs" />
     <Compile Include="Models\PageIntent.cs" />
     <Compile Include="Models\PlaylistInfo.cs" />
+    <Compile Include="Native\NativeFilePaths.cs" />
     <Compile Include="Pages\HomePage.xaml.cs">
       <DependentUpon>HomePage.xaml</DependentUpon>
     </Compile>
@@ -159,6 +160,7 @@
     <Compile Include="Services\PlaylistManager.cs" />
     <Compile Include="Services\YoutubeSearch\Models\SearchResult.cs" />
     <Compile Include="Services\YoutubeSearch\SearchSuggestions.cs" />
+    <Compile Include="Services\YoutubeSearch\YoutubeHelperExtensions.cs" />
     <Compile Include="Services\YoutubeSearch\YoutubeManager.cs" />
     <Compile Include="Services\YoutubeSearch\YoutubeSearch.cs" />
   </ItemGroup>
@@ -268,6 +270,11 @@
     <PackageReference Include="YoutubeExplode">
       <Version>6.0.7</Version>
     </PackageReference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Native\Vendor/**">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup />
   <PropertyGroup Condition=" '$(VisualStudioVersion)' == '' or '$(VisualStudioVersion)' &lt; '14.0' ">
