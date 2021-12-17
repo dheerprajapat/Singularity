@@ -1,5 +1,5 @@
 ﻿using Newtonsoft.Json;
-using SonicAudioApp.Native;
+using SonicAudioApp.Services.YoutubeSearch;
 using SonicAudioApp.Services.YoutubeSearch.Models;
 using System;
 using System.Collections.Generic;
@@ -8,47 +8,30 @@ using System.Linq;
 using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
+using YoutubeExplode.Search;
 
 namespace SonicAudioApp.Services.Ytdl;
 public static class YoutubeSearch
 {
-    public static async Task<string> GetJsonAsync(string query, uint amount=20, CancellationToken token = default)
-    {
-        try
-        {
-            return await Task.Run(() =>
-            {
-                using Process p = new Process();
-                var args = @$" ""{query}"" {amount}";
-                p.StartInfo = YoutubeHelperExtensions.CreateYtdlProcessInfo(args);
-                p.Start();
-                token.Register(() => p.Kill());
-                var stdout = p.StandardOutput.ReadToEnd();
-                var stderr=p.StandardError.ReadToEnd();
-                p.WaitForExit();
 
-                return stdout;
-            });
-        }
-        catch
-        {
-            throw new Exception("Failed to search for given query");
-        }
-    }
-    public static async Task<IReadOnlyList<SearchResult>> GetVideosAsync(string query, uint amount = 10, CancellationToken token = default)
+    public static async Task<IReadOnlyList<VideoSearchResult>> GetVideosAsync(string query, uint amount = 10, CancellationToken token = default)
     {
         
         try
         {
-            var resp=await GetJsonAsync(query, amount, token);
-            var settings = new JsonSerializerSettings
+            var r=YoutubeManager.Youtube.Search.GetVideosAsync(query);
+            int c = (int)amount;
+            List<VideoSearchResult> results = new List<VideoSearchResult>();
+            await foreach (var item in r)
             {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-            };
-            return JsonConvert.DeserializeObject<List<SearchResult>>(resp,settings);
+                if (c == 0)
+                    break;
+                results.Add(item);
+                c--;
+            }
+            return results;
         }
-        catch(Exception ex)
+        catch (Exception ex)
         {
             throw new Exception(ex.Message);
         }
