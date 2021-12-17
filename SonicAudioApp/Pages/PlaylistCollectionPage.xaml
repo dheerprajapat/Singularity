@@ -19,17 +19,18 @@
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE948;" FontSize="20"/>
             </Button>
         </StackPanel>
-        <GridView IsItemClickEnabled="False" SelectionMode="None" ItemsSource="{Binding ElementName=playlistCollection, Path=PlaylistInfos}">
+        <GridView IsItemClickEnabled="False" SelectionMode="None" ItemsSource="{Binding ElementName=playlistCollection, Path=PlaylistInfos}"
+                  >
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="model:PlaylistInfo">
-                    <Button Padding="0">
+                    <Button Padding="0" Margin="7">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
                             <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
-                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="Focus" Grid.Row="1"/>
+                            <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="{Binding Title}" TextTrimming="CharacterEllipsis" Grid.Row="1"/>
                             <Rectangle>
                                 <Rectangle.Fill>
                                     <media:BackdropBlurBrush Amount="0.5"/>

@@ -10,21 +10,12 @@ namespace SonicAudioApp.Services
 {
     public static class PlaylistManager
     {
-        public static Dictionary<string, ObservableCollection<AudioQueueItem>> Playlist { get; } = new();
-        public static void Add(string playlistName,AudioQueueItem item)
+        public static ObservableCollection<PlaylistInfo> Playlist { get; } = new();
+        public static void Add(string playlistName)
         {
-            if (!Playlist.ContainsKey(playlistName))
-                Playlist.Add(playlistName, new ObservableCollection<AudioQueueItem>());
-            if(item is not null)
-                Playlist[playlistName].Add(item);
+            if (Playlist.Count(p=>p.Title==playlistName)<=0)
+                Playlist.Add(new PlaylistInfo { Title=playlistName});
         }
-        public static void Remove(string playlistName, AudioQueueItem item)
-        {
-            if (!Playlist.ContainsKey(playlistName))
-                return;
-            if (!Playlist[playlistName].Contains(item))
-                return;
-            Playlist[playlistName].Remove(item);
-        }
+        
     }
 }

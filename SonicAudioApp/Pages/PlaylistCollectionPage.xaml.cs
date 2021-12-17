@@ -1,4 +1,5 @@
 ﻿using SonicAudioApp.Models;
+using SonicAudioApp.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -7,6 +8,7 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.UI.Popups;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
 using Windows.UI.Xaml.Controls.Primitives;
@@ -44,17 +46,33 @@ namespace SonicAudioApp.Pages
         public PlaylistCollectionPage()
         {
             this.InitializeComponent();
+            PlaylistInfos = PlaylistManager.Playlist;
         }
-
+        TextBox playlisTxtBox;
         private async void newBtn_Click(object sender, RoutedEventArgs e)
         {
-            ContentDialog cd = new ContentDialog()
+            var cd = new ContentDialog()
             {
                 Title = "Add New Playlist",
                 Content = "Ok",
-            };
+                CloseButtonText = "Cancel",
+        };
 
+            playlisTxtBox = new TextBox()
+            {
+                PlaceholderText = "Playlist Name",
+            };
+            playlisTxtBox.TextChanged += (sender, e) =>
+              {
+                  cd.PrimaryButtonText = !string.IsNullOrWhiteSpace(playlisTxtBox.Text)?"Create":"";
+              };
+            cd.Content = playlisTxtBox;
+            cd.PrimaryButtonClick += (_,_) => CreateNew();
             await cd.ShowAsync();
+        }
+        private void CreateNew()
+        {
+            PlaylistManager.Add(playlisTxtBox.Text);
         }
     }
 }
