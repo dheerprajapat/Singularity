@@ -29,7 +29,7 @@
                                 <RowDefinition Height="200"/>
                                 <RowDefinition Height="*"/>
                             </Grid.RowDefinitions>
-                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="../Assets/focus.jpg"/>
+                            <Image Margin="10 10 10 0" Width="200" Stretch="Fill" Source="{Binding Thumbnail}"/>
                             <TextBlock Margin="10 10 10 20" FontWeight="SemiBold" Text="{Binding Title}" TextTrimming="CharacterEllipsis" Grid.Row="1"/>
                             <Rectangle>
                                 <Rectangle.Fill>
