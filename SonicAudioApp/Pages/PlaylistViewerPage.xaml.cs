@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text.Json;
+using System.Threading.Tasks;
 using Windows.System;
 using Windows.UI.Xaml;
 using Windows.UI.Xaml.Controls;
@@ -105,7 +106,7 @@ namespace SonicAudioApp.Pages
             }
         }
 
-        private void ProcessCustomPlaylist()
+        private async void ProcessCustomPlaylist()
         {
             var plname = PageIntent.Data as string;
 
@@ -115,7 +116,10 @@ namespace SonicAudioApp.Pages
             if ((list=PlaylistManager.Get(plname)) == null)
                 return;
 
-            Currentplaylist = new PlaylistInfo { Title = list.Title };
+            Currentplaylist = new PlaylistInfo {
+                Title = list.Title,
+                Author= await GetUserDisplayName(),
+            };
            
 
         }
@@ -153,15 +157,21 @@ namespace SonicAudioApp.Pages
             }
         }
 
-        async void ProcessLikedSongs()
+        async Task<string> GetUserDisplayName()
         {
-            var users=await User.FindAllAsync();
+            var users = await User.FindAllAsync();
             var current = users.Where(p => p.AuthenticationStatus == UserAuthenticationStatus.LocallyAuthenticated &&
                             p.Type == UserType.LocalUser).FirstOrDefault();
 
             // user may have username
             var data = await current.GetPropertyAsync(KnownUserProperties.DisplayName);
-            string displayName = (string)data;
+            return (string)data;
+
+        }
+
+        async void ProcessLikedSongs()
+        {
+            string displayName = await GetUserDisplayName();
 
             Currentplaylist = new PlaylistInfo
             {
