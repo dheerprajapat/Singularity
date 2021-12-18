@@ -28,8 +28,6 @@ namespace SonicAudioApp.Pages
     {
 
 
-
-
         public ObservableCollection<PlaylistInfo> PlaylistInfos
         {
             get { return (ObservableCollection<PlaylistInfo>)GetValue(PlaylistInfosProperty); }
@@ -73,6 +71,17 @@ namespace SonicAudioApp.Pages
         private void CreateNew()
         {
             PlaylistManager.Add(playlisTxtBox.Text);
+        }
+
+        private void playlistBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var v=PlaylistManager.Get((string)(sender as Button).Tag);
+            if (v == null)
+                return;
+            var frame = HomePage.FindParent<Frame>(this);
+            var str =
+            frame.NavigateToType(typeof(PlaylistViewerPage), new PageIntent { FromPage = this, Type = PlayListType.CustomPlaylist,Data=v.Title },
+                new FrameNavigationOptions { IsNavigationStackEnabled = true });
         }
     }
 }

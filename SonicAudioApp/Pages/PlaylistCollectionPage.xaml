@@ -23,7 +23,7 @@
                   >
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="model:PlaylistInfo">
-                    <Button Padding="0" Margin="7">
+                    <Button Padding="0" Margin="7" x:Name="playlistBtn" Click="playlistBtn_Click" Tag="{Binding Title}">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"/>

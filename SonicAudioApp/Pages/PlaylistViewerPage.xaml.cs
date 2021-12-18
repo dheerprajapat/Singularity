@@ -97,10 +97,27 @@ namespace SonicAudioApp.Pages
                 LoadInfoAsync();
             else if (PageIntent.Type == PlayListType.Liked)
                 ProcessLikedSongs();
+            else if (PageIntent.Type == PlayListType.CustomPlaylist)
+                ProcessCustomPlaylist();
             if(PageIntent.FromPage==null)
             {
                 BackBtnVisibilty=Visibility.Collapsed;
             }
+        }
+
+        private void ProcessCustomPlaylist()
+        {
+            var plname = PageIntent.Data as string;
+
+            progress.Visibility = Visibility.Collapsed;
+            playlistHeaderGrid.Visibility = Visibility.Visible;
+            PlaylistInfo list;
+            if ((list=PlaylistManager.Get(plname)) == null)
+                return;
+
+            Currentplaylist = new PlaylistInfo { Title = list.Title };
+           
+
         }
 
         // Using a DependencyProperty as the backing store for PlayListUrl.  This enables animation, styling, binding, etc...
@@ -128,6 +145,11 @@ namespace SonicAudioApp.Pages
             {
                 contentFrame= HomePage.FindParent<Frame>(this);
                 contentFrame.Navigate(typeof(HomePage));
+            }
+            else if (PageIntent.FromPage is PlaylistCollectionPage)
+            {
+                contentFrame = HomePage.FindParent<Frame>(this);
+                contentFrame.Navigate(typeof(PlaylistCollectionPage));
             }
         }
 

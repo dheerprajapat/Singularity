@@ -17,6 +17,7 @@ namespace SonicAudioApp.Models
     public enum PlayListType
     {
         Youtube,
-        Liked
+        Liked,
+        CustomPlaylist
     }
 }

@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Windows.UI.Xaml.Controls;
 
 namespace SonicAudioApp.Services
 {
@@ -16,6 +17,11 @@ namespace SonicAudioApp.Services
             if (Playlist.Count(p=>p.Title==playlistName)<=0)
                 Playlist.Add(new PlaylistInfo { Title=playlistName});
         }
-        
+        public static PlaylistInfo Get(string playlistName)
+        {
+            var v = Playlist.First(x => x.Title == playlistName);
+            return v;
+        }
+
     }
 }
