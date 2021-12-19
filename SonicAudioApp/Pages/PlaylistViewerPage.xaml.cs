@@ -120,7 +120,15 @@ namespace SonicAudioApp.Pages
                 Title = list.Title,
                 Author= await GetUserDisplayName(),
             };
-           
+            
+            var a=PlaylistManager.Get(plname);
+            if(a is null)
+                return ;
+            Songs = a.Songs;
+            if (AudioQueue.Current != null && list.Songs.Count>0 && AudioQueue.Current.Id == list.Songs.Last().Id)
+            {
+                list.Songs.Last().WaveformVisibilty = Visibility.Visible;
+            }
 
         }
 
