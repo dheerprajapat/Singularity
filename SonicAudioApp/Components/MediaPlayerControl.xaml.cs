@@ -21,7 +21,7 @@ using Windows.UI.Xaml.Input;
 using Windows.UI.Xaml.Media;
 using Windows.UI.Xaml.Media.Imaging;
 using Windows.UI.Xaml.Navigation;
-
+using YoutubeExplode.Videos.Streams;
 
 namespace SonicAudioApp.Components
 {
@@ -375,7 +375,7 @@ namespace SonicAudioApp.Components
         {
            CurrentVideoId=AudioQueue.Current.Id;
            var r= await YoutubeManager.Youtube.Videos.Streams.GetManifestAsync(AudioQueue.Current.Id);
-           var g=r.GetMuxedStreams().OrderByDescending(c=>c.VideoResolution.Area).First();
+            var g = r.GetMuxedStreams().GetWithHighestVideoQuality();
            return new(g.Url);
         }
         public static string CurrentVideoId;

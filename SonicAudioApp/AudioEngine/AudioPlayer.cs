@@ -61,6 +61,8 @@ public static class AudioPlayer
     }
     public static void Stop()
     {
+        if(AudioQueue.Current is not null)
+            AudioQueue.Current.WaveformVisibilty=Windows.UI.Xaml.Visibility.Collapsed;
         Audio.Pause();
     }
 

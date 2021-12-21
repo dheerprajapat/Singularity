@@ -36,6 +36,7 @@ namespace SonicAudioApp
         private async void SharedNavMenu_Loaded(object sender, RoutedEventArgs e)
         {
             await LikedSongManager.LoadLikedSettingsIfNotExists();
+            await PlaylistManager.LoadPlaylistSettingsIfNotExists();
         }
     }
 }
