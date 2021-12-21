@@ -44,7 +44,20 @@ namespace SonicAudioApp.Pages
         public PlaylistCollectionPage()
         {
             this.InitializeComponent();
+            Init();
+        }
+        ~PlaylistCollectionPage()
+        {
+            PlaylistInfos.CollectionChanged += PlaylistInfos_CollectionChanged;
+        }
+
+        void Init()
+        {
             PlaylistInfos = PlaylistManager.Playlist;
+            if (PlaylistInfos.Count == 0)
+                playlistTextGrid.Visibility = Visibility.Visible;
+            else
+                playlistTextGrid.Visibility = Visibility.Collapsed;
             PlaylistInfos.CollectionChanged += PlaylistInfos_CollectionChanged;
         }
 
