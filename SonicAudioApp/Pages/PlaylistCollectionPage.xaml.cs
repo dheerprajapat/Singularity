@@ -46,31 +46,40 @@ namespace SonicAudioApp.Pages
             this.InitializeComponent();
             PlaylistInfos = PlaylistManager.Playlist;
         }
-        TextBox playlisTxtBox;
-        private async void newBtn_Click(object sender, RoutedEventArgs e)
+        static TextBox playlisTxtBox;
+        private void newBtn_Click(object sender, RoutedEventArgs e)
+        {
+            ShowNewDialog();
+        }
+        public static async void ShowNewDialog(AudioQueueItem audioQueueItem=null)
         {
             var cd = new ContentDialog()
             {
                 Title = "Add New Playlist",
                 Content = "Ok",
                 CloseButtonText = "Cancel",
-        };
+                DefaultButton = ContentDialogButton.Primary,
+            };
 
             playlisTxtBox = new TextBox()
             {
                 PlaceholderText = "Playlist Name",
             };
             playlisTxtBox.TextChanged += (sender, e) =>
-              {
-                  cd.PrimaryButtonText = !string.IsNullOrWhiteSpace(playlisTxtBox.Text)?"Create":"";
-              };
+            {
+                cd.PrimaryButtonText = !string.IsNullOrWhiteSpace(playlisTxtBox.Text) ? "Create" : "";
+            };
             cd.Content = playlisTxtBox;
-            cd.PrimaryButtonClick += (_,_) => CreateNew();
+            cd.PrimaryButtonClick += (_, _) => { if (audioQueueItem == null) CreateNew(); else CreateNew(audioQueueItem); };
             await cd.ShowAsync();
         }
-        private void CreateNew()
+        private static void CreateNew()
         {
             PlaylistManager.Add(playlisTxtBox.Text);
+        }
+        private static void CreateNew(AudioQueueItem item=null)
+        {
+            PlaylistManager.AddSong(playlisTxtBox.Text,item);
         }
 
         private void playlistBtn_Click(object sender, RoutedEventArgs e)

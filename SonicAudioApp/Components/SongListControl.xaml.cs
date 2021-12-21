@@ -1,5 +1,6 @@
 ﻿using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Models;
+using SonicAudioApp.Pages;
 using SonicAudioApp.Services;
 using SonicAudioApp.Services.YoutubeSearch;
 using System;
@@ -122,9 +123,10 @@ namespace SonicAudioApp.Components
             var m = new MenuFlyout();
             btn.Flyout = m;
             var song=GetAudioItem(sender);
-            m.Items.Add(new MenuFlyoutItem { Text = "Create New" });
+            var createNew = new MenuFlyoutItem { Text = "Create New" };
+            m.Items.Add(createNew);
             int ind = 0;
-
+            createNew.Click += (_, _) => PlaylistCollectionPage.ShowNewDialog(song);
             foreach (var item in PlaylistManager.Playlist)
             {
                 var ttm = new MenuFlyoutItem() { Text = item.Title };
@@ -134,10 +136,6 @@ namespace SonicAudioApp.Components
             
         }
 
-        private void CreateNew_Click(object sender, RoutedEventArgs e)
-        {
-            throw new NotImplementedException();
-        }
         private void ClickedItem(int ind, AudioQueueItem song)
         {
             if(ind>=0 && ind<PlaylistManager.Playlist.Count)
