@@ -22,6 +22,13 @@ namespace SonicAudioApp.Services
             var v = Playlist.First(x => x.Title == playlistName);
             return v;
         }
+        public static void AddSong(string playlistName,AudioQueueItem item)
+        {
+            if (Playlist.Count(p => p.Title == playlistName) <= 0)
+                Playlist.Add(new PlaylistInfo { Title = playlistName });
+            var v = Playlist.First(p => p.Title == playlistName);
+            v.Songs.Add(item);
+        }
 
     }
 }

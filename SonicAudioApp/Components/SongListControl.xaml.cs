@@ -121,12 +121,29 @@ namespace SonicAudioApp.Components
             var btn = sender as AppBarButton;
             var m = new MenuFlyout();
             btn.Flyout = m;
+            var song=GetAudioItem(sender);
+            m.Items.Add(new MenuFlyoutItem { Text = "Create New" });
+            int ind = 0;
 
             foreach (var item in PlaylistManager.Playlist)
             {
-                m.Items.Add(new MenuFlyoutItem { Text= item.Title });
+                var ttm = new MenuFlyoutItem() { Text = item.Title };
+                ttm.Click += (_,_)=> ClickedItem(ind++,song);
+                m.Items.Add(ttm);
             }
             
+        }
+
+        private void CreateNew_Click(object sender, RoutedEventArgs e)
+        {
+            throw new NotImplementedException();
+        }
+        private void ClickedItem(int ind, AudioQueueItem song)
+        {
+            if(ind>=0 && ind<PlaylistManager.Playlist.Count)
+            {
+                PlaylistManager.AddSong(PlaylistManager.Playlist[ind].Title,song);
+            }
         }
     }
 }
