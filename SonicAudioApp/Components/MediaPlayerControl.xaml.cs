@@ -375,7 +375,7 @@ namespace SonicAudioApp.Components
         {
            CurrentVideoId=AudioQueue.Current.Id;
            var r= await YoutubeManager.Youtube.Videos.Streams.GetManifestAsync(AudioQueue.Current.Id);
-            var g = r.GetMuxedStreams().GetWithHighestVideoQuality();
+           var g = r.GetMuxedStreams().GetWithHighestVideoQuality();
            return new(g.Url);
         }
         public static string CurrentVideoId;
