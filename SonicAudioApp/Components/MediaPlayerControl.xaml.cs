@@ -1,13 +1,16 @@
 ﻿using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Services;
+using SonicAudioApp.Services.YoutubeSearch;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.Text;
+using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using Windows.Media.Core;
 using Windows.UI;
 using Windows.UI.Core;
 using Windows.UI.Xaml;
@@ -31,9 +34,17 @@ namespace SonicAudioApp.Components
             AudioPlayer.PositionChanged += AudioPlayer_PositionChanged;
             AudioPlayer.PlaybackStateChanged += AudioPlayer_PlaybackStateChanged;
             AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
-
+            Window.Current.SizeChanged += Current_SizeChanged;
             //sync icons
             SyncIcons();
+        }
+
+        private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
+        {
+            if(!videoPlayer.IsFullWindow)
+            {
+                HideVideo();
+            }
         }
 
         void SyncIcons()
@@ -345,6 +356,51 @@ namespace SonicAudioApp.Components
             {
                 loopMode.Glyph = "\uE8EE";
             }
+        }
+
+        private void videoPlayer_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            if (AudioQueue.Current is null)
+                return;
+            if (!videoPlayer.IsFullWindow)
+            {
+                videoPlayer.MediaPlayer.Pause();
+                HideVideo();
+            }
+
+        }
+
+        private async void ShowVideo()
+        {
+            if (AudioQueue.Current is null)
+                return;
+            if(CurrentVideoId == null || CurrentVideoId!=AudioQueue.Current.Id)
+                videoPlayer.MediaPlayer.Source = MediaSource.CreateFromUri(await GetBestVideoUrl());
+            videoPlayer.MediaPlayer.PlaybackSession.Position= AudioPlayer.Position;
+            videoPlayer.Visibility = Visibility.Visible;
+
+            videoPlayer.MediaPlayer.Play();
+        }
+
+        private async Task<Uri> GetBestVideoUrl()
+        {
+           CurrentVideoId=AudioQueue.Current.Id;
+           var r= await YoutubeManager.Youtube.Videos.Streams.GetManifestAsync(AudioQueue.Current.Id);
+           var g=r.GetMuxedStreams().OrderByDescending(c=>c.VideoResolution.Area).First();
+           return new(g.Url);
+        }
+        public static string CurrentVideoId;
+        private void HideVideo()
+        {
+            videoPlayer.MediaPlayer.Pause();
+            videoPlayer.Visibility= Visibility.Collapsed;
+        }
+        private void thumnailImg_PointerPressed(object sender, PointerRoutedEventArgs e)
+        {
+            AudioPlayer.Stop();
+            videoPlayer.MediaPlayer.RealTimePlayback = true;
+            videoPlayer.IsFullWindow = true;
+                ShowVideo();
         }
     }
 }

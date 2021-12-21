@@ -12,7 +12,7 @@ namespace SonicAudioApp.AudioEngine;
 
 public static class AudioPlayer
 {
-    private static MediaPlayer Audio = new MediaPlayer();
+    private static MediaPlayer Audio = new MediaPlayer() { RealTimePlayback=true};
     public static TimeSpan TotalDuration => Audio.PlaybackSession is not null ?
         Audio.PlaybackSession.NaturalDuration : TimeSpan.Zero;
     public static TimeSpan Position
