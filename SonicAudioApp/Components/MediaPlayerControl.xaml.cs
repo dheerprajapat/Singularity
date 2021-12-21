@@ -43,6 +43,7 @@ namespace SonicAudioApp.Components
         {
             if(!videoPlayer.IsFullWindow)
             {
+                AudioPlayer.UpdatePosition(videoPlayer.MediaPlayer.PlaybackSession.Position);
                 HideVideo();
             }
         }
@@ -356,18 +357,6 @@ namespace SonicAudioApp.Components
             {
                 loopMode.Glyph = "\uE8EE";
             }
-        }
-
-        private void videoPlayer_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            if (AudioQueue.Current is null)
-                return;
-            if (!videoPlayer.IsFullWindow)
-            {
-                videoPlayer.MediaPlayer.Pause();
-                HideVideo();
-            }
-
         }
 
         private async void ShowVideo()
