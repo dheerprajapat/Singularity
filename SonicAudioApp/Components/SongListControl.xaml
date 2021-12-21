@@ -59,7 +59,15 @@
                                 <AppBarButton Icon="Share" Label="Share"  ToolTipService.ToolTip="Share"/>
                                 <muxc:CommandBarFlyout.SecondaryCommands>
                                     <AppBarButton Label="Add To Queue" Click="addToQBtn_Click" x:Name="addToQBtn"/>
-                                    <AppBarButton Label="Add Playlist"/>
+                                    <AppBarButton Label="Add Playlist" Loading="playlistBtn_Loading" x:Name="playlistBtn">
+                                        <AppBarButton.Flyout>
+                                            <MenuFlyout x:Name="playlistMenuFlyout">
+                                                <MenuFlyoutItem Text="By rating"  Tag="rating"/>
+                                                <MenuFlyoutItem Text="By match" Tag="match"/>
+                                                <MenuFlyoutItem Text="By distance" Tag="distance"/>
+                                            </MenuFlyout>
+                                        </AppBarButton.Flyout>
+                                    </AppBarButton>
                                     <AppBarButton  Label="Show Stats"/>
                                 </muxc:CommandBarFlyout.SecondaryCommands>
                             </muxc:CommandBarFlyout>

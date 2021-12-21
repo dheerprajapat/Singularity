@@ -114,5 +114,19 @@ namespace SonicAudioApp.Components
                 LikedSongManager.Add(d);
             }
         }
+
+        
+        private void playlistBtn_Loading(FrameworkElement sender, object args)
+        {
+            var btn = sender as AppBarButton;
+            var m = new MenuFlyout();
+            btn.Flyout = m;
+
+            foreach (var item in PlaylistManager.Playlist)
+            {
+                m.Items.Add(new MenuFlyoutItem { Text= item.Title });
+            }
+            
+        }
     }
 }
