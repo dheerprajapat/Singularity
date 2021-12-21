@@ -93,16 +93,16 @@ namespace SonicAudioApp.Pages
                 cd.PrimaryButtonText = !string.IsNullOrWhiteSpace(playlisTxtBox.Text) ? "Create" : "";
             };
             cd.Content = playlisTxtBox;
-            cd.PrimaryButtonClick += (_, _) => { if (audioQueueItem == null) CreateNew(); else CreateNew(audioQueueItem); };
+            cd.PrimaryButtonClick += (_, _) => CreateNew(audioQueueItem);
             await cd.ShowAsync();
         }
-        private static void CreateNew()
+        private static void CreateNew(AudioQueueItem item = null)
         {
-            PlaylistManager.Add(playlisTxtBox.Text);
-        }
-        private static void CreateNew(AudioQueueItem item=null)
-        {
-            PlaylistManager.AddSong(playlisTxtBox.Text,item);
+            if (item == null)
+                PlaylistManager.Add(playlisTxtBox.Text);
+            else
+                PlaylistManager.AddSong(playlisTxtBox.Text, item);
+
         }
 
         private void playlistBtn_Click(object sender, RoutedEventArgs e)
