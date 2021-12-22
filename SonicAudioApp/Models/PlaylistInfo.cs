@@ -25,8 +25,7 @@ namespace SonicAudioApp.Models
                     songs.CollectionChanged -= Songs_CollectionChanged;  
                 songs = value;
                 songs.CollectionChanged += Songs_CollectionChanged;
-
-                NotifyPropertyChanged(); }
+                 }
         }
 
         private void Songs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
@@ -42,6 +41,5 @@ namespace SonicAudioApp.Models
             }
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        p
     }
 }

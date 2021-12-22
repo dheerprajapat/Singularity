@@ -96,6 +96,7 @@ namespace SonicAudioApp.Pages
             cd.PrimaryButtonClick += (_, _) => CreateNew(audioQueueItem);
             await cd.ShowAsync();
         }
+        
         private static void CreateNew(AudioQueueItem item = null)
         {
             if (item == null)

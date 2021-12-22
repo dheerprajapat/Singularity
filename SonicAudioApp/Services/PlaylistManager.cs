@@ -48,8 +48,11 @@ namespace SonicAudioApp.Services
             if (Playlist.Count(p => p.Title == playlistName) <= 0)
                 Playlist.Add(new PlaylistInfo { Title = playlistName });
             var v = Playlist.First(p => p.Title == playlistName);
-            if(!v.Songs.Contains(item))
+            if (!v.Songs.Contains(item))
+            {
                 v.Songs.Add(item);
+                PlaylistSongs_CollectionChanged(null,null);
+            }
         }
 
     }
