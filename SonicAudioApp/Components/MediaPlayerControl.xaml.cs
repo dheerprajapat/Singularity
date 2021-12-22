@@ -41,7 +41,7 @@ namespace SonicAudioApp.Components
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
         {
-            if(!videoPlayer.IsFullWindow)
+            if(!videoPlayer.IsFullWindow && videoPlayer.MediaPlayer.PlaybackSession.PlaybackState==Windows.Media.Playback.MediaPlaybackState.Playing)
             {
                 AudioPlayer.UpdatePosition(videoPlayer.MediaPlayer.PlaybackSession.Position);
                 HideVideo();
