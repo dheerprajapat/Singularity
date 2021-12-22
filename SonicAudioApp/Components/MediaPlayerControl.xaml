@@ -92,7 +92,7 @@
         video player
         -->
         <MediaPlayerElement x:Name="videoPlayer" AutoPlay="True" AreTransportControlsEnabled="True" Height="0" Width="0"
-                            IsFullWindow="False" Visibility="Collapsed"/>
+                            IsFullWindow="False" Visibility="Collapsed" KeyUp="videoPlayer_KeyUp"/>
 
     </Grid>
 

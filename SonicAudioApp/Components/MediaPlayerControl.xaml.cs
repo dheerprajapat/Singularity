@@ -391,5 +391,17 @@ namespace SonicAudioApp.Components
             videoPlayer.IsFullWindow = true;
                 ShowVideo();
         }
+
+        private void videoPlayer_KeyUp(object sender, KeyRoutedEventArgs e)
+        {
+            if (!videoPlayer.IsFullWindow)
+                return;
+            if (e.Key == Windows.System.VirtualKey.Escape)
+            {
+                e.Handled = true;
+                HideVideo();
+                videoPlayer.IsFullWindow=false;
+            }
+        }
     }
 }
