@@ -27,14 +27,10 @@ namespace SonicAudioApp.Services
         {
             var content = await FileManager.ReadAllText(LikeInfoKeyPath);
             if(!string.IsNullOrWhiteSpace(content))
-            {
                 LikedSongs=new(JsonSerializer.Deserialize<List<AudioQueueItem>>(content));
-            }
 
             foreach(var v in LikedSongs)
-            {
                 v.WaveformVisibilty = Windows.UI.Xaml.Visibility.Collapsed;
-            }
             LikedSongs.CollectionChanged += LikedSongs_CollectionChanged;
 
         }

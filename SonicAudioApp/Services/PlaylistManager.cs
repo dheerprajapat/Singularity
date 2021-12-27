@@ -25,9 +25,7 @@ namespace SonicAudioApp.Services
         {
             var content = await FileManager.ReadAllText(LikeInfoKeyPath);
             if (!string.IsNullOrWhiteSpace(content))
-            {
                 Playlist = new(JsonSerializer.Deserialize<List<PlaylistInfo>>(content));
-            }
 
             Playlist.CollectionChanged += PlaylistSongs_CollectionChanged;
 
