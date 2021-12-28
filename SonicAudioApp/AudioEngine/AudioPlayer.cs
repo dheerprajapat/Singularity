@@ -45,7 +45,11 @@ public static class AudioPlayer
         if (AudioQueue.Count == 0)
             return;
 
+        if(Audio.Source != null && begin)
+            ((MediaSource)Audio.Source).Dispose();
+
         var currentSong = AudioQueue.Current;
+
         if (currentSong.RenewRequired) 
             await YoutubeManager.UpdateUrlAsync(currentSong);
         
