@@ -255,7 +255,7 @@ namespace SonicAudioApp.Components
             {
                 if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Paused)
                 {
-                    PlayPauseIcon.Foreground=new SolidColorBrush(Colors.DeepSkyBlue);
+                    PlayPauseIcon.Foreground=new SolidColorBrush(Colors.IndianRed);
                     PlayPauseIcon.Glyph = "\uf5b0";
                     AudioQueue.Current.WaveformVisibilty = Visibility.Collapsed;
                 }
