@@ -363,8 +363,13 @@ namespace SonicAudioApp.Components
         {
             if (AudioQueue.Current is null)
                 return;
-            if(CurrentVideoId == null || CurrentVideoId!=AudioQueue.Current.Id)
+            if (CurrentVideoId == null || CurrentVideoId != AudioQueue.Current.Id)
+            {
+                if(videoPlayer.MediaPlayer.Source is not null)
+                 ((MediaSource)videoPlayer.MediaPlayer.Source).Dispose();
+
                 videoPlayer.MediaPlayer.Source = MediaSource.CreateFromUri(await GetBestVideoUrl());
+            }
             videoPlayer.MediaPlayer.PlaybackSession.Position= AudioPlayer.Position;
             videoPlayer.Visibility = Visibility.Visible;
 

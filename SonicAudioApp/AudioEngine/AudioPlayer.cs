@@ -45,6 +45,7 @@ public static class AudioPlayer
         if (AudioQueue.Count == 0)
             return;
 
+        //clean up resources from memory if switching to new song(non pooled resources)
         if(Audio.Source != null && begin)
             ((MediaSource)Audio.Source).Dispose();
 
