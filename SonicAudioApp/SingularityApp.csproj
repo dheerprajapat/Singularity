@@ -151,6 +151,9 @@
     <Compile Include="Pages\PlaylistViewerPage.xaml.cs">
       <DependentUpon>PlaylistViewerPage.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Pages\RecentPlayPage.xaml.cs">
+      <DependentUpon>RecentPlayPage.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Pages\SearchPage.xaml.cs">
       <DependentUpon>SearchPage.xaml</DependentUpon>
     </Compile>
@@ -240,6 +243,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Pages\PlaylistViewerPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Pages\RecentPlayPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

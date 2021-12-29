@@ -49,7 +49,7 @@
                 <muxc:NavigationView.MenuItems>
                     <muxc:NavigationViewItem Icon="Home" Content="Home" x:Name="homePage"/>
                     <muxc:NavigationViewItem Icon="Find" Content="Search" x:Name="searchPage"/>
-                    <muxc:NavigationViewItem Icon="Library" Content="Your Library"/>
+                    <muxc:NavigationViewItem Icon="Library" Content="Recent Plays" x:Name="recentPlayPage"/>
                     <muxc:NavigationViewItem Icon="List" Content="Playlists" x:Name="playlistPage"/>
                     <muxc:NavigationViewItem Icon="Like" Content="Liked Song" x:Name="likePage"/>
                 </muxc:NavigationView.MenuItems>
