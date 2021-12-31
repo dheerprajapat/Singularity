@@ -125,22 +125,21 @@ namespace SonicAudioApp.Components
             var song=GetAudioItem(sender);
             var createNew = new MenuFlyoutItem { Text = "Create New" };
             m.Items.Add(createNew);
-            int ind = 0;
             createNew.Click += (_, _) => PlaylistCollectionPage.ShowNewDialog(song);
             foreach (var item in PlaylistManager.Playlist)
             {
                 var ttm = new MenuFlyoutItem() { Text = item.Title };
-                ttm.Click += (_,_)=> ClickedItem(ind++,song);
+                ttm.Click += (_,_)=> ClickedItem(song,item.Title);
                 m.Items.Add(ttm);
             }
             
         }
 
-        private void ClickedItem(int ind, AudioQueueItem song)
+        private void ClickedItem(AudioQueueItem song,string playListName)
         {
-            if(ind>=0 && ind<PlaylistManager.Playlist.Count)
+            if(!string.IsNullOrWhiteSpace(playListName))
             {
-                PlaylistManager.AddSong(PlaylistManager.Playlist[ind].Title,song);
+                PlaylistManager.AddSong(playListName,song);
             }
         }
     }
