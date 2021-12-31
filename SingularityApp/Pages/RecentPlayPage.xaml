@@ -17,6 +17,12 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <TextBlock Text="Recent Plays" FontWeight="SemiBold" FontSize="20" Margin="10"/>
+        <StackPanel Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center" x:Name="loaderPanel">
+            <FontIcon FontFamily="Segoe Fluent Icons" 
+                      Glyph="&#xE823;" FontSize="30"
+                       Grid.Column="2"/>
+            <TextBlock Text="All Songs in Playing Queue will appear here, Try playing something." FontSize="14" Margin="10" Grid.Row="1"/>
+        </StackPanel>
         <components:SongListControl x:Name="songList" Grid.Row="1" Songs="{Binding ElementName=recentPage,Path=Songs}"/>
     </Grid>
 </Page>

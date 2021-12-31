@@ -29,8 +29,21 @@ namespace SonicAudioApp.Pages
         {
             this.InitializeComponent();
             Songs = AudioQueue.Queue;
+            Songs.CollectionChanged += Songs_CollectionChanged;
         }
 
+        private void Songs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        {
+            if(Songs.Count > 0)
+                loaderPanel.Visibility = Visibility.Collapsed;
+            else
+                loaderPanel.Visibility = Visibility.Visible;
+        }
+
+        ~RecentPlayPage()
+        {
+            Songs.CollectionChanged -= Songs_CollectionChanged;
+        }
 
         public ObservableCollection<AudioQueueItem> Songs
         {
