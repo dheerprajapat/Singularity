@@ -1,5 +1,8 @@
-﻿using System;
+﻿using SonicAudioApp.AudioEngine;
+using SonicAudioApp.Models;
+using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -25,6 +28,20 @@ namespace SonicAudioApp.Pages
         public RecentPlayPage()
         {
             this.InitializeComponent();
+            Songs = AudioQueue.Queue;
         }
+
+
+        public ObservableCollection<AudioQueueItem> Songs
+        {
+            get { return (ObservableCollection<AudioQueueItem>)GetValue(SongsProperty); }
+            set { SetValue(SongsProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for MyProperty.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SongsProperty =
+            DependencyProperty.Register("Songs", typeof(int), typeof(RecentPlayPage), new PropertyMetadata(new ObservableCollection<AudioQueueItem>()));
+
+
     }
 }

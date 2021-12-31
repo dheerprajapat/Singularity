@@ -5,13 +5,18 @@
     xmlns:local="using:SonicAudioApp.Pages"
      xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media"
+    xmlns:muxc="using:Microsoft.UI.Xaml.Controls" xmlns:media="using:Microsoft.Toolkit.Uwp.UI.Media" xmlns:components="using:SonicAudioApp.Components"
     mc:Ignorable="d"
     Background="{ThemeResource ApplicationPageBackgroundThemeBrush}"
-    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True"
+    muxc:BackdropMaterial.ApplyToRootOrPageBackground="True" x:Name="recentPage"
    >
 
-    <Grid>
-
+    <Grid RowSpacing="10" Padding="10 30 10 10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <TextBlock Text="Recent Plays" FontWeight="SemiBold" FontSize="20" Margin="10"/>
+        <components:SongListControl x:Name="songList" Grid.Row="1" Songs="{Binding ElementName=recentPage,Path=Songs}"/>
     </Grid>
 </Page>
