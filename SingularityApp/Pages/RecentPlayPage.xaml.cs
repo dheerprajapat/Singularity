@@ -33,9 +33,12 @@ namespace SonicAudioApp.Pages
             Songs.CollectionChanged += Songs_CollectionChanged;
         }
         
-        private void Songs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
+        private async void Songs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            HideInfoPanel();
+            await Dispatcher.RunAsync(Windows.UI.Core.CoreDispatcherPriority.Normal, () =>
+            {
+                HideInfoPanel();
+            });
         }
 
         void HideInfoPanel()
