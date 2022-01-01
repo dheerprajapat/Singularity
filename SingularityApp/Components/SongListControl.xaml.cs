@@ -48,6 +48,29 @@ namespace SonicAudioApp.Components
 
 
 
+        public Visibility RemoveBtnVisibilty
+        {
+            get { return (Visibility)GetValue(RemoveBtnVisibiltyProperty); }
+            set { SetValue(RemoveBtnVisibiltyProperty, value); }
+        }
+
+        public static readonly DependencyProperty RemoveBtnVisibiltyProperty =
+            DependencyProperty.Register("RemoveBtnVisibilty", typeof(Visibility), typeof(SongListControl), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+
+        public ListType SongListType
+        {
+            get { return (ListType)GetValue(SongListTypeProperty); }
+            set { SetValue(SongListTypeProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for SongListType.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty SongListTypeProperty =
+            DependencyProperty.Register("SongListType", typeof(ListType), typeof(SongListControl), new PropertyMetadata(ListType.Other));
+
+
         private async void topResultGrid_ItemClick(object sender, ItemClickEventArgs e)
         {
             var s = sender as ListView;
@@ -140,6 +163,29 @@ namespace SonicAudioApp.Components
             if(!string.IsNullOrWhiteSpace(playListName))
             {
                 PlaylistManager.AddSong(playListName,song);
+            }
+        }
+
+        private void removeBtn_Loading(FrameworkElement sender, object args)
+        {
+            var btn= sender as AppBarButton;
+            btn.Visibility = RemoveBtnVisibilty;
+        }
+
+        public enum ListType
+        {
+            Other,
+            Recent,
+            Playlist
+        }
+
+        private void removeBtn_Click(object sender, RoutedEventArgs e)
+        {
+            var d = GetAudioItem(e.OriginalSource);
+
+            if (SongListType==ListType.Recent)
+            {
+                AudioQueue.Remove(d);
             }
         }
     }

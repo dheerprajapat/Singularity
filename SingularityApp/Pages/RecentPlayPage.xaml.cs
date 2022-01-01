@@ -29,12 +29,18 @@ namespace SonicAudioApp.Pages
         {
             this.InitializeComponent();
             Songs = AudioQueue.Queue;
+            HideInfoPanel();
             Songs.CollectionChanged += Songs_CollectionChanged;
         }
-
+        
         private void Songs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            if(Songs.Count > 0)
+            HideInfoPanel();
+        }
+
+        void HideInfoPanel()
+        {
+            if (AudioQueue.Count > 0)
                 loaderPanel.Visibility = Visibility.Collapsed;
             else
                 loaderPanel.Visibility = Visibility.Visible;

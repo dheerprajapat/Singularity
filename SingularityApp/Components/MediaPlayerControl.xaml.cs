@@ -1,4 +1,5 @@
 ﻿using SonicAudioApp.AudioEngine;
+using SonicAudioApp.Pages;
 using SonicAudioApp.Services;
 using SonicAudioApp.Services.YoutubeSearch;
 using System;
@@ -253,6 +254,15 @@ namespace SonicAudioApp.Components
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+                if (AudioQueue.Count == 0)
+                {
+                    var grid=HomePage.FindParent<Grid>(this);
+                    if (grid.RowDefinitions.Count == 2)
+                        grid.RowDefinitions.RemoveAt(1);
+                    Visibility= Visibility.Collapsed;
+                    return;
+                }
+
                 if (AudioPlayer.PlaybackState == Windows.Media.Playback.MediaPlaybackState.Paused)
                 {
                     //PlayPauseIcon.Foreground=new SolidColorBrush(Colors.IndianRed);

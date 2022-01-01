@@ -68,6 +68,7 @@
                                             </MenuFlyout>
                                         </AppBarButton.Flyout>
                                     </AppBarButton>
+                                    <AppBarButton Label="Remove" Loading="removeBtn_Loading" Click="removeBtn_Click" x:Name="removeBtn" />
                                     <AppBarButton  Label="Show Stats"/>
                                 </muxc:CommandBarFlyout.SecondaryCommands>
                             </muxc:CommandBarFlyout>

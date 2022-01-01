@@ -78,6 +78,17 @@ public static class AudioQueue
 
     public static LoopMode Repeat = LoopMode.LoopAll;
 
+    public static void Remove(AudioQueueItem d)
+    {
+        if(Current==d)
+        {
+            AudioPlayer.Stop();
+        }
+        int ind=Queue.IndexOf(d);
+        if (ind == -1)
+            return;
+        Queue.RemoveAt(ind);
+    }
 }
 public enum LoopMode
 {
