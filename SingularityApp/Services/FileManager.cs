@@ -29,7 +29,7 @@ public static class FileManager
 
         var folder = await StorageFolder.GetFolderFromPathAsync(DocPath);
         folder = await folder.CreateFolderAsync(DirName, CreationCollisionOption.OpenIfExists);
-        var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.ReplaceExisting);
+        var file = await folder.CreateFileAsync(fileName, CreationCollisionOption.OpenIfExists);
         using var stream = await file.OpenAsync(FileAccessMode.ReadWrite);
         using var reader = new StreamWriter(stream.AsStream());
 
