@@ -1,4 +1,5 @@
 ﻿using SonicAudioApp.Models;
+using SonicAudioApp.Services.YoutubeSearch;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -15,18 +16,42 @@ namespace SonicAudioApp.Services
         public static ObservableCollection<PlaylistInfo> Playlist { get; private set; } = new();
         public static readonly string LikeInfoKeyPath = "playlists.json";
 
+
+        private static List<PlaylistSerializable> GetPlaylistSeraizable() =>
+            Playlist.Select(x => new PlaylistSerializable 
+            { 
+                Title = x.Title,
+                SongIds=x.Songs.Select(x => x.Id).ToList(),
+            }).ToList();
+
+
         private async static void PlaylistSongs_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
         {
-            var content = JsonSerializer.Serialize(Playlist.ToList());
+            var content = JsonSerializer.Serialize(GetPlaylistSeraizable());
             await FileManager.WriteAllText(LikeInfoKeyPath, content);
+        }
+
+        private static  void LoadPlaylists(List<PlaylistSerializable> lst)
+        {
+            foreach (var item in lst)
+            {
+
+                Playlist.Add(new PlaylistInfo
+                {
+                    Songs = ((ObservableCollection<AudioQueueItem>)item.SongIds.Select(async x => await YoutubeManager.GetInfo(x))),
+                    Title = item.Title,
+                });
+            }
         }
 
         public static async Task LoadPlaylistSettingsIfNotExists()
         {
             var content = await FileManager.ReadAllText(LikeInfoKeyPath);
             if (!string.IsNullOrWhiteSpace(content))
-                Playlist = new(JsonSerializer.Deserialize<List<PlaylistInfo>>(content));
-
+            {
+                var pl = JsonSerializer.Deserialize<List<PlaylistSerializable>>(content);
+                LoadPlaylists(pl);
+            }
             Playlist.CollectionChanged += PlaylistSongs_CollectionChanged;
 
         }
@@ -65,6 +90,12 @@ namespace SonicAudioApp.Services
                 v.Songs.Remove(d);
                 PlaylistSongs_CollectionChanged(null, null);
             }
+        }
+
+        private record PlaylistSerializable
+        {
+            public string Title { get; set; }
+            public List<string> SongIds { get; set; }
         }
     }
 }
