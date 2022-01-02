@@ -116,6 +116,10 @@ namespace SonicAudioApp.Pages
             if ((list=PlaylistManager.Get(plname)) == null)
                 return;
 
+            songList.SongListType = SongListControl.ListType.Playlist;
+            songList.PlayListName = plname;
+            songList.RemoveBtnVisibilty = Visibility.Visible;
+
             Currentplaylist = new PlaylistInfo {
                 Title = list.Title,
                 Author= await GetUserDisplayName(),

@@ -60,6 +60,18 @@ namespace SonicAudioApp.Components
 
 
 
+        public string PlayListName
+        {
+            get { return (string)GetValue(PlayListNameProperty); }
+            set { SetValue(PlayListNameProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for PlayListName.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PlayListNameProperty =
+            DependencyProperty.Register("PlayListName", typeof(string), typeof(SongListControl), new PropertyMetadata(""));
+
+
+
         public ListType SongListType
         {
             get { return (ListType)GetValue(SongListTypeProperty); }
@@ -186,6 +198,10 @@ namespace SonicAudioApp.Components
             if (SongListType==ListType.Recent)
             {
                 AudioQueue.Remove(d);
+            }
+            else if(SongListType==ListType.Playlist)
+            {
+                PlaylistManager.RemoveSong(PlayListName,d);
             }
         }
     }

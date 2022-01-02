@@ -53,5 +53,18 @@ namespace SonicAudioApp.Services
             }
         }
 
+        public static void RemoveSong(string playListName, AudioQueueItem d)
+        {
+            if (playListName == null)
+                return;
+            if (Playlist.Count(p => p.Title == playListName) <= 0)
+                return;
+            var v = Playlist.First(p => p.Title == playListName);
+            if (v.Songs.Contains(d))
+            {
+                v.Songs.Remove(d);
+                PlaylistSongs_CollectionChanged(null, null);
+            }
+        }
     }
 }

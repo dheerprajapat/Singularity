@@ -49,6 +49,6 @@
            
 
         </Grid>
-        <components:SongListControl Grid.Row="1" Songs="{Binding ElementName=playlistViwer, Path=Songs}"/>
+        <components:SongListControl Grid.Row="1" Songs="{Binding ElementName=playlistViwer, Path=Songs}" x:Name="songList"/>
     </Grid>
 </Page>
