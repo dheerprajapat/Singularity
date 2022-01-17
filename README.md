@@ -1,9 +1,9 @@
 # Singularity
 
-Play Millions of songs with highest quality for free with no interupting Ads.Start streaming music and play songs from the any artists that you like. App uses Beautiful Native Windows Mica UI and the app is privacy focused. Listen with friends in group Sessions.
+Play Millions of songs with highest quality for free with no interupting Ads.Start streaming music and play songs from the any artists that you like. App uses Beautiful Native Windows Mica UI and the app is privacy focused. Listen with friends in group Sessions. Originally created for myself, was annoyed with spotify ads.
+
+![Screenshot (1)](https://user-images.githubusercontent.com/45932883/149783343-c4b6b5ce-6051-4616-9f16-057f3b49679b.png)
 
 
-![Screenshot (32)](https://user-images.githubusercontent.com/45932883/147730025-0d9e34fa-5a94-469a-b494-a548f79ea395.png)
-
-
-![Screenshot (33)](https://user-images.githubusercontent.com/45932883/147730055-283efc97-8044-428b-b6ad-d682484ed2f1.png)
+#### All data is stored on local Machine
+![Screenshot (2)](https://user-images.githubusercontent.com/45932883/149784928-347720cf-3c4d-4201-b498-d793b694efea.png)
