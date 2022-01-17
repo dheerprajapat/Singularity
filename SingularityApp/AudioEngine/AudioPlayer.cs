@@ -7,6 +7,8 @@ using System.Threading;
 using System.Threading.Tasks;
 using Windows.Media.Core;
 using Windows.Media.Playback;
+using Windows.UI.Core;
+using Windows.UI.Xaml;
 
 namespace SonicAudioApp.AudioEngine;
 
@@ -89,7 +91,9 @@ public static class AudioPlayer
 
     private static async void Audio_MediaEnded(MediaPlayer sender, object args)
     {
-        await PlayNextAsync();
+        Task.Run(async () =>
+        await PlayNextAsync());
+
     }
     public static void UpdatePosition(TimeSpan time)
     {

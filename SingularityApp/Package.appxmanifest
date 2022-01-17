@@ -5,8 +5,8 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-  xmlns:rescap="http://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap mp rescap uap3">
+  xmlns:rescap="https://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
+  IgnorableNamespaces="uap mp uap3 rescap">
 
   <Identity
     Name="048f9368-6114-4740-9b72-2df68b9c8005"
@@ -22,7 +22,7 @@
   </Properties>
 
   <Dependencies>
-    <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+	  <TargetDeviceFamily Name="Windows.Universal" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
 
   <Resources>
@@ -46,10 +46,10 @@
   </Applications>
 
   <Capabilities>
+	 <rescap:Capability Name="extendedExecutionUnconstrained" />
     <Capability Name="internetClient" />
     <uap3:Capability Name="backgroundMediaPlayback"/>
     <uap:Capability Name="userAccountInformation"/>
-	  <uap:Capability Name="documentsLibrary" />
-	  <rescap:Capability Name="broadFileSystemAccess" />
+	<uap:Capability Name="documentsLibrary" />
   </Capabilities>
 </Package>
