@@ -89,10 +89,9 @@ public static class AudioPlayer
     }
 
 
-    private static async void Audio_MediaEnded(MediaPlayer sender, object args)
+    private static void Audio_MediaEnded(MediaPlayer sender, object args)
     {
-        Task.Run(async () =>
-        await PlayNextAsync());
+        AudioEnded?.Invoke(sender);
 
     }
     public static void UpdatePosition(TimeSpan time)
@@ -118,5 +117,7 @@ public static class AudioPlayer
     public static event PlaybackStateHandler PlaybackStateChanged;
     public delegate void SourceChangedHandler(MediaPlayer sender, object args);
     public static event SourceChangedHandler SourceChanged;
+    public delegate void AudioEndedHadler(MediaPlayer sender);
+    public static event AudioEndedHadler AudioEnded;
 
 }

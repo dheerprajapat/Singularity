@@ -35,9 +35,28 @@ namespace SonicAudioApp.Components
             AudioPlayer.PositionChanged += AudioPlayer_PositionChanged;
             AudioPlayer.PlaybackStateChanged += AudioPlayer_PlaybackStateChanged;
             AudioPlayer.SourceChanged += AudioPlayer_SourceChanged;
+            AudioPlayer.AudioEnded += AudioPlayer_AudioEnded;
             Window.Current.SizeChanged += Current_SizeChanged;
             //sync icons
             SyncIcons();
+        }
+        ~MediaPlayerControl()
+        {
+            AudioPlayer.PositionChanged -= AudioPlayer_PositionChanged;
+            AudioPlayer.PlaybackStateChanged -= AudioPlayer_PlaybackStateChanged;
+            AudioPlayer.SourceChanged -= AudioPlayer_SourceChanged;
+            AudioPlayer.AudioEnded -= AudioPlayer_AudioEnded;
+            Window.Current.SizeChanged -= Current_SizeChanged;
+
+        }
+
+
+        private async void AudioPlayer_AudioEnded(Windows.Media.Playback.MediaPlayer sender)
+        {
+            await Dispatcher.RunAsync(CoreDispatcherPriority.Normal,async () =>
+             {
+                 await AudioPlayer.PlayNextAsync();
+             });
         }
 
         private void Current_SizeChanged(object sender, WindowSizeChangedEventArgs e)
@@ -173,12 +192,6 @@ namespace SonicAudioApp.Components
             });
         }
 
-        ~MediaPlayerControl()
-        {
-            AudioPlayer.PositionChanged-=AudioPlayer_PositionChanged;
-            AudioPlayer.PlaybackStateChanged -= AudioPlayer_PlaybackStateChanged;
-            AudioPlayer.SourceChanged-= AudioPlayer_SourceChanged;
-        }
 
         private Dictionary<UIElement, Brush> PreviousColors = new Dictionary<UIElement, Brush>();
         private void FontIcon_PointerEntered(object sender, PointerRoutedEventArgs e)
