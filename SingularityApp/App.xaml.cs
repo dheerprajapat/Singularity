@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
+using System.Threading.Tasks;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
+using Windows.ApplicationModel.ExtendedExecution;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -29,7 +31,20 @@ namespace SonicAudioApp
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += OnSuspending;
+          
+        }
+
+        private async Task ExtendSessionToAvoidSuspending()
+        {
+            var extendedExecutionSession = new ExtendedExecutionSession();
+            extendedExecutionSession.Reason = ExtendedExecutionReason.Unspecified;
+            var extendedExecutionResult = await extendedExecutionSession.RequestExtensionAsync();
+            if (extendedExecutionResult != ExtendedExecutionResult.Allowed)
+            {
+                //extended execution session revoked
+                extendedExecutionSession.Dispose();
+                extendedExecutionSession = null;
+            }
         }
 
         /// <summary>
@@ -37,8 +52,9 @@ namespace SonicAudioApp
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override void OnLaunched(LaunchActivatedEventArgs e)
+        protected override async void OnLaunched(LaunchActivatedEventArgs e)
         {
+            await ExtendSessionToAvoidSuspending();
             Frame rootFrame = Window.Current.Content as Frame;
 
             // Do not repeat app initialization when the Window already has content,
@@ -80,20 +96,6 @@ namespace SonicAudioApp
         void OnNavigationFailed(object sender, NavigationFailedEventArgs e)
         {
             throw new Exception("Failed to load Page " + e.SourcePageType.FullName);
-        }
-
-        /// <summary>
-        /// Invoked when application execution is being suspended.  Application state is saved
-        /// without knowing whether the application will be terminated or resumed with the contents
-        /// of memory still intact.
-        /// </summary>
-        /// <param name="sender">The source of the suspend request.</param>
-        /// <param name="e">Details about the suspend request.</param>
-        private void OnSuspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //TODO: Save application state and stop any background activity
-            deferral.Complete();
         }
     }
 }
