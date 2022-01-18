@@ -3,7 +3,6 @@ using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Components;
 using SonicAudioApp.Models;
 using SonicAudioApp.Services.YoutubeSearch;
-using SonicAudioApp.Services.YoutubeSearch.Models;
 using SonicAudioApp.Services.Ytdl;
 using System;
 using System.Collections.Concurrent;
@@ -114,7 +113,6 @@ namespace SonicAudioApp.Pages
                 if (previousTimeStampSet.Count > 0 && previousTimeStampSet.Last() > currentTimeStamp)
                     return;
 
-                // var res = await YoutubeSearch.GetVideosAsync(sender.Text);
                Songs=SearchedItems=new( await YoutubeSearch.SearchFor(sender.Text));
               
                 previousTimeStampSet.Clear();
@@ -148,30 +146,5 @@ namespace SonicAudioApp.Pages
             sender.ItemsSource = await SearchSuggestions.SuggestionsAsync(sender.Text);
 
         }
-
-        private void AssignCollectionFromSearchResult(IReadOnlyList<SearchResult> searchResult)
-        {
-            var newList = new List<AudioQueueItem>();
-
-            foreach (var item in searchResult)
-            {
-                newList.Add(new AudioQueueItem
-                {
-                    Id = item.VideoId,
-                    Title = item.Title,
-                    ThumbnailUrl = item.Image,
-                    Singers = item.Author.Name,
-                    VideoUrl = item.Url,
-                    DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(TimeSpan.FromSeconds(item.Seconds.Value))
-                });
-
-                if(AudioQueue.Current!=null && AudioQueue.Current==newList.Last())
-                {
-                    newList.Last().WaveformVisibilty = Visibility.Visible;
-                }
-            }
-            SearchedItems = Songs = new(newList);
-        }
-
     }
 }

@@ -2,7 +2,6 @@
 using SonicAudioApp.Components;
 using SonicAudioApp.Models;
 using SonicAudioApp.Services.YoutubeSearch;
-using SonicAudioApp.Services.YoutubeSearch.Models;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;

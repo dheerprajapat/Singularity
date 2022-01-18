@@ -160,7 +160,6 @@
     <Compile Include="Services\FileManager.cs" />
     <Compile Include="Services\LikedSongManager.cs" />
     <Compile Include="Services\PlaylistManager.cs" />
-    <Compile Include="Services\YoutubeSearch\Models\SearchResult.cs" />
     <Compile Include="Services\YoutubeSearch\SearchSuggestions.cs" />
     <Compile Include="Services\YoutubeSearch\YoutubeManager.cs" />
     <Compile Include="Services\YoutubeSearch\YoutubeSearch.cs" />
