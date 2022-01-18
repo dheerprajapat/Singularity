@@ -1,5 +1,7 @@
 ﻿using Newtonsoft.Json;
-using SonicAudioApp.Native;
+using SonicAudioApp.Components;
+using SonicAudioApp.Models;
+using SonicAudioApp.Services.YoutubeSearch;
 using SonicAudioApp.Services.YoutubeSearch.Models;
 using System;
 using System.Collections.Generic;
@@ -12,45 +14,33 @@ using System.Threading.Tasks;
 namespace SonicAudioApp.Services.Ytdl;
 public static class YoutubeSearch
 {
-    public static async Task<string> GetJsonAsync(string query, uint amount=20, CancellationToken token = default)
+    public static async Task<IReadOnlyList<AudioQueueItem>> SearchFor(string query,uint amount=10,CancellationToken token = default)
     {
-        try
-        {
-            return await Task.Run(() =>
-            {
-                using Process p = new Process();
-                var args = @$" ""{query}"" {amount}";
-                p.StartInfo = YoutubeHelperExtensions.CreateYtdlProcessInfo(args);
-                p.Start();
-                token.Register(() => p.Kill());
-                var stdout = p.StandardOutput.ReadToEnd();
-                var stderr=p.StandardError.ReadToEnd();
-                p.WaitForExit();
+        var lst=new List<AudioQueueItem>();
 
-                return stdout;
-            });
-        }
-        catch
+        await foreach (var result in YoutubeManager.Youtube.Search.GetVideosAsync(query))
         {
-            throw new Exception("Failed to search for given query");
-        }
-    }
-    public static async Task<IReadOnlyList<SearchResult>> GetVideosAsync(string query, uint amount = 10, CancellationToken token = default)
-    {
-        
-        try
-        {
-            var resp=await GetJsonAsync(query, amount, token);
-            var settings = new JsonSerializerSettings
+            try
             {
-                NullValueHandling = NullValueHandling.Ignore,
-                MissingMemberHandling = MissingMemberHandling.Ignore,
-            };
-            return JsonConvert.DeserializeObject<List<SearchResult>>(resp,settings);
+                 var item=new AudioQueueItem
+                {
+                    Title = result.Title,
+                    Singers = result.Author.Title,
+                    Id = result.Id,
+                    VideoUrl = result.Url,
+                    DurationString = MediaPlayerControl.ConvertTimeSpanToDuration(result.Duration.GetValueOrDefault()),
+                    ThumbnailUrl = result.Thumbnails.OrderByDescending(x => x.Resolution.Area).First().Url,
+                    Liked = LikedSongManager.LikedSongs.Count(x => x.Id == result.Id) > 0
+                };
+                lst.Add(item);
+            }
+            catch { amount++; }
+            amount--;
+
+            if (amount == 0)
+                break;
         }
-        catch(Exception ex)
-        {
-            throw new Exception(ex.Message);
-        }
+
+       return lst;
     }
 }

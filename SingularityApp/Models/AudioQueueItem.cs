@@ -13,6 +13,9 @@ namespace SonicAudioApp.Models;
 
 public record AudioQueueItem:INotifyPropertyChanged
 {
+    /// <summary>
+    /// Playable audio stream URL
+    /// </summary>
     public string Url { get;set; }
     public string Title { get; set; }
     public string Singers { get; set; }

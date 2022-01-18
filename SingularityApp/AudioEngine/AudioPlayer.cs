@@ -65,6 +65,8 @@ public static class AudioPlayer
         }
         
         Audio.Play();
+
+        GC.Collect();
     }
     public static void Stop()
     {

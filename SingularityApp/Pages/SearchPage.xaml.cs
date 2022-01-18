@@ -114,13 +114,13 @@ namespace SonicAudioApp.Pages
                 if (previousTimeStampSet.Count > 0 && previousTimeStampSet.Last() > currentTimeStamp)
                     return;
 
-                var res = await YoutubeSearch.GetVideosAsync(sender.Text);
-
+                // var res = await YoutubeSearch.GetVideosAsync(sender.Text);
+               Songs=SearchedItems=new( await YoutubeSearch.SearchFor(sender.Text));
               
                 previousTimeStampSet.Clear();
                 previousTimeStampSet.Add(currentTimeStamp);
 
-                AssignCollectionFromSearchResult(res);
+               // AssignCollectionFromSearchResult(res);
             }
             finally
             {
