@@ -9,8 +9,8 @@ Play Millions of songs with highest quality for free with no interupting Ads.Sta
 * Ad Free, no distractions
 * Privacy first and more to come
 
-#### Build Instructions 
-Currently App is not distributed as `compiled MSI package`, You have to build app from source.<br>
+#### Installation Instructions 
+Currently App is  distributed as [compiled MSI package](https://github.com/sps014/Singularity/releases/download/0.0.1/SingularityApp_0.0.1.0.zip), You can also build app from source.<br>
 You need Visual Studio 22 with `Universal Windows Platfrom Delevopment` workload installed.
 
 
