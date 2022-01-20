@@ -11,7 +11,7 @@
   <Identity
     Name="048f9368-6114-4740-9b72-2df68b9c8005"
     Publisher="CN=sps014"
-    Version="1.0.0.0" />
+    Version="0.0.1.0" />
 
   <mp:PhoneIdentity PhoneProductId="048f9368-6114-4740-9b72-2df68b9c8005" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
@@ -37,7 +37,7 @@
         DisplayName="Singularity"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="SonicAudioApp"
+        Description="Play Millions of songs with highest quality for free with no interupting Ads.Start streaming music and play songs from the any artists that you like. App uses Beautiful Native Windows Mica UI and the app is privacy focused. Listen with friends in group Sessions."
         BackgroundColor="transparent">
         <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />

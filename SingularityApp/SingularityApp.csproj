@@ -18,6 +18,12 @@
     <ProjectTypeGuids>{A5A43C5B-DE2A-4C0C-9213-0A381AF9435A};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WindowsXamlEnableOverview>true</WindowsXamlEnableOverview>
     <AppxPackageSigningEnabled>false</AppxPackageSigningEnabled>
+    <GenerateAppInstallerFile>False</GenerateAppInstallerFile>
+    <AppxAutoIncrementPackageRevision>False</AppxAutoIncrementPackageRevision>
+    <GenerateTestArtifacts>True</GenerateTestArtifacts>
+    <AppxBundle>Always</AppxBundle>
+    <AppxBundlePlatforms>x86|x64</AppxBundlePlatforms>
+    <HoursBetweenUpdateChecks>0</HoursBetweenUpdateChecks>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)' == 'Debug|x86'">
     <DebugSymbols>true</DebugSymbols>
@@ -173,14 +179,17 @@
     <Content Include="Assets\chill.jpg" />
     <Content Include="Assets\focus.jpg" />
     <Content Include="Assets\heart.jpg" />
+    <Content Include="Assets\LargeTile.png" />
     <Content Include="Assets\playlist.jpg" />
     <Content Include="Assets\playlist_logo.jpg" />
     <Content Include="Assets\romantic.jpg" />
+    <Content Include="Assets\SmallTile.png" />
     <Content Include="Assets\SplashScreen.scale-100.png" />
     <Content Include="Assets\SplashScreen.scale-125.png" />
     <Content Include="Assets\SplashScreen.scale-150.png" />
     <Content Include="Assets\SplashScreen.scale-200.png" />
     <Content Include="Assets\SplashScreen.scale-400.png" />
+    <Content Include="Assets\Square150x150Logo.png" />
     <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-16.png" />
     <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-24.png" />
     <Content Include="Assets\Square44x44Logo.altform-lightunplated_targetsize-256.png" />
@@ -208,6 +217,7 @@
     <Content Include="Assets\StoreLogo.scale-400.png" />
     <Content Include="Assets\vec.jpg" />
     <Content Include="Assets\waveform.gif" />
+    <Content Include="Assets\Wide310x150Logo.png" />
     <Content Include="Properties\Default.rd.xml" />
   </ItemGroup>
   <ItemGroup>
