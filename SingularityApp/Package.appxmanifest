@@ -46,8 +46,9 @@
   </Applications>
 
   <Capabilities>
-	 <rescap:Capability Name="extendedExecutionUnconstrained" />
-    <Capability Name="internetClient" />
+	<rescap:Capability Name="extendedBackgroundTaskTime" />
+	<rescap:Capability Name="extendedExecutionUnconstrained" />
+	<Capability Name="internetClient" />
     <uap3:Capability Name="backgroundMediaPlayback"/>
     <uap:Capability Name="userAccountInformation"/>
 	<uap:Capability Name="documentsLibrary" />
