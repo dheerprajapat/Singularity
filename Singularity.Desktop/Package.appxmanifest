@@ -9,20 +9,20 @@
   IgnorableNamespaces="uap mp uap3 rescap">
 
   <Identity
-    Name="048f9368-6114-4740-9b72-2df68b9c8005"
-    Publisher="CN=sps014"
-    Version="0.0.1.0" />
+    Name="f25b463c-c0ed-4408-85f0-6cb60c536359"
+    Publisher="CN=shive"
+    Version="1.0.0.0" />
 
-  <mp:PhoneIdentity PhoneProductId="048f9368-6114-4740-9b72-2df68b9c8005" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
+  <mp:PhoneIdentity PhoneProductId="f25b463c-c0ed-4408-85f0-6cb60c536359" PhonePublisherId="00000000-0000-0000-0000-000000000000"/>
 
   <Properties>
-    <DisplayName>SonicAudioApp</DisplayName>
+    <DisplayName>Singularity.Desktop</DisplayName>
     <PublisherDisplayName>shive</PublisherDisplayName>
     <Logo>Assets\StoreLogo.png</Logo>
   </Properties>
 
   <Dependencies>
-	  <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
+    <TargetDeviceFamily Name="Windows.Desktop" MinVersion="10.0.0.0" MaxVersionTested="10.0.0.0" />
   </Dependencies>
 
   <Resources>
@@ -32,24 +32,24 @@
   <Applications>
     <Application Id="App"
       Executable="$targetnametoken$.exe"
-      EntryPoint="SingularityApp.App">
+      EntryPoint="Singularity.Desktop.App">
       <uap:VisualElements
-        DisplayName="Singularity"
+        DisplayName="Singularity.Desktop"
         Square150x150Logo="Assets\Square150x150Logo.png"
         Square44x44Logo="Assets\Square44x44Logo.png"
-        Description="Play Millions of songs with highest quality for free with no interupting Ads.Start streaming music and play songs from the any artists that you like. App uses Beautiful Native Windows Mica UI and the app is privacy focused. Listen with friends in group Sessions."
+        Description="Singularity.Desktop"
         BackgroundColor="transparent">
-        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png" Square71x71Logo="Assets\SmallTile.png" Square310x310Logo="Assets\LargeTile.png"/>
+        <uap:DefaultTile Wide310x150Logo="Assets\Wide310x150Logo.png"/>
         <uap:SplashScreen Image="Assets\SplashScreen.png" />
       </uap:VisualElements>
     </Application>
   </Applications>
 
   <Capabilities>
-	 <rescap:Capability Name="extendedExecutionUnconstrained" />
-    <Capability Name="internetClient" />
-    <uap3:Capability Name="backgroundMediaPlayback"/>
-    <uap:Capability Name="userAccountInformation"/>
-	<uap:Capability Name="documentsLibrary" />
+	  <rescap:Capability Name="extendedExecutionUnconstrained" />
+	  <Capability Name="internetClient" />
+	  <uap3:Capability Name="backgroundMediaPlayback"/>
+	  <uap:Capability Name="userAccountInformation"/>
+	  <uap:Capability Name="documentsLibrary" />
   </Capabilities>
 </Package>

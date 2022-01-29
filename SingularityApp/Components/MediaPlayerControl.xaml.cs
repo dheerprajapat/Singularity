@@ -172,12 +172,19 @@ namespace SonicAudioApp.Components
         {
             await Dispatcher.RunAsync(CoreDispatcherPriority.Normal, () =>
             {
+
+                if (Visibility != Visibility.Visible)
+                    return;
+
                 var totalDur =ConvertTimeSpanToDuration(AudioPlayer.TotalDuration);
+
                 if(totalDur !=TotalDuration)
                     TotalDuration = totalDur;
 
                 Position = ConvertTimeSpanToDuration(AudioPlayer.Position);
                 PositionValue =(int) AudioPlayer.Position.TotalSeconds;
+
+
                 var max=(int)AudioPlayer.TotalDuration.TotalSeconds;
                 if (MaxValue != max)
                 {
@@ -232,7 +239,7 @@ namespace SonicAudioApp.Components
 
         private void Volume_SliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            AudioPlayer.Volume = e.NewValue/100.0;
+            AudioPlayer.Volume = (int)e.NewValue;
             AudioPlayer.ISMuted = false;
             SoundIcon.Glyph = GetVolumeIcon();
         }
