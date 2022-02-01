@@ -31,8 +31,13 @@ namespace SonicAudioApp
         public MainPage()
         {
             this.InitializeComponent();
+            Application.Current.Suspending += new SuspendingEventHandler(Current_Suspending);
         }
 
+        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        {
+            AudioPlayer.Audio.PlaybackSession.PositionChanged -= AudioPlayer.PlaybackSession_PositionChanged;
+        }
 
         private async void SharedNavMenu_Loaded(object sender, RoutedEventArgs e)
         {

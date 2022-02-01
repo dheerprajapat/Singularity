@@ -35,17 +35,8 @@ namespace SonicAudioApp
         public App()
         {
             this.InitializeComponent();
-            this.Suspending += App_Suspending; ;
-
         }
 
-        private void App_Suspending(object sender, SuspendingEventArgs e)
-        {
-            var deferral = e.SuspendingOperation.GetDeferral();
-            //Add your logic here, if any
-            AudioPlayer.Audio.PlaybackSession.PositionChanged -= AudioPlayer.PlaybackSession_PositionChanged;
-            deferral.Complete();
-        }
 
         /// <summary>
         /// Invoked when the application is launched normally by the end user.  Other entry points
