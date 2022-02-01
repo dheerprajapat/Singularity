@@ -62,8 +62,6 @@ namespace SonicAudioApp
                 Window.Current.Activate();
             }
 
-            AudioPlayer.Audio.PlaybackSession.PositionChanged += AudioPlayer.PlaybackSession_PositionChanged;
-
         }
 
 

@@ -20,6 +20,8 @@ public static class AudioPlayer
     public static TimeSpan Position
         => Audio.PlaybackSession is not null ? Audio.PlaybackSession.Position : TimeSpan.Zero;
 
+    private static bool eventAttached = false;
+
     public static double Volume
     {
         get => Audio.Volume;
@@ -39,6 +41,18 @@ public static class AudioPlayer
         Audio.MediaEnded += Audio_MediaEnded;
         Audio.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
         Audio.SourceChanged += Audio_SourceChanged;
+    }
+    public static void Attachevent()
+    {
+        if (eventAttached) return;
+        Audio.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
+        eventAttached = true;
+    }
+    public static void Dettachevent()
+    {
+        if (!eventAttached) return;
+        Audio.PlaybackSession.PositionChanged -= PlaybackSession_PositionChanged;
+        eventAttached= false;
     }
 
     public static async Task PlayAsync(bool begin=true)

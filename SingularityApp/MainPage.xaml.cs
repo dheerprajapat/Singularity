@@ -18,6 +18,7 @@ using Windows.UI.Xaml.Navigation;
 using SonicAudioApp.AudioEngine;
 using SonicAudioApp.Models;
 using SonicAudioApp.Services;
+using Windows.UI.Core;
 
 // The Blank Page item template is documented at https://go.microsoft.com/fwlink/?LinkId=402352&clcid=0x409
 
@@ -31,12 +32,18 @@ namespace SonicAudioApp
         public MainPage()
         {
             this.InitializeComponent();
-            Application.Current.Suspending += new SuspendingEventHandler(Current_Suspending);
+            Window.Current.Activated += Current_Activated;
         }
-
-        private void Current_Suspending(object sender, Windows.ApplicationModel.SuspendingEventArgs e)
+        private void Current_Activated(object sender, Windows.UI.Core.WindowActivatedEventArgs e)
         {
-            AudioPlayer.Audio.PlaybackSession.PositionChanged -= AudioPlayer.PlaybackSession_PositionChanged;
+            if (e.WindowActivationState == CoreWindowActivationState.Deactivated)
+            {
+                AudioPlayer.Dettachevent();
+            }
+            else
+            {
+                AudioPlayer.Attachevent();
+            }
         }
 
         private async void SharedNavMenu_Loaded(object sender, RoutedEventArgs e)
