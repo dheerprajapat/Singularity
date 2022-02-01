@@ -14,7 +14,7 @@ namespace SonicAudioApp.AudioEngine;
 
 public static class AudioPlayer
 {
-    private static MediaPlayer Audio = new MediaPlayer() { RealTimePlayback=true};
+    public static MediaPlayer Audio { get; } = new MediaPlayer() { RealTimePlayback = true };
     public static TimeSpan TotalDuration => Audio.PlaybackSession is not null ?
         Audio.PlaybackSession.NaturalDuration : TimeSpan.Zero;
     public static TimeSpan Position
@@ -37,7 +37,6 @@ public static class AudioPlayer
     static AudioPlayer()
     {
         Audio.MediaEnded += Audio_MediaEnded;
-        Audio.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
         Audio.PlaybackSession.PlaybackStateChanged += PlaybackSession_PlaybackStateChanged;
         Audio.SourceChanged += Audio_SourceChanged;
     }
@@ -65,8 +64,6 @@ public static class AudioPlayer
         }
         
         Audio.Play();
-
-        GC.Collect();
     }
     public static void Stop()
     {
@@ -101,7 +98,7 @@ public static class AudioPlayer
         if (Audio.PlaybackSession is not null)
             Audio.PlaybackSession.Position = time;
     }
-    private static void PlaybackSession_PositionChanged(MediaPlaybackSession sender, object args)
+    public static void PlaybackSession_PositionChanged(MediaPlaybackSession sender, object args)
     {
         PositionChanged?.Invoke(sender, args);
     }

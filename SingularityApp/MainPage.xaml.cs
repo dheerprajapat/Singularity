@@ -33,6 +33,7 @@ namespace SonicAudioApp
             this.InitializeComponent();
         }
 
+
         private async void SharedNavMenu_Loaded(object sender, RoutedEventArgs e)
         {
             try

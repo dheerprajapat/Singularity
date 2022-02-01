@@ -5,8 +5,7 @@
   xmlns:mp="http://schemas.microsoft.com/appx/2014/phone/manifest"
   xmlns:uap="http://schemas.microsoft.com/appx/manifest/uap/windows10"
   xmlns:uap3="http://schemas.microsoft.com/appx/manifest/uap/windows10/3"
-  xmlns:rescap="https://schemas.microsoft.com/appx/manifest/foundation/windows10/restrictedcapabilities"
-  IgnorableNamespaces="uap mp uap3 rescap">
+  IgnorableNamespaces="uap mp uap3">
 
   <Identity
     Name="048f9368-6114-4740-9b72-2df68b9c8005"
@@ -46,8 +45,6 @@
   </Applications>
 
   <Capabilities>
-	<rescap:Capability Name="extendedBackgroundTaskTime" />
-	<rescap:Capability Name="extendedExecutionUnconstrained" />
 	<Capability Name="internetClient" />
     <uap3:Capability Name="backgroundMediaPlayback"/>
     <uap:Capability Name="userAccountInformation"/>

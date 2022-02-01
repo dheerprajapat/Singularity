@@ -2,6 +2,7 @@
 @tailwind components;
 @tailwind utilities;
 
+
 html, body {
     background: #181f32;
     color:white;
@@ -29,6 +30,7 @@ html, body {
     position: fixed;
     width: 100%;
     z-index: 1000;
+    color: red;
 }
 
     #blazor-error-ui .dismiss {

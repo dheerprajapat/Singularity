@@ -5,10 +5,12 @@ using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
 using System.ServiceModel.Channels;
 using System.Threading.Tasks;
+using SonicAudioApp.AudioEngine;
 using Windows.ApplicationModel;
 using Windows.ApplicationModel.Activation;
 using Windows.ApplicationModel.ExtendedExecution;
 using Windows.ApplicationModel.ExtendedExecution.Foreground;
+using Windows.Devices.Radios;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
 using Windows.UI.Xaml;
@@ -33,7 +35,16 @@ namespace SonicAudioApp
         public App()
         {
             this.InitializeComponent();
-          
+            this.Suspending += App_Suspending; ;
+
+        }
+
+        private void App_Suspending(object sender, SuspendingEventArgs e)
+        {
+            var deferral = e.SuspendingOperation.GetDeferral();
+            //Add your logic here, if any
+            AudioPlayer.Audio.PlaybackSession.PositionChanged -= AudioPlayer.PlaybackSession_PositionChanged;
+            deferral.Complete();
         }
 
         /// <summary>
@@ -41,7 +52,7 @@ namespace SonicAudioApp
         /// will be used such as when the application is launched to open a specific file.
         /// </summary>
         /// <param name="e">Details about the launch request and process.</param>
-        protected override async void OnLaunched(LaunchActivatedEventArgs e)
+        protected override void OnLaunched(LaunchActivatedEventArgs e)
         {
 
             Frame rootFrame = Window.Current.Content as Frame;
@@ -60,38 +71,11 @@ namespace SonicAudioApp
                 Window.Current.Activate();
             }
 
-            if (_session == null)
-                await PreventFromSuspending();
+            AudioPlayer.Audio.PlaybackSession.PositionChanged += AudioPlayer.PlaybackSession_PositionChanged;
+
         }
 
-        ExtendedExecutionForegroundSession _session;
-        private async Task PreventFromSuspending()
-        {
-            ExtendedExecutionForegroundSession newSession = new ExtendedExecutionForegroundSession();
-            newSession.Reason = ExtendedExecutionForegroundReason.Unconstrained;
-            newSession.Revoked += SessionRevoked;
 
-            ExtendedExecutionForegroundResult result = await newSession.RequestExtensionAsync();
-            switch (result)
-            {
-                case ExtendedExecutionForegroundResult.Allowed:
-                    _session = newSession;
-                    break;
-                default:
-                case ExtendedExecutionForegroundResult.Denied:
-                    newSession.Dispose();
-                    break;
-            }
-        }
-
-        private void SessionRevoked(object sender, ExtendedExecutionForegroundRevokedEventArgs args)
-        {
-            if (_session != null)
-            {
-                _session.Dispose();
-                _session = null;
-            }
-        }
         /// <summary>
         /// Invoked when Navigation to a certain page fails
         /// </summary>

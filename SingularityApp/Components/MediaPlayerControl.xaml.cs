@@ -239,7 +239,7 @@ namespace SonicAudioApp.Components
 
         private void Volume_SliderValueChanged(object sender, RangeBaseValueChangedEventArgs e)
         {
-            AudioPlayer.Volume = (int)e.NewValue;
+            AudioPlayer.Volume = e.NewValue/100.0;
             AudioPlayer.ISMuted = false;
             SoundIcon.Glyph = GetVolumeIcon();
         }
