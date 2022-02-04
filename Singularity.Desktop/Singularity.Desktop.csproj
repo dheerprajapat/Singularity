@@ -3,6 +3,7 @@
     <OutputType>WinExe</OutputType>
     <TargetFramework>net5.0</TargetFramework>
     <Nullable>enable</Nullable>
+	  <LangVersion>10</LangVersion>
   </PropertyGroup>
   <ItemGroup>
     <None Remove=".gitignore" />
@@ -14,7 +15,7 @@
     <PackageReference Condition="'$(Configuration)' == 'Debug'" Include="Avalonia.Diagnostics" Version="0.10.11" />
    </ItemGroup>
   <ItemGroup>
+    <Folder Include="Views\Components" />
     <Folder Include="Window\*" />
-    <Folder Include="Views\*" />
   </ItemGroup>
 </Project>
