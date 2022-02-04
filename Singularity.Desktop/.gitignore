@@ -13,8 +13,6 @@
 # User-specific files (MonoDevelop/Xamarin Studio)
 *.userprefs
 
-node_modules/
-
 # Mono auto generated files
 mono_crash.*
 
@@ -59,7 +57,7 @@ dlldata.c
 # Benchmark Results
 BenchmarkDotNet.Artifacts/
 
-# .NET
+# .NET Core
 project.lock.json
 project.fragment.lock.json
 artifacts/
