@@ -1,53 +1,95 @@
-﻿// Copyright (c) Microsoft Corporation and Contributors.
-// Licensed under the MIT License.
-
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
-using System.Runtime.InteropServices.WindowsRuntime;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.UI.Xaml;
-using Microsoft.UI.Xaml.Controls;
-using Microsoft.UI.Xaml.Controls.Primitives;
-using Microsoft.UI.Xaml.Data;
-using Microsoft.UI.Xaml.Input;
-using Microsoft.UI.Xaml.Media;
-using Microsoft.UI.Xaml.Navigation;
-using Microsoft.UI.Xaml.Shapes;
-using Windows.ApplicationModel;
-using Windows.ApplicationModel.Activation;
-using Windows.Foundation;
-using Windows.Foundation.Collections;
 
-// To learn more about WinUI, the WinUI project structure,
-// and more about our project templates, see: http://aka.ms/winui-project-info.
+using Singularity.WinApp.Activation;
+using Singularity.WinApp.Contracts.Services;
+using Singularity.WinApp.Core.Contracts.Services;
+using Singularity.WinApp.Core.Services;
+using Singularity.WinApp.Helpers;
+using Singularity.WinApp.Models;
+using Singularity.WinApp.Services;
+using Singularity.WinApp.ViewModels;
+using Singularity.WinApp.Views;
 
-namespace Singularity.WinApp
+namespace Singularity.WinApp;
+
+// To learn more about WinUI 3, see https://docs.microsoft.com/windows/apps/winui/winui3/.
+public partial class App : Application
 {
-    /// <summary>
-    /// Provides application-specific behavior to supplement the default Application class.
-    /// </summary>
-    public partial class App : Application
+    // The .NET Generic Host provides dependency injection, configuration, logging, and other services.
+    // https://docs.microsoft.com/dotnet/core/extensions/generic-host
+    // https://docs.microsoft.com/dotnet/core/extensions/dependency-injection
+    // https://docs.microsoft.com/dotnet/core/extensions/configuration
+    // https://docs.microsoft.com/dotnet/core/extensions/logging
+    public IHost Host
     {
-        /// <summary>
-        /// Initializes the singleton application object.  This is the first line of authored code
-        /// executed, and as such is the logical equivalent of main() or WinMain().
-        /// </summary>
-        public App()
+        get;
+    }
+
+    public static T GetService<T>()
+        where T : class
+    {
+        if ((App.Current as App)!.Host.Services.GetService(typeof(T)) is not T service)
         {
-            this.InitializeComponent();
+            throw new ArgumentException($"{typeof(T)} needs to be registered in ConfigureServices within App.xaml.cs.");
         }
 
-        /// <summary>
-        /// Invoked when the application is launched.
-        /// </summary>
-        /// <param name="args">Details about the launch request and process.</param>
-        protected override void OnLaunched(Microsoft.UI.Xaml.LaunchActivatedEventArgs args)
-        {
-            m_window = new MainWindow();
-            m_window.Activate();
-        }
+        return service;
+    }
 
-        private Window m_window;
+    public static WindowEx MainWindow { get; } = new MainWindow();
+
+    public App()
+    {
+        InitializeComponent();
+
+        Host = Microsoft.Extensions.Hosting.Host.
+        CreateDefaultBuilder().
+        UseContentRoot(AppContext.BaseDirectory).
+        ConfigureServices((context, services) =>
+        {
+            // Default Activation Handler
+            services.AddTransient<ActivationHandler<LaunchActivatedEventArgs>, DefaultActivationHandler>();
+
+            // Other Activation Handlers
+
+            // Services
+            services.AddSingleton<IThemeSelectorService, ThemeSelectorService>();
+            services.AddSingleton<ILocalSettingsService, LocalSettingsService>();
+            services.AddTransient<INavigationViewService, NavigationViewService>();
+
+            services.AddSingleton<IActivationService, ActivationService>();
+            services.AddSingleton<IPageService, PageService>();
+            services.AddSingleton<INavigationService, NavigationService>();
+
+            // Core Services
+            services.AddSingleton<IFileService, FileService>();
+
+            // Views and ViewModels
+            services.AddTransient<MainViewModel>();
+            services.AddTransient<MainPage>();
+            services.AddTransient<ShellPage>();
+            services.AddTransient<ShellViewModel>();
+
+            // Configuration
+            services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
+        }).
+        Build();
+
+        UnhandledException += App_UnhandledException;
+    }
+
+    private void App_UnhandledException(object sender, Microsoft.UI.Xaml.UnhandledExceptionEventArgs e)
+    {
+        // TODO: Log and handle exceptions as appropriate.
+        // https://docs.microsoft.com/windows/windows-app-sdk/api/winrt/microsoft.ui.xaml.application.unhandledexception.
+    }
+
+    protected async override void OnLaunched(LaunchActivatedEventArgs args)
+    {
+        base.OnLaunched(args);
+
+        await App.GetService<IActivationService>().ActivateAsync(args);
     }
 }

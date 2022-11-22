@@ -1,10 +1,10 @@
-{
-  "profiles": {
-    "Singularity.WinApp (Package)": {
-      "commandName": "MsixPackage"
-    },
-    "Singularity.WinApp (Unpackaged)": {
-      "commandName": "Project"
+﻿{
+    "profiles": {
+      "Singularity.WinApp (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "Singularity.WinApp (Unpackaged)": {
+        "commandName": "Project"
+      }
     }
-  }
 }
