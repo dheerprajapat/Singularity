@@ -14,8 +14,11 @@ public class PageService : IPageService
 
     public PageService()
     {
-        Configure<MainViewModel, MainPage>();
         Configure<HomeViewModel, HomePage>();
+        Configure<SearchViewModel, SearchPage>();
+        Configure<RecentPlayViewModel, RecentPlayPage>();
+        Configure<PlaylistViewModel, PlaylistPage>();
+        Configure<LikesViewModel, LikesPage>();
     }
 
     public Type GetPageType(string key)

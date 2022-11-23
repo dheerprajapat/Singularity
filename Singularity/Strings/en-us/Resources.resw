@@ -143,4 +143,16 @@
   <data name="Shell_Home.Content" xml:space="preserve">
     <value>Home</value>
   </data>
+  <data name="Shell_Likes.Content" xml:space="preserve">
+    <value>Likes</value>
+  </data>
+  <data name="Shell_Playlists.Content" xml:space="preserve">
+    <value>Playlists</value>
+  </data>
+  <data name="Shell_RecentPlays.Content" xml:space="preserve">
+    <value>Recent Plays</value>
+  </data>
+  <data name="Shell_Search.Content" xml:space="preserve">
+    <value>Search</value>
+  </data>
 </root>

@@ -16,7 +16,12 @@
     <WindowsAppSDKSelfContained>true</WindowsAppSDKSelfContained>
   </PropertyGroup>
   <ItemGroup>
+    <None Remove="RecentPlaysPage.xaml" />
     <None Remove="Views\HomePage.xaml" />
+    <None Remove="Views\LikesPage.xaml" />
+    <None Remove="Views\PlaylistPage.xaml" />
+    <None Remove="Views\RecentPlayPage.xaml" />
+    <None Remove="Views\SearchPage.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -38,6 +43,21 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\LikesPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\PlaylistPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\RecentPlayPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="RecentPlaysPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Update="Views\SearchPage.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\HomePage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

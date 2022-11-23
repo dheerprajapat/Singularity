@@ -69,12 +69,18 @@ public partial class App : Application
             services.AddSingleton<IFileService, FileService>();
 
             // Views and ViewModels
-            services.AddTransient<MainViewModel>();
-            services.AddTransient<MainPage>();
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
             services.AddTransient<HomePage>();
             services.AddTransient<HomeViewModel>();
+            services.AddTransient<LikesViewModel>();
+            services.AddTransient<LikesPage>();
+            services.AddTransient<SearchViewModel>();
+            services.AddTransient<SearchPage>();
+            services.AddTransient<PlaylistViewModel>();
+            services.AddTransient<PlaylistPage>();
+            services.AddTransient<RecentPlayViewModel>();
+            services.AddTransient<RecentPlayPage>();
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
