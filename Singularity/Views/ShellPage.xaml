@@ -10,7 +10,12 @@
     Loaded="OnLoaded">
 
     <Grid>
-        <Grid x:Name="AppTitleBar"
+        <Grid.RowDefinitions>
+            <RowDefinition Height="30"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="100"/>
+        </Grid.RowDefinitions>
+        <Grid x:Name="AppTitleBar" Grid.Row="0"
               Canvas.ZIndex="1"
               Height="{Binding ElementName=NavigationViewControl, Path=CompactPaneLength}"
               IsHitTestVisible="True"
@@ -23,11 +28,11 @@
                        VerticalAlignment="Center"
                        TextWrapping="NoWrap"
                        Style="{StaticResource CaptionTextBlockStyle}"
-                       Margin="28,0,0,0"/>
+                       Margin="24,0,0,0"/>
         </Grid>
         <NavigationView
             x:Name="NavigationViewControl"
-            Canvas.ZIndex="0"
+            Canvas.ZIndex="0" Grid.Row="1"
             IsBackButtonVisible="Visible"
             IsBackEnabled="{x:Bind ViewModel.IsBackEnabled, Mode=OneWay}"
             SelectedItem="{x:Bind ViewModel.Selected, Mode=OneWay}"
@@ -43,6 +48,11 @@
                 TODO: Update item icons by updating FontIcon.Glyph properties.
                 https://docs.microsoft.com/windows/apps/design/style/segoe-fluent-icons-font#icon-list
                 -->
+                <NavigationViewItem x:Uid="Shell_Home" helpers:NavigationHelper.NavigateTo="Singularity.ViewModels.HomeViewModel">
+                    <NavigationViewItem.Icon>
+                        <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
+                    </NavigationViewItem.Icon>
+                </NavigationViewItem>
                 <NavigationViewItem x:Uid="Shell_Main" helpers:NavigationHelper.NavigateTo="Singularity.ViewModels.MainViewModel">
                     <NavigationViewItem.Icon>
                         <FontIcon FontFamily="{StaticResource SymbolThemeFontFamily}" Glyph="&#xe7c3;"/>
@@ -64,9 +74,9 @@
                     <behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
                         <DataTemplate>
                             <Grid>
-                                <TextBlock
+                                <!--<TextBlock
                                     Text="{Binding}"
-                                    Style="{ThemeResource TitleTextBlockStyle}" />
+                                    Style="{ThemeResource TitleTextBlockStyle}" />-->
                             </Grid>
                         </DataTemplate>
                     </behaviors:NavigationViewHeaderBehavior.DefaultHeaderTemplate>
@@ -76,5 +86,8 @@
                 <Frame x:Name="NavigationFrame" />
             </Grid>
         </NavigationView>
+        <Grid Grid.Row="2">
+            <Rectangle Fill="Red"/>
+        </Grid>
     </Grid>
 </Page>
