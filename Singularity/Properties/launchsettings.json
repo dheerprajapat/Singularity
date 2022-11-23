@@ -1,0 +1,10 @@
+﻿{
+    "profiles": {
+      "Singularity (Package)": {
+        "commandName": "MsixPackage"
+      },
+      "Singularity (Unpackaged)": {
+        "commandName": "Project"
+      }
+    }
+}
