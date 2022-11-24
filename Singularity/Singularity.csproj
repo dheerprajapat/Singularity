@@ -19,6 +19,7 @@
     <None Remove="RecentPlaysPage.xaml" />
     <None Remove="Views\HomePage.xaml" />
     <None Remove="Views\LikesPage.xaml" />
+    <None Remove="Views\MusicControllerView.xaml" />
     <None Remove="Views\PlaylistPage.xaml" />
     <None Remove="Views\RecentPlayPage.xaml" />
     <None Remove="Views\SearchPage.xaml" />
@@ -43,6 +44,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\MusicControllerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\LikesPage.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

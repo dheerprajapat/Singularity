@@ -7,6 +7,7 @@
     xmlns:helpers="using:Singularity.Helpers"
     xmlns:behaviors="using:Singularity.Behaviors"
     xmlns:i="using:Microsoft.Xaml.Interactivity"
+    xmlns:local="using:Singularity.Views"
     Loaded="OnLoaded">
 
     <Grid>
@@ -101,8 +102,6 @@
                 <Frame x:Name="NavigationFrame" />
             </Grid>
         </NavigationView>
-        <Grid Grid.Row="2">
-            <Rectangle Fill="Red"/>
-        </Grid>
+        <local:MusicControllerView Grid.Row="2"/>
     </Grid>
 </Page>

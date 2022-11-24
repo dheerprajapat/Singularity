@@ -71,16 +71,25 @@ public partial class App : Application
             // Views and ViewModels
             services.AddTransient<ShellPage>();
             services.AddTransient<ShellViewModel>();
+
             services.AddTransient<HomePage>();
             services.AddTransient<HomeViewModel>();
+
             services.AddTransient<LikesViewModel>();
             services.AddTransient<LikesPage>();
+
             services.AddTransient<SearchViewModel>();
             services.AddTransient<SearchPage>();
+
             services.AddTransient<PlaylistViewModel>();
             services.AddTransient<PlaylistPage>();
+
             services.AddTransient<RecentPlayViewModel>();
             services.AddTransient<RecentPlayPage>();
+
+            services.AddTransient<MusicCotrollerViewModel>();
+            services.AddTransient<MusicControllerView>();
+
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
