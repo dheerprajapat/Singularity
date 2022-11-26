@@ -32,4 +32,10 @@ public sealed partial class MusicControllerView : UserControl
         ViewModel = App.GetService<MusicCotrollerViewModel>();
         ViewModel.InitPlayer(videoPlayer);
     }
+
+    private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+    {
+        if(Math.Abs(e.NewValue-e.OldValue)>=3)
+            ViewModel.PositionChanged((int)e.NewValue);
+    }
 }

@@ -65,7 +65,7 @@
                     </Grid.ColumnDefinitions>
                     <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Bind ViewModel.PositionString,Mode=OneWay}"></TextBlock>
                     <Slider HorizontalAlignment="Stretch"
-                            Value="{x:Bind ViewModel.Position,Mode=OneWay}" Maximum="{x:Bind ViewModel.MaxDuration, Mode=OneWay}"
+                            Value="{x:Bind ViewModel.Position,Mode=OneWay}" Maximum="{x:Bind ViewModel.MaxDuration, Mode=OneWay}" ValueChanged="Slider_ValueChanged"
                             Grid.Column="1"/>
                 <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind ViewModel.MaxDurationString, Mode=OneWay}"></TextBlock>
                 </Grid>

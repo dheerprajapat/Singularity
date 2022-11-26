@@ -96,6 +96,13 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         });
 
     }
+    public void PositionChanged(int value)
+    {
+        if (playerElement is null || video is null || value >= MaxDuration)
+            return;
+
+        playerElement.MediaPlayer!.PlaybackSession.Position = TimeSpan.FromSeconds(value);
+    }
     private async ValueTask ExecuteOnUIThread(Action action)
     {
         if (dispatcherQueue is null)
