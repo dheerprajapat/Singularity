@@ -6,6 +6,7 @@ using Singularity.Core.Contracts.Services;
 using Singularity.Helpers;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Core;
+using Windows.Media.Playback;
 using Windows.UI.Core;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
@@ -88,6 +89,8 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
             AudioStream.Dispose();
 
         AudioStream = MediaSource.CreateFromUri(new Uri(stream.Url));
+
+        playerElement!.MediaPlayer!.Source=new MediaPlaybackItem(AudioStream);
     }
 
     internal void InitPlayer(MediaPlayerElement videoPlayer)
@@ -99,7 +102,8 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
 
     private async void PlaybackSession_PositionChanged(Windows.Media.Playback.MediaPlaybackSession sender, object args)
     {
-
+        if (sender.PlaybackState != MediaPlaybackState.Playing)
+            return;
         await ExecuteOnUIThread(() =>
         {
             PositionString = MediaPlayerHelper.ConvertTimeSpanToDuration(sender.Position);

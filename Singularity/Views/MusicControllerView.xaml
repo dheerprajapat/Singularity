@@ -86,7 +86,6 @@
         video player
         -->
         <winuiex:MediaPlayerElement x:Name="videoPlayer" AutoPlay="True" AreTransportControlsEnabled="True"
-                                    Source="{x:Bind ViewModel.AudioStream,Mode=OneWay}"
                     Height="0" Width="0" IsFullWindow="False" Visibility="Collapsed" />
         </Grid>
 </UserControl>
