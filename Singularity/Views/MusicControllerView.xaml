@@ -63,11 +63,11 @@
                         <ColumnDefinition Width="*"/>
                         <ColumnDefinition Width="auto"/>
                     </Grid.ColumnDefinitions>
-                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="0:00:00"></TextBlock>
+                    <TextBlock Grid.Column="0" VerticalAlignment="Center" Text="{x:Bind ViewModel.PositionString,Mode=OneWay}"></TextBlock>
                     <Slider HorizontalAlignment="Stretch"
-                        Value="0:00:00"
-                        Maximum="100" Grid.Column="1"/>
-                    <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="00:00:00">00:00</TextBlock>
+                            Value="{x:Bind ViewModel.Position,Mode=OneWay}" Maximum="{x:Bind ViewModel.MaxDuration, Mode=OneWay}"
+                            Grid.Column="1"/>
+                <TextBlock Grid.Column="2" VerticalAlignment="Center" Text="{x:Bind ViewModel.MaxDurationString, Mode=OneWay}"></TextBlock>
                 </Grid>
             </StackPanel>
 
