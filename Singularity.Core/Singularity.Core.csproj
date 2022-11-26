@@ -8,11 +8,11 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Models\" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="YoutubeExplode" Version="6.2.4" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="YoutubeExplode" Version="6.2.4" />
+    <Folder Include="Models\" />
   </ItemGroup>
 </Project>
