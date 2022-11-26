@@ -30,5 +30,6 @@ public sealed partial class MusicControllerView : UserControl
     {
         this.InitializeComponent();
         ViewModel = App.GetService<MusicCotrollerViewModel>();
+        ViewModel.InitPlayer(videoPlayer);
     }
 }

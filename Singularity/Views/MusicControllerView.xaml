@@ -22,11 +22,11 @@
                 </Grid.ColumnDefinitions>
                 <!--Song Thumbnail-->
                 <Image 
-                 Source="Assets/StoreLogo.png"  Width="80" Height="80" x:Name="thumnailImg"/>
+                 Source="{x:Bind ViewModel.Thumbnail,Mode=OneWay}"  Width="80" Height="80" x:Name="thumnailImg"/>
                 <!--Song Name and Authod-->
                 <StackPanel Orientation="Vertical" Spacing="2" Margin="5 5 5 5" Grid.Column="1" VerticalAlignment="Center">
-                    <TextBlock FontSize="16" FontWeight="SemiBold" Text="Mood" TextTrimming="CharacterEllipsis"/>
-                    <TextBlock FontSize="12" Text="Justin" TextTrimming="CharacterEllipsis"/>
+                    <TextBlock FontSize="14" FontWeight="SemiBold" Text="{x:Bind ViewModel.Title, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                <TextBlock FontSize="10" Text="{x:Bind ViewModel.Singer, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
                 </StackPanel>
                 <!--Like Button-->
                 <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->
@@ -83,7 +83,7 @@
         video player
         -->
         <winuiex:MediaPlayerElement x:Name="videoPlayer" AutoPlay="True" AreTransportControlsEnabled="True"
-                                    Source="{x:Bind ViewModel.AudioStreamUrl,Mode=OneWay}"
+                                    Source="{x:Bind ViewModel.AudioStream,Mode=OneWay}"
                     Height="0" Width="0" IsFullWindow="False" Visibility="Collapsed" />
         </Grid>
 </UserControl>
