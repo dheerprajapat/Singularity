@@ -35,7 +35,13 @@ public sealed partial class MusicControllerView : UserControl
 
     private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {
-        if(Math.Abs(e.NewValue-e.OldValue)>=3)
+        if(Math.Abs(e.NewValue-e.OldValue)>=3 && ViewModel is not null)
             ViewModel.PositionChanged((int)e.NewValue);
+    }
+
+    private void VolumeSlider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
+    {
+        if(ViewModel is not null)
+            ViewModel.SetVolume((int)e.NewValue);
     }
 }

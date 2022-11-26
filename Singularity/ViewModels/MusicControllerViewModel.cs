@@ -29,8 +29,6 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     [ObservableProperty]
     private MediaSource? audioStream;
 
-    [ObservableProperty]
-    public double volume = 0.5;
 
     [AlsoNotifyChangeFor(nameof(Title))]
     [AlsoNotifyChangeFor(nameof(Singer))]
@@ -55,6 +53,19 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     public int position=0;
 
     readonly DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
+    
+    [ObservableProperty]
+    [AlsoNotifyChangeFor(nameof(VolumeIcon))]
+    public double volume = 0.5;
+
+    public string VolumeIcon=> volume switch
+    {
+        > .75 => "\ue995",
+        <= .75 and > .25 => "\ue994",
+        <= .25 and > .10 => "\ue993",
+        _ => "\ue992",
+    };
+
     public ImageSource? Thumbnail
     {
         get
@@ -102,6 +113,15 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
             return;
 
         playerElement.MediaPlayer!.PlaybackSession.Position = TimeSpan.FromSeconds(value);
+    }
+    public void SetVolume(int val)
+    {
+        Volume = val / 100.0;
+
+        if (playerElement is not null && playerElement.MediaPlayer is not null)
+        {
+            playerElement.MediaPlayer.Volume = volume;
+        }
     }
     private async ValueTask ExecuteOnUIThread(Action action)
     {
