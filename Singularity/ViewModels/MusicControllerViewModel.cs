@@ -1,15 +1,19 @@
 ﻿using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm;
 using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Media.Imaging;
 using Singularity.Core.Contracts.Services;
 using Singularity.Helpers;
+using Singularity.Models;
 using Windows.ApplicationModel.Core;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.UI.Core;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
+using CommunityToolkit.Mvvm.Input;
+using System.Windows.Input;
 
 namespace Singularity.ViewModels;
 
@@ -19,6 +23,8 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     public MusicCotrollerViewModel(IYoutubeService youtube)
     {
         Youtube = youtube;
+        NextSongCommand = new RelayCommand(PlayNext);
+        AudioQueue.InitAudioQueue(Youtube);
         LoadVideoInfo();
     }
 
@@ -26,10 +32,6 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     {
         get;
     }
-
-    [ObservableProperty]
-    private MediaSource? audioStream;
-
 
     [AlsoNotifyChangeFor(nameof(Title))]
     [AlsoNotifyChangeFor(nameof(Singer))]
@@ -52,6 +54,8 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
 
     [ObservableProperty]
     public int position=0;
+
+    public ICommand NextSongCommand; 
 
     readonly DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
     
@@ -83,21 +87,24 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         const string id = "DqgK4llE1cw";
 
         Video = await Youtube.GetVideoInfo(id);
-        var stream = await Youtube.GetBestQualityAudio(id);
 
-        if (AudioStream is not null)
-            AudioStream.Dispose();
-
-        AudioStream = MediaSource.CreateFromUri(new Uri(stream.Url));
-
-        playerElement!.MediaPlayer!.Source=new MediaPlaybackItem(AudioStream);
+        await AudioQueue.AddSong(video!);
     }
 
     internal void InitPlayer(MediaPlayerElement videoPlayer)
     {
         playerElement = videoPlayer;
-        if(videoPlayer.MediaPlayer is not null)
+        if (videoPlayer.MediaPlayer is not null)
+        {
             videoPlayer.MediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
+            playerElement!.MediaPlayer!.Source = AudioQueue.currentList;
+        }
+    }
+
+    async void PlayNext()
+    {
+        await AudioQueue.AddSong("h7MYJghRWt0");
+        AudioQueue.PlayNext();
     }
 
     private async void PlaybackSession_PositionChanged(Windows.Media.Playback.MediaPlaybackSession sender, object args)

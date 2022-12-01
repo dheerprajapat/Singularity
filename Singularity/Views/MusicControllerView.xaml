@@ -53,9 +53,12 @@
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                               FontSize="18" />
                     </Button>
+                <Button Command="{x:Bind ViewModel.NextSongCommand}" Width="36" Height="36"
+                        CornerRadius="20" Background="Transparent" BorderThickness="0">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe893;" FontSize="14"  x:Name="nextPlayBtn"
                               />
-                    <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF5E7;" FontSize="14" x:Name="loopMode" 
+                </Button>
+                <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xF5E7;" FontSize="14" x:Name="loopMode" 
                               />
                 </StackPanel>
                 <!--sider and timer-->

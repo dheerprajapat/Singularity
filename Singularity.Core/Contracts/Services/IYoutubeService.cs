@@ -9,6 +9,7 @@ using YoutubeExplode.Videos.Streams;
 namespace Singularity.Core.Contracts.Services;
 public interface IYoutubeService
 {
+
     /// <summary>
     /// Get Youtube audio associated metadata
     /// </summary>
@@ -16,5 +17,6 @@ public interface IYoutubeService
     /// <returns></returns>
     ValueTask<Video> GetVideoInfo(string id);
     Task<IStreamInfo> GetBestQualityAudio(string id);
-
+    Task<string> GetThumbnailUrl(string id);
+    
 }
