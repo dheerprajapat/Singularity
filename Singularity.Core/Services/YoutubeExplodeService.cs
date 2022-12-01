@@ -28,14 +28,14 @@ public class YoutubeExplodeService:IYoutubeService
         return vid;
     }
     
-    public async Task<IStreamInfo> GetBestQualityAudio(string id)
+    public async ValueTask<IStreamInfo> GetBestQualityAudio(string id)
     {
         var mainfest=await _youtubeClient.Videos.Streams.GetManifestAsync(id);
         return mainfest.GetAudioOnlyStreams().GetWithHighestBitrate();
 
     }
 
-    public async Task<string> GetThumbnailUrl(string id)
+    public async ValueTask<string> GetThumbnailUrl(string id)
     {
         var video = await GetVideoFromCache(id);
         return video.Thumbnails.OrderByDescending(x => x.Resolution.Area).First().Url;

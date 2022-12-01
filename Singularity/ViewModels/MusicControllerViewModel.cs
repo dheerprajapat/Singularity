@@ -24,9 +24,12 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     {
         Youtube = youtube;
         NextSongCommand = new RelayCommand(PlayNext);
+        AudioQueue.OnCurrentPlaybackItemChanged += AudioQueue_OnCurrentPlaybackItemChanged;
         AudioQueue.InitAudioQueue(Youtube);
+
         LoadVideoInfo();
     }
+
 
     public IYoutubeService Youtube
     {
@@ -105,7 +108,18 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     {
         await AudioQueue.AddSong("h7MYJghRWt0");
         AudioQueue.PlayNext();
+        Position = 0;
+        //Video=await AudioQueue.GetCurrentVideo();
     }
+    private async void AudioQueue_OnCurrentPlaybackItemChanged(MediaPlaybackList sender,
+        CurrentMediaPlaybackItemChangedEventArgs args)
+    {
+        await ExecuteOnUIThread(async() =>
+        {
+            Video = await AudioQueue.GetVideoFromPlaybackItem(args.NewItem);
+        });
+    }
+
 
     private async void PlaybackSession_PositionChanged(Windows.Media.Playback.MediaPlaybackSession sender, object args)
     {

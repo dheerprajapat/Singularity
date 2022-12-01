@@ -16,7 +16,7 @@ public interface IYoutubeService
     /// <param name="id">id or full url of video </param>
     /// <returns></returns>
     ValueTask<Video> GetVideoInfo(string id);
-    Task<IStreamInfo> GetBestQualityAudio(string id);
-    Task<string> GetThumbnailUrl(string id);
-    
+    ValueTask<IStreamInfo> GetBestQualityAudio(string id);
+    ValueTask<string> GetThumbnailUrl(string id);
+    ValueTask<Video> GetVideoFromCache(string id);
 }

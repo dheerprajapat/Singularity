@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Singularity.Core.Contracts.Services;
 using Windows.Devices.Spi;
+using Windows.Foundation;
+using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage.Streams;
@@ -16,9 +18,26 @@ internal static class AudioQueue
 {
     internal static readonly MediaPlaybackList currentList=new();
     private static readonly HashSet<string> currentVideoIds=new();
+    private static readonly Dictionary<string, string> IdFromTitleChannelNameMap = new();
+    static AudioQueue()
+    {
+        currentList.CurrentItemChanged += CurrentPlaybackItemChanged;
+    }
+
+    private static void CurrentPlaybackItemChanged(MediaPlaybackList sender, 
+        CurrentMediaPlaybackItemChangedEventArgs args) 
+        => OnCurrentPlaybackItemChanged?.Invoke(sender,args);
+
+
 #nullable disable
     internal static  IYoutubeService Youtube { get; private set; }
 #nullable restore
+
+    public delegate void CurrentItemChangedHandler(MediaPlaybackList sender,
+        CurrentMediaPlaybackItemChangedEventArgs args);
+
+    public static event CurrentItemChangedHandler? OnCurrentPlaybackItemChanged;
+
     public static void InitAudioQueue(IYoutubeService youtube)
     {
         Youtube = youtube;
@@ -44,10 +63,26 @@ internal static class AudioQueue
             .CreateFromUri(new Uri(await Youtube.GetThumbnailUrl(video.Id)));
         props.MusicProperties.Title = video.Title;
         props.MusicProperties.Artist = video.Author.ChannelTitle;
+        props.VideoProperties.Title = video.Id; //storing id in unused video.title field for later use
         playbackItem.ApplyDisplayProperties(props);
         currentList.Items.Add(playbackItem);
 
+        IdFromTitleChannelNameMap.TryAdd(GetIdTitleKey(props), video.Id);
         currentVideoIds.Add(video.Id);
+    }
+    private static string GetIdTitleKey(MediaItemDisplayProperties props)
+    {
+        return props.MusicProperties.Title + ":(:):" + props.MusicProperties.Artist;
+    }
+    public static async ValueTask<Video?> GetVideoFromPlaybackItem(MediaPlaybackItem media)
+    {
+        if (media is null)
+            return null;
+        var key = GetIdTitleKey(media.GetDisplayProperties());
+        if(!IdFromTitleChannelNameMap.ContainsKey(key))
+            return null;
+        string id = IdFromTitleChannelNameMap[key];
+        return await Youtube.GetVideoFromCache(id);
     }
     public static void PlayNext()
     {
