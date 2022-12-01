@@ -44,11 +44,15 @@
                             Orientation="Horizontal">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe8b1;" FontSize="14" 
                               />
+                <Button Command="{x:Bind ViewModel.PreviousSongCommand}" Width="36" Height="36"
+                        CornerRadius="20" Background="Transparent" BorderThickness="0">
                     <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe892;" FontSize="14" 
                               x:Name="previousBtn"/>
+                </Button>
+
                     <Button CornerRadius="50" Width="44" Height="44" x:Name="PlayPauseButton" Foreground="{ThemeResource SystemAccentColorLight2}" 
-                        >
-                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;" 
+                        Command="{x:Bind ViewModel.PlayCommand}">
+                        <FontIcon FontFamily="Segoe Fluent Icons" Glyph="{x:Bind ViewModel.PlayPauseIcon,Mode=OneWay}" 
                               x:Name="PlayPauseIcon" Foreground="{ThemeResource SystemAccentColorLight2}"
                               VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
                               FontSize="18" />

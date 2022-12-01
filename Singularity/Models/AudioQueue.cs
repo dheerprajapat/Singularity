@@ -88,4 +88,12 @@ internal static class AudioQueue
     {
         currentList.MoveNext();
     }
+    public static void PlayPrevious()
+    {
+        currentList.MovePrevious();
+    }
+    public static bool ToggleShuffle()
+    {
+        return currentList.ShuffleEnabled= !currentList.ShuffleEnabled;
+    }
 }

@@ -24,6 +24,10 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     {
         Youtube = youtube;
         NextSongCommand = new RelayCommand(PlayNext);
+        PreviousSongCommand = new RelayCommand(PlayPrevious);
+        ShuffleCommand = new RelayCommand(ToggleShuffle);
+        PlayCommand = new RelayCommand(Play);
+
         AudioQueue.OnCurrentPlaybackItemChanged += AudioQueue_OnCurrentPlaybackItemChanged;
         AudioQueue.InitAudioQueue(Youtube);
 
@@ -58,7 +62,10 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     [ObservableProperty]
     public int position=0;
 
-    public ICommand NextSongCommand; 
+    public ICommand NextSongCommand;
+    public ICommand PreviousSongCommand;
+    public ICommand ShuffleCommand;
+    public ICommand PlayCommand;
 
     readonly DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
     
@@ -74,6 +81,8 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         _ => "\ue992",
     };
 
+    [ObservableProperty]
+    public string playPauseIcon;
     public ImageSource? Thumbnail
     {
         get
@@ -100,16 +109,59 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         if (videoPlayer.MediaPlayer is not null)
         {
             videoPlayer.MediaPlayer.PlaybackSession.PositionChanged += PlaybackSession_PositionChanged;
+            videoPlayer.MediaPlayer.CurrentStateChanged += MediaPlayer_CurrentStateChanged;
             playerElement!.MediaPlayer!.Source = AudioQueue.currentList;
         }
     }
 
+    private async void MediaPlayer_CurrentStateChanged(MediaPlayer sender, object args)
+    {
+        await ExecuteOnUIThread(() =>
+        {
+            PlayPauseIcon = GetPlayPauseIcon();
+        });
+    }
+    public string GetPlayPauseIcon()
+    {
+        if (playerElement is null)
+            return "\uf5b0";
+        switch (playerElement.MediaPlayer.CurrentState)
+        {
+            case MediaPlayerState.Playing:
+                return "\uf8ae";
+            case MediaPlayerState.Stopped:
+            case MediaPlayerState.Paused:
+                return "\uf5b0";
+            default:
+                return "\uebd3";
+        }
+    }
+
+    void Play()
+    {
+        if(playerElement is null) return;
+        if (playerElement.MediaPlayer.CurrentState == MediaPlayerState.Playing)
+        {
+            playerElement.MediaPlayer.Pause();
+        }
+        else if(playerElement.MediaPlayer.CurrentState == MediaPlayerState.Paused 
+            || playerElement.MediaPlayer.CurrentState == MediaPlayerState.Stopped) 
+            playerElement.MediaPlayer?.Play();
+    }
+    void PlayPrevious()
+    {
+        AudioQueue.PlayPrevious();
+        Position = 0;
+    }
     async void PlayNext()
     {
         await AudioQueue.AddSong("h7MYJghRWt0");
         AudioQueue.PlayNext();
         Position = 0;
-        //Video=await AudioQueue.GetCurrentVideo();
+    }
+    void ToggleShuffle()
+    {
+        AudioQueue.ToggleShuffle();
     }
     private async void AudioQueue_OnCurrentPlaybackItemChanged(MediaPlaybackList sender,
         CurrentMediaPlaybackItemChangedEventArgs args)
