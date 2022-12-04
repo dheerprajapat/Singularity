@@ -90,6 +90,9 @@ public partial class App : Application
             services.AddTransient<MusicCotrollerViewModel>();
             services.AddTransient<MusicControllerView>();
 
+            services.AddTransient<SearchItemFragmentView>();
+            services.AddTransient<SearchItemFragmentViewModel>();
+
 
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
