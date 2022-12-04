@@ -7,6 +7,24 @@
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <StackPanel Orientation="Horizontal" Spacing="20" Margin="0 -72 20 20">
+            <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center" x:Name="SearchBox"
+                       PlaceholderText="Search here" Width="560" Height="40" HorizontalAlignment="Left"/>
+            <TextBlock VerticalAlignment="Center" Foreground="LightGray">Filter By</TextBlock>
+            <Button Content="Rating">
+                <Button.Flyout>
+                    <MenuFlyout>
+                        <RadioMenuFlyoutItem Text="Relevance"></RadioMenuFlyoutItem>
+                        <RadioMenuFlyoutItem Text="Rating"></RadioMenuFlyoutItem>
+                        <RadioMenuFlyoutItem Text="Upload Date"></RadioMenuFlyoutItem>
+                        <RadioMenuFlyoutItem Text="Views"></RadioMenuFlyoutItem>
+                    </MenuFlyout>
+                </Button.Flyout>
+            </Button>
+        </StackPanel>
     </Grid>
 </Page>
