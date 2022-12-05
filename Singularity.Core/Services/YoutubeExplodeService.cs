@@ -7,13 +7,14 @@ using System.Text;
 using System.Threading.Tasks;
 using Singularity.Core.Contracts.Services;
 using YoutubeExplode;
+using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 
 namespace Singularity.Core.Services;
-public class YoutubeExplodeService:IYoutubeService
+public class YoutubeExplodeService : IYoutubeService
 {
-    private readonly YoutubeClient _youtubeClient=new();
+    private readonly YoutubeClient _youtubeClient = new();
     private readonly Dictionary<string, Video> videoCache = new();
     public ValueTask<Video> GetVideoFromCache(string id)
     {
@@ -23,14 +24,14 @@ public class YoutubeExplodeService:IYoutubeService
     }
     public async ValueTask<Video> GetVideoInfo(string id)
     {
-        var vid= await _youtubeClient.Videos.GetAsync(id);
+        var vid = await _youtubeClient.Videos.GetAsync(id);
         videoCache.TryAdd(id, vid);
         return vid;
     }
-    
+
     public async ValueTask<IStreamInfo> GetBestQualityAudio(string id)
     {
-        var mainfest=await _youtubeClient.Videos.Streams.GetManifestAsync(id);
+        var mainfest = await _youtubeClient.Videos.Streams.GetManifestAsync(id);
         return mainfest.GetAudioOnlyStreams().GetWithHighestBitrate();
 
     }
@@ -40,6 +41,24 @@ public class YoutubeExplodeService:IYoutubeService
         var video = await GetVideoFromCache(id);
         return video.Thumbnails.OrderByDescending(x => x.Resolution.Area).First().Url;
     }
-
+    public async ValueTask<ISearchResult?> GetTopSeachQuery(string query,CancellationToken token=default)
+    {
+        var res=_youtubeClient.Search.GetResultsAsync(query, token);
+        await foreach (var r in res)
+        {
+            return r;// skip rest
+        }
+        return null;
+    }
+    public  IAsyncEnumerable<ISearchResult> GetSearchResult(string query, SearchType type,
+        CancellationToken token = default)
+    {
+        if(type is SearchType.Video)
+            return _youtubeClient.Search.GetPlaylistsAsync(query, token);
+        else
+            return _youtubeClient.Search.GetChannelsAsync(query, token);
+    }
     public Dictionary<string, Video> GetVideoCache() => videoCache;
+
+    
 }
