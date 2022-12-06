@@ -54,6 +54,8 @@ public class YoutubeExplodeService : IYoutubeService
         CancellationToken token = default)
     {
         if(type is SearchType.Video)
+            return _youtubeClient.Search.GetVideosAsync(query, token);
+        else if (type is SearchType.Playlist)
             return _youtubeClient.Search.GetPlaylistsAsync(query, token);
         else
             return _youtubeClient.Search.GetChannelsAsync(query, token);
