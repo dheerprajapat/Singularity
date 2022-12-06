@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Singularity.Core.Contracts.Services;
+using Singularity.Helpers;
 using Singularity.Models;
 using YoutubeExplode.Search;
 
@@ -15,7 +16,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 {
     [ObservableProperty]
     public ObservableCollection<SearchFragmentItem> items;
-    public static int MaxCount=5;
+    public static int MaxCount=3;
     public SearchItemFragmentViewModel(IYoutubeService youtube)
     {
         Youtube = youtube;
@@ -32,16 +33,16 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
         var items =  Youtube.GetSearchResult("die for you",SearchType.Video);
         var res = new List<SearchFragmentItem>();
-        int k = 0;
+        var k = 0;
         await foreach (VideoSearchResult i in items)
         {
             res.Add(new()
             {
-            ChannelName=i.Author.ChannelTitle,
-            MediaType="Video",
-            Name=i.Title,
-            Duration=i.Duration.ToString(),
-            ThumbnailUrl=i.Thumbnails.OrderByDescending(x=>x.Resolution.Area).FirstOrDefault().Url
+                ChannelName=i.Author.ChannelTitle,
+                MediaType="Video",
+                Name=i.Title,
+                Duration=MediaPlayerHelper.ConvertTimeSpanToDuration(i.Duration.GetValueOrDefault()),
+                ThumbnailUrl = i.Thumbnails.OrderByDescending(x => x.Resolution.Area).FirstOrDefault().Url
             });
             k++;
             if (k >= MaxCount)
