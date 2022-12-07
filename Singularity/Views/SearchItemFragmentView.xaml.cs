@@ -3,6 +3,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -16,6 +17,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Singularity.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
+using YoutubeExplode.Search;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -27,6 +29,23 @@ public sealed partial class SearchItemFragmentView : UserControl
     {
         get;
     }
+
+
+    public ObservableCollection<ISearchResult> Items
+    {
+        get=>(ObservableCollection<ISearchResult>)GetValue(ItemsProperty);
+        set
+        {
+            SetValue(ItemsProperty, value);
+            ViewModel.Items = value;
+        }
+    }
+
+    public static readonly DependencyProperty ItemsProperty =
+        DependencyProperty.Register("Items", typeof(ObservableCollection<ISearchResult>),
+            typeof(SearchItemFragmentView),
+            new PropertyMetadata(new ObservableCollection<ISearchResult>()));
+
 
     public SearchItemFragmentView()
     {

@@ -28,7 +28,7 @@
             </Button>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
-            <views:SearchItemFragmentView/>
+            <views:SearchItemFragmentView Items="{x:Bind ViewModel.Videos,Mode=OneWay}"/>
         </ScrollViewer>
     </Grid>
 </Page>
