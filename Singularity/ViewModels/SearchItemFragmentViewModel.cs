@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 using Singularity.Core.Contracts.Services;
 using Singularity.Helpers;
 using Singularity.Models;
@@ -14,33 +15,15 @@ using YoutubeExplode.Search;
 namespace Singularity.ViewModels;
 public partial class SearchItemFragmentViewModel : ObservableRecipient
 {
+    [ObservableProperty]
+    public string header;
+
     [AlsoNotifyChangeFor(nameof(SearchItems))]
     [ObservableProperty]
     public ObservableCollection<ISearchResult> items;
 
     public ObservableCollection<SearchFragmentItem> SearchItems
-    {
-        get
-        {
-            var r = new ObservableCollection<SearchFragmentItem>();
-            if(items!=null)
-            foreach (var item in items)
-            {
-                if (item is VideoSearchResult i)
-                {
-                    r.Add(new()
-                    {
-                        ChannelName = i.Author.ChannelTitle,
-                        MediaType = "Video",
-                        Name = i.Title,
-                        Duration = MediaPlayerHelper.ConvertTimeSpanToDuration(i.Duration.GetValueOrDefault()),
-                        ThumbnailUrl = i.Thumbnails.OrderByDescending(x => x.Resolution.Area).FirstOrDefault().Url
-                    });
-                }
-            }
-            return r;
-        }
-    }
+        => ProcessSerchItems();
 
     public SearchItemFragmentViewModel(IYoutubeService youtube)
     {
@@ -51,6 +34,46 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
     public IYoutubeService Youtube
     {
         get;
+    }
+
+    private ObservableCollection<SearchFragmentItem> ProcessSerchItems()
+    {
+        var r = new ObservableCollection<SearchFragmentItem>();
+        if (items != null)
+            foreach (var item in items)
+            {
+                if (item is VideoSearchResult i)
+                {
+                    r.Add(new()
+                    {
+                        ChannelName = i.Author.ChannelTitle,
+                        MediaType = "Video",
+                        Name = i.Title,
+                        Duration = MediaPlayerHelper.ConvertTimeSpanToDuration(i.Duration.GetValueOrDefault()),
+                        ThumbnailUrl = i.Thumbnails.GetBestThumbnail()
+                    });
+                }
+                else if (item is ChannelSearchResult c)
+                {
+                    r.Add(new()
+                    {
+                        MediaType = "Channel",
+                        Name = c.Title,
+                        ThumbnailUrl = c.Thumbnails.GetBestThumbnail(),
+                    });
+                }
+                else if (item is PlaylistSearchResult p)
+                {
+                    r.Add(new()
+                    {
+                        MediaType = "Playlist",
+                        ChannelName = p.Author.ChannelTitle,
+                        Name = p.Title,
+                        ThumbnailUrl = p.Thumbnails.GetBestThumbnail(),
+                    });
+                }
+            }
+        return r;
     }
 
     //async void LoadTempItems()

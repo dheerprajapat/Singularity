@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Singularity.Core.Contracts.Services;
 using YoutubeExplode;
+using YoutubeExplode.Playlists;
 using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;

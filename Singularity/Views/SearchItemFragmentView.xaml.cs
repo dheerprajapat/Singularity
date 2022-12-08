@@ -47,6 +47,27 @@ public sealed partial class SearchItemFragmentView : UserControl
             new PropertyMetadata(new ObservableCollection<ISearchResult>()));
 
 
+
+    public string? Header
+    {
+        get
+        {
+            return (string)GetValue(HeaderProperty);
+        }
+        set
+        {
+            SetValue(HeaderProperty, value);
+            ViewModel.Header = value;
+        }
+    }
+
+    public static readonly DependencyProperty HeaderProperty =
+        DependencyProperty.Register("Header", typeof(string), typeof(SearchItemFragmentView),
+            new PropertyMetadata(null));
+
+
+
+
     public SearchItemFragmentView()
     {
         ViewModel = App.GetService<SearchItemFragmentViewModel>();

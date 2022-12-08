@@ -90,7 +90,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
             if (video is null) return null;
             return new BitmapImage()
             {
-                UriSource = new(video.Thumbnails.OrderByDescending(x => x.Resolution.Area).First().Url)
+                UriSource = new(video.Thumbnails.GetBestThumbnail())
             };
         }
     }
