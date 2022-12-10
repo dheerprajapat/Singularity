@@ -17,7 +17,22 @@ public class SearchFragmentItem
     {
         get; set;
     }
-    public Visibility HideDuration =>  MediaType!="Video"
+    public Visibility HideDuration =>  MediaType is not "Video"
     ? Visibility.Collapsed : Visibility.Visible;
+
+    public ISearchResult? Item
+    {
+        get; set;
+    }
+
+    public async ValueTask DoAction()
+    {
+        if(Item== null) return;
+
+        if (Item is VideoSearchResult v)
+        {
+            await AudioQueue.AddSong(v.Id);
+        }
+    }
 
 }

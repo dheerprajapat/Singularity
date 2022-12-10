@@ -31,29 +31,27 @@ public sealed partial class SearchItemFragmentView : UserControl
     }
 
 
-    public ObservableCollection<ISearchResult> Items
+    public IAsyncEnumerable<ISearchResult> Items
     {
-        get=>(ObservableCollection<ISearchResult>)GetValue(ItemsProperty);
+        get=>(IAsyncEnumerable<ISearchResult>)GetValue(ItemsProperty);
         set
         {
             SetValue(ItemsProperty, value);
             ViewModel.Items = value;
+            ViewModel.ProcessSerchItems();
         }
     }
 
     public static readonly DependencyProperty ItemsProperty =
-        DependencyProperty.Register("Items", typeof(ObservableCollection<ISearchResult>),
+        DependencyProperty.Register("Items", typeof(IAsyncEnumerable<ISearchResult>),
             typeof(SearchItemFragmentView),
-            new PropertyMetadata(new ObservableCollection<ISearchResult>()));
+            new PropertyMetadata(null));
 
 
 
     public string? Header
     {
-        get
-        {
-            return (string)GetValue(HeaderProperty);
-        }
+        get => (string)GetValue(HeaderProperty);
         set
         {
             SetValue(HeaderProperty, value);
@@ -72,5 +70,10 @@ public sealed partial class SearchItemFragmentView : UserControl
     {
         ViewModel = App.GetService<SearchItemFragmentViewModel>();
         this.InitializeComponent();
+    }
+
+    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    {
+        ViewModel.SelectionChanged((sender as ListView)!.SelectedIndex);
     }
 }

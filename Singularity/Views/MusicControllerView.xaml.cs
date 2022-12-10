@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Singularity.ViewModels;
+using Singularity.Models;
 
 namespace Singularity.Views;
 
@@ -31,6 +32,11 @@ public sealed partial class MusicControllerView : UserControl
         this.InitializeComponent();
         ViewModel = App.GetService<MusicCotrollerViewModel>();
         ViewModel.InitPlayer(videoPlayer);
+    }
+
+    ~MusicControllerView()
+    {
+        videoPlayer?.MediaPlayer?.Dispose();
     }
 
     private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)

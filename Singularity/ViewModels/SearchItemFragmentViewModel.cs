@@ -16,15 +16,16 @@ namespace Singularity.ViewModels;
 public partial class SearchItemFragmentViewModel : ObservableRecipient
 {
     [ObservableProperty]
-    public string header;
+    public string? header;
 
-    [AlsoNotifyChangeFor(nameof(SearchItems))]
     [ObservableProperty]
-    public ObservableCollection<ISearchResult> items;
+    public IAsyncEnumerable<ISearchResult>? items;
 
-    public ObservableCollection<SearchFragmentItem> SearchItems
-        => ProcessSerchItems();
+    public int MaxItemsToDisplay = 3;
 
+
+    [ObservableProperty]
+    public ObservableCollection<SearchFragmentItem>? searchItems;
     public SearchItemFragmentViewModel(IYoutubeService youtube)
     {
         Youtube = youtube;
@@ -36,12 +37,15 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
         get;
     }
 
-    private ObservableCollection<SearchFragmentItem> ProcessSerchItems()
+    public async Task ProcessSerchItems()
     {
         var r = new ObservableCollection<SearchFragmentItem>();
         if (items != null)
-            foreach (var item in items)
+            await foreach (var item in items)
             {
+                if (r.Count >= MaxItemsToDisplay)
+                    break;
+
                 if (item is VideoSearchResult i)
                 {
                     r.Add(new()
@@ -50,7 +54,8 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                         MediaType = "Video",
                         Name = i.Title,
                         Duration = MediaPlayerHelper.ConvertTimeSpanToDuration(i.Duration.GetValueOrDefault()),
-                        ThumbnailUrl = i.Thumbnails.GetBestThumbnail()
+                        ThumbnailUrl = i.Thumbnails.GetBestThumbnail(),
+                        Item = i
                     });
                 }
                 else if (item is ChannelSearchResult c)
@@ -60,6 +65,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                         MediaType = "Channel",
                         Name = c.Title,
                         ThumbnailUrl = c.Thumbnails.GetBestThumbnail(),
+                        Item = c
                     });
                 }
                 else if (item is PlaylistSearchResult p)
@@ -67,36 +73,20 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                     r.Add(new()
                     {
                         MediaType = "Playlist",
-                        ChannelName = p.Author.ChannelTitle,
+                        ChannelName = p.Author!.ChannelTitle,
                         Name = p.Title,
                         ThumbnailUrl = p.Thumbnails.GetBestThumbnail(),
+                        Item = p
                     });
                 }
             }
-        return r;
+        SearchItems = new ObservableCollection<SearchFragmentItem>(r);
     }
 
-    //async void LoadTempItems()
-    //{
-
-    //    var items =  Youtube.GetSearchResult("die for you",SearchType.Video);
-    //    var res = new List<SearchFragmentItem>();
-    //    var k = 0;
-    //    await foreach (VideoSearchResult i in items)
-    //    {
-    //        res.Add(new()
-    //        {
-    //            ChannelName=i.Author.ChannelTitle,
-    //            MediaType="Video",
-    //            Name=i.Title,
-    //            Duration=MediaPlayerHelper.ConvertTimeSpanToDuration(i.Duration.GetValueOrDefault()),
-    //            ThumbnailUrl = i.Thumbnails.OrderByDescending(x => x.Resolution.Area).FirstOrDefault().Url
-    //        });
-    //        k++;
-    //        if (k >= MaxCount)
-    //            break;
-    //    }
-    //    Items = new ObservableCollection<SearchFragmentItem>(res);
-    //}
-
+    internal async void SelectionChanged(int selectedIndex)
+    {
+        if(SearchItems==null || (uint)selectedIndex >= SearchItems.Count)
+            return;
+        await SearchItems[selectedIndex].DoAction();
+    }
 }

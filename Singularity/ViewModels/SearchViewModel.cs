@@ -14,13 +14,12 @@ namespace Singularity.ViewModels;
 public partial class SearchViewModel: ObservableRecipient
 {
     [ObservableProperty]
-    public ObservableCollection<ISearchResult>? videos;
+    public IAsyncEnumerable<ISearchResult>? videos;
     [ObservableProperty]
-    public ObservableCollection<ISearchResult>? playlists;
+    public IAsyncEnumerable<ISearchResult>? playlists;
     [ObservableProperty]
-    public ObservableCollection<ISearchResult>? artists;
+    public IAsyncEnumerable<ISearchResult>? artists;
 
-    public const int MaxItemsToDisplay = 3;
     public SearchViewModel(IYoutubeService youtube)
     {
         Youtube = youtube;
@@ -36,24 +35,15 @@ public partial class SearchViewModel: ObservableRecipient
     async void SearchQuery(string query)
     {
 
-        Videos = await Search<VideoSearchResult>(query, SearchType.Video);
-        Playlists = await Search<PlaylistSearchResult>(query, SearchType.Playlist);
-        Artists = await Search<ChannelSearchResult>(query, SearchType.Artist);
+        Videos =  Search<VideoSearchResult>(query, SearchType.Video);
+        Playlists =  Search<PlaylistSearchResult>(query, SearchType.Playlist);
+        Artists =  Search<ChannelSearchResult>(query, SearchType.Artist);
     }
 
-    async ValueTask<ObservableCollection<ISearchResult>> Search<T>(string query,SearchType searchType, CancellationToken token = default)
+    IAsyncEnumerable<ISearchResult> Search<T>(string query,SearchType searchType, CancellationToken token = default)
         where T : ISearchResult
     {
-        var i = 0;
-        var r = new List<ISearchResult>();
-        await foreach (T v in Youtube.GetSearchResult(query, searchType, token))
-        {
-            r.Add(v);
-            i++;
-            if (i >= MaxItemsToDisplay)
-                break;
-        }
-        return new(r);
+       return Youtube.GetSearchResult(query, searchType, token);
     }
 
 }

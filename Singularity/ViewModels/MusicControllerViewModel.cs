@@ -30,8 +30,6 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
 
         AudioQueue.OnCurrentPlaybackItemChanged += AudioQueue_OnCurrentPlaybackItemChanged;
         AudioQueue.InitAudioQueue(Youtube);
-
-        LoadVideoInfo();
     }
 
 
@@ -94,14 +92,6 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
             };
         }
     }
-    async void LoadVideoInfo()
-    {
-        const string id = "DqgK4llE1cw";
-
-        Video = await Youtube.GetVideoInfo(id);
-
-        await AudioQueue.AddSong(video!);
-    }
 
     internal void InitPlayer(MediaPlayerElement videoPlayer)
     {
@@ -153,9 +143,8 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         AudioQueue.PlayPrevious();
         Position = 0;
     }
-    async void PlayNext()
+    void PlayNext()
     {
-        await AudioQueue.AddSong("h7MYJghRWt0");
         AudioQueue.PlayNext();
         Position = 0;
     }
