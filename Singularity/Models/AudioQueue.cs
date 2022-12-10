@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Singularity.Core.Contracts.Services;
+using Singularity.Helpers;
 using Singularity.ViewModels;
 using Singularity.Views;
 using Windows.Devices.Spi;
@@ -62,7 +63,7 @@ internal static class AudioQueue
         var props = playbackItem.GetDisplayProperties();
         props.Type = Windows.Media.MediaPlaybackType.Music;
         props.Thumbnail = RandomAccessStreamReference
-            .CreateFromUri(new Uri(await Youtube.GetThumbnailUrl(video.Id)));
+            .CreateFromUri(new Uri(video.Thumbnails.GetBestThumbnail()));
         props.MusicProperties.Title = video.Title;
         props.MusicProperties.Artist = video.Author.ChannelTitle;
         props.VideoProperties.Title = video.Id; //storing id in unused video.title field for later use

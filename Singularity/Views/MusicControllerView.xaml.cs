@@ -20,7 +20,13 @@ namespace Singularity.Views;
 
 public sealed partial class MusicControllerView : UserControl
 {
+
+    /// <summary>
+    /// Exposed View Model as Static Object as we only have one instace any way
+    /// </summary>
+#pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     public static MusicCotrollerViewModel ExViewModel
+#pragma warning restore CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider declaring as nullable.
     {
         get;private set;
     }
