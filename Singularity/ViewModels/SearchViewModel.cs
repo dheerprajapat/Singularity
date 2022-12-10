@@ -20,11 +20,19 @@ public partial class SearchViewModel: ObservableRecipient
     [ObservableProperty]
     public IAsyncEnumerable<ISearchResult>? artists;
 
+    [ObservableProperty]
+    public ObservableCollection<string> suggestions;
+
+    private string? CurrentQuery;
+
+    private CancellationTokenSource sourceToken = new();
+    private CancellationTokenSource searchSourceToken = new();
+
+    private bool isFetchingResult = false;
+
     public SearchViewModel(IYoutubeService youtube)
     {
         Youtube = youtube;
-        string query = "on my way song";
-        SearchQuery(query);
 
     }
 
@@ -32,13 +40,7 @@ public partial class SearchViewModel: ObservableRecipient
     {
         get;
     }
-    async void SearchQuery(string query)
-    {
 
-        Videos =  Search<VideoSearchResult>(query, SearchType.Video);
-        Playlists =  Search<PlaylistSearchResult>(query, SearchType.Playlist);
-        Artists =  Search<ChannelSearchResult>(query, SearchType.Artist);
-    }
 
     IAsyncEnumerable<ISearchResult> Search<T>(string query,SearchType searchType, CancellationToken token = default)
         where T : ISearchResult
@@ -46,4 +48,29 @@ public partial class SearchViewModel: ObservableRecipient
        return Youtube.GetSearchResult(query, searchType, token);
     }
 
+    void SearchQuery()
+    {
+
+        Videos = Search<VideoSearchResult>(CurrentQuery, SearchType.Video, sourceToken.Token);
+        Playlists = Search<PlaylistSearchResult>(CurrentQuery, SearchType.Playlist, sourceToken.Token);
+        Artists = Search<ChannelSearchResult>(CurrentQuery, SearchType.Artist, sourceToken.Token);
+    }
+
+    internal async Task FetchSearchResults(string? text)
+    {
+        if (CurrentQuery!=null && CurrentQuery == text)
+            return;
+
+        CurrentQuery = text;
+        if (isFetchingResult)
+        {
+            sourceToken.Cancel();
+            sourceToken= new CancellationTokenSource();
+        }
+        isFetchingResult = true;
+        var r=await Youtube.SuggestionsAsync(CurrentQuery,sourceToken.Token);
+        Suggestions = new(r);
+        SearchQuery();
+        isFetchingResult = false;
+    }
 }

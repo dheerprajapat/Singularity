@@ -5,18 +5,26 @@ using System.Linq;
 using System.Reflection.Metadata.Ecma335;
 using System.Text;
 using System.Threading.Tasks;
+using AngleSharp.Dom;
 using Singularity.Core.Contracts.Services;
 using YoutubeExplode;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
+using static System.Net.WebRequestMethods;
 
 namespace Singularity.Core.Services;
 public class YoutubeExplodeService : IYoutubeService
 {
+    public static readonly HttpClient Http = new();
+
     private readonly YoutubeClient _youtubeClient = new();
     private readonly Dictionary<string, Video> videoCache = new();
+    public Dictionary<string, Video> GetVideoCache() => videoCache;
+
+    private const string search_url = "https://clients1.google.com/complete/search?client=youtube&gs_ri=youtube&ds=yt&q=";
+
     public ValueTask<Video> GetVideoFromCache(string id)
     {
         if (videoCache.ContainsKey(id))
@@ -61,7 +69,16 @@ public class YoutubeExplodeService : IYoutubeService
         else
             return _youtubeClient.Search.GetChannelsAsync(query, token);
     }
-    public Dictionary<string, Video> GetVideoCache() => videoCache;
-
     
+    public async ValueTask<List<string>> SuggestionsAsync(string query, CancellationToken token = default)
+    {
+        query = Uri.EscapeDataString(query);
+        query = search_url + query;
+        var res = await Http.GetAsync(query,token);
+        var js = await res.Content.ReadAsStringAsync(token);
+
+        var parts = js.Split('[').Where(t => t.Split('"').Length > 2).Select(t => t.Split('"')[1]);
+
+        return parts.ToList();
+    }
 }

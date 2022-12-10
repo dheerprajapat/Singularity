@@ -15,6 +15,12 @@
         <TextBlock Text="{x:Bind ViewModel.Header,Mode=OneWay}" FontWeight="Bold" FontSize="20"/>
         <ListView ItemsSource="{x:Bind ViewModel.SearchItems, Mode=OneWay}" SelectionMode="Single"
                   SelectionChanged="ListView_SelectionChanged">
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="Margin" Value="5 5 5 5"/>
+                    <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
+                </Style>
+            </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:SearchFragmentItem">
                     <StackPanel Orientation="Horizontal">

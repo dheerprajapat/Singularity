@@ -16,4 +16,9 @@ public sealed partial class SearchPage : Page
         ViewModel = App.GetService<SearchViewModel>();
         InitializeComponent();
     }
+
+    private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)
+    {
+        ViewModel.FetchSearchResults(sender.Text);
+    }
 }

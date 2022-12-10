@@ -14,6 +14,7 @@
         </Grid.RowDefinitions>
         <StackPanel Orientation="Horizontal" Spacing="20" Margin="0 -72 20 20">
             <AutoSuggestBox QueryIcon="Find" VerticalAlignment="Center" x:Name="SearchBox"
+                            TextChanged="SearchBox_TextChanged" ItemsSource="{x:Bind ViewModel.Suggestions,Mode=OneWay}"
                        PlaceholderText="Search here" Width="560" Height="40" HorizontalAlignment="Left"/>
             <TextBlock VerticalAlignment="Center" Foreground="LightGray">Filter By</TextBlock>
             <Button Content="Rating">
@@ -28,7 +29,7 @@
             </Button>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
-            <StackPanel Orientation="Vertical">
+            <StackPanel Orientation="Vertical" Spacing="4">
                 <views:SearchItemFragmentView Header="Songs" Items="{x:Bind ViewModel.Videos,Mode=OneWay}"/>
                 <views:SearchItemFragmentView Header="Playlists" Items="{x:Bind ViewModel.Playlists,Mode=OneWay}"/>
                 <views:SearchItemFragmentView Header="Artists" Items="{x:Bind ViewModel.Artists,Mode=OneWay}"/>
