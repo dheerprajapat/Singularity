@@ -94,6 +94,9 @@ public partial class App : Application
             services.AddTransient<SearchItemFragmentViewModel>();
 
 
+            services.AddTransient<SearchItemView>();
+            services.AddTransient<SearchItemViewModel>();
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).

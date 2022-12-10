@@ -58,7 +58,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     public string positionString = "0:00";
 
     [ObservableProperty]
-    public int position=0;
+    public static int position=0;
 
     public ICommand NextSongCommand;
     public ICommand PreviousSongCommand;
@@ -80,7 +80,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     };
 
     [ObservableProperty]
-    public string playPauseIcon;
+    public string? playPauseIcon;
     public ImageSource? Thumbnail
     {
         get
@@ -115,7 +115,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     {
         if (playerElement is null)
             return "\uf5b0";
-        switch (playerElement.MediaPlayer.CurrentState)
+        switch (playerElement.MediaPlayer!.CurrentState)
         {
             case MediaPlayerState.Playing:
                 return "\uf8ae";
@@ -130,7 +130,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     void Play()
     {
         if(playerElement is null) return;
-        if (playerElement.MediaPlayer.CurrentState == MediaPlayerState.Playing)
+        if (playerElement.MediaPlayer!.CurrentState == MediaPlayerState.Playing)
         {
             playerElement.MediaPlayer.Pause();
         }

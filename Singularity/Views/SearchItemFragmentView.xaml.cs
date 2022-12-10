@@ -38,7 +38,7 @@ public sealed partial class SearchItemFragmentView : UserControl
         {
             SetValue(ItemsProperty, value);
             ViewModel.Items = value;
-            ViewModel.ProcessSerchItems();
+            _ = ViewModel.ProcessSerchItems();
         }
     }
 

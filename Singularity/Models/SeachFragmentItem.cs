@@ -25,13 +25,15 @@ public class SearchFragmentItem
         get; set;
     }
 
+    public SearchFragmentItem Self => this;
+
     public async ValueTask DoAction()
     {
         if(Item== null) return;
 
         if (Item is VideoSearchResult v)
         {
-            await AudioQueue.AddSong(v.Id);
+            await AudioQueue.AddSong(v.Id,playNow:true);
         }
     }
 

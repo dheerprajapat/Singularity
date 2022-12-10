@@ -17,29 +17,13 @@
                   SelectionChanged="ListView_SelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="Margin" Value="5 5 5 5"/>
+                    <Setter Property="Margin" Value="0 5 5 5"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
             <ListView.ItemTemplate>
                 <DataTemplate x:DataType="model:SearchFragmentItem">
-                    <StackPanel Orientation="Horizontal">
-                        <Image 
-                            Source="{x:Bind ThumbnailUrl, Mode=OneWay}" 
-                                Width="80" Height="80" x:Name="thumnailImg"/>
-                        <StackPanel Orientation="Vertical" Spacing="2" Margin="5 5 5 5" Grid.Column="1" VerticalAlignment="Center">
-                            <TextBlock FontSize="16" FontWeight="SemiBold" Text="{x:Bind Name, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
-                            <StackPanel Orientation="Horizontal" Spacing="5">
-                                <TextBlock FontSize="12" Text="{x:Bind MediaType, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
-                                <FontIcon FontFamily="Segoe Fluent Icons" FontSize="11"
-                                         Glyph="&#xe76c;"/>
-                                <TextBlock FontSize="12" Text="{x:Bind ChannelName, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
-                                <FontIcon FontFamily="Segoe Fluent Icons" FontSize="11" Visibility="{x:Bind HideDuration,Mode=OneWay}"
-                                         Glyph="&#xe76c;"/>
-                                <TextBlock FontSize="12" FontWeight="SemiBold" Text="{x:Bind Duration, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
-                            </StackPanel>
-                        </StackPanel>
-                    </StackPanel>
+                    <local:SearchItemView Item="{x:Bind Self,Mode=OneWay}"/>
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>

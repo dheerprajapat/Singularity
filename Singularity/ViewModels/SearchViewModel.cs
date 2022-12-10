@@ -19,6 +19,8 @@ public partial class SearchViewModel: ObservableRecipient
     public IAsyncEnumerable<ISearchResult>? playlists;
     [ObservableProperty]
     public IAsyncEnumerable<ISearchResult>? artists;
+    [ObservableProperty]
+    public IAsyncEnumerable<ISearchResult>? topResultItem;
 
     [ObservableProperty]
     public ObservableCollection<string> suggestions;
@@ -26,7 +28,6 @@ public partial class SearchViewModel: ObservableRecipient
     private string? CurrentQuery;
 
     private CancellationTokenSource sourceToken = new();
-    private CancellationTokenSource searchSourceToken = new();
 
     private bool isFetchingResult = false;
 
@@ -50,10 +51,15 @@ public partial class SearchViewModel: ObservableRecipient
 
     void SearchQuery()
     {
-
+        TopResultItem = ProcessTopResult();
         Videos = Search<VideoSearchResult>(CurrentQuery, SearchType.Video, sourceToken.Token);
         Playlists = Search<PlaylistSearchResult>(CurrentQuery, SearchType.Playlist, sourceToken.Token);
         Artists = Search<ChannelSearchResult>(CurrentQuery, SearchType.Artist, sourceToken.Token);
+    }
+    async IAsyncEnumerable<ISearchResult>? ProcessTopResult()
+    {
+        yield return await Youtube.GetTopSeachQuery(CurrentQuery, sourceToken.Token);
+
     }
 
     internal async Task FetchSearchResults(string? text)

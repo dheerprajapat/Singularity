@@ -5,6 +5,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Singularity.Core.Contracts.Services;
+using Singularity.ViewModels;
+using Singularity.Views;
 using Windows.Devices.Spi;
 using Windows.Foundation;
 using Windows.Media;
@@ -42,12 +44,12 @@ internal static class AudioQueue
     {
         Youtube = youtube;
     }
-    public static async ValueTask AddSong(string id)
+    public static async ValueTask AddSong(string id,bool playNow=false)
     {
         var vid = await Youtube.GetVideoInfo(id);
-        await AddSong(vid);
+        await AddSong(vid,playNow);
     }
-    public static async ValueTask AddSong(Video video)
+    public static async ValueTask AddSong(Video video,bool playNow=false)
     {
         if (currentVideoIds.Contains(video.Id))
         {
@@ -69,6 +71,14 @@ internal static class AudioQueue
 
         IdFromTitleChannelNameMap.TryAdd(GetIdTitleKey(props), video.Id);
         currentVideoIds.Add(video.Id);
+
+        if (playNow)
+            MoveToSong(playbackItem);
+    }
+    public static void MoveToSong(MediaPlaybackItem item)
+    {
+        currentList.MoveTo((uint)currentList.Items.IndexOf(item));
+        MusicControllerView.ExViewModel.Position = 0;
     }
     private static string GetIdTitleKey(MediaItemDisplayProperties props)
     {

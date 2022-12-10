@@ -20,15 +20,21 @@ namespace Singularity.Views;
 
 public sealed partial class MusicControllerView : UserControl
 {
+    public static MusicCotrollerViewModel ExViewModel
+    {
+        get;private set;
+    }
     public MusicCotrollerViewModel ViewModel
     {
-        get;
+        get; private set;
     }
+
 
     public MusicControllerView()
     {
         this.InitializeComponent();
         ViewModel = App.GetService<MusicCotrollerViewModel>();
+        ExViewModel = ViewModel;
         ViewModel.InitPlayer(videoPlayer);
     }
 

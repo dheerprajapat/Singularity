@@ -23,6 +23,7 @@
     <None Remove="Views\PlaylistPage.xaml" />
     <None Remove="Views\RecentPlayPage.xaml" />
     <None Remove="Views\SearchItemFragmentView.xaml" />
+    <None Remove="Views\SearchItemView.xaml" />
     <None Remove="Views\SearchPage.xaml" />
   </ItemGroup>
 
@@ -45,6 +46,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\SearchItemView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\SearchItemFragmentView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

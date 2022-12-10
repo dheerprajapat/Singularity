@@ -24,6 +24,7 @@ public interface IYoutubeService
     IAsyncEnumerable<ISearchResult> GetSearchResult(string query, SearchType type,
         CancellationToken token = default);
     ValueTask<List<string>> SuggestionsAsync(string query, CancellationToken token = default);
+    ValueTask<ISearchResult?> GetTopSeachQuery(string query, CancellationToken token = default);
 
 }
 public enum SearchType
