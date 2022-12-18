@@ -41,7 +41,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
         var cloneIterator = items;
         var ct = 0;
         var hasMore = false;
-        if(MaxItemsToDisplay!=0 || cloneIterator != null) 
+        if(MaxItemsToDisplay!=0 && cloneIterator != null) 
         await foreach (var item in cloneIterator)
         {
             ct++;
