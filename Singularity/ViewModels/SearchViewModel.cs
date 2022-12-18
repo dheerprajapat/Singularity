@@ -64,7 +64,7 @@ public partial class SearchViewModel: ObservableRecipient
 
     internal async Task FetchSearchResults(string? text)
     {
-        if (CurrentQuery!=null || CurrentQuery == text)
+        if (CurrentQuery!=null && CurrentQuery == text)
             return;
 
         CurrentQuery = text;
