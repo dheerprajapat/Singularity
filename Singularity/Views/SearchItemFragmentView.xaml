@@ -27,7 +27,8 @@
                 </DataTemplate>
             </ListView.ItemTemplate>
         </ListView>
-        <TextBlock Text="Show More" FontWeight="SemiBold" Margin="10 0 0 10"
-                   FontSize="14" Visibility="{x:Bind ViewModel.MoreItemVisibiity,Mode=OneWay}" />
+        <Button Content="Show More" FontWeight="SemiBold" Margin="10 0 0 10"
+                   FontSize="14" Visibility="{x:Bind ViewModel.MoreItemVisibiity,Mode=OneWay}"
+                   Command="{x:Bind ViewModel.ExpandMoreCommand}"/>
     </StackPanel>
 </UserControl>

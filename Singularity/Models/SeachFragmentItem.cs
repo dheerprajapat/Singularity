@@ -18,7 +18,7 @@ public class SearchFragmentItem
     {
         get; set;
     }
-    public Visibility HideDuration =>  MediaType is not "Video"
+    public Visibility HideDuration =>  Item is not VideoSearchResult
     ? Visibility.Collapsed : Visibility.Visible;
 
     public ISearchResult? Item

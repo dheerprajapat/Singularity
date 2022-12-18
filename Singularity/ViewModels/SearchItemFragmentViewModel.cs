@@ -5,7 +5,9 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Input;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using Microsoft.UI.Xaml;
 using Singularity.Core.Contracts.Services;
 using Singularity.Helpers;
@@ -22,7 +24,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
     public IAsyncEnumerable<ISearchResult>? items;
 
     public int MaxItemsToDisplay = 3;
-
+    private int originalAmount = -1;
 
     [ObservableProperty]
     public ObservableCollection<SearchFragmentItem>? searchItems;
@@ -30,10 +32,12 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
     [ObservableProperty]
     public Visibility moreItemVisibiity=Visibility.Visible;
 
+    public ICommand ExpandMoreCommand;
+
     public SearchItemFragmentViewModel(IYoutubeService youtube)
     {
         Youtube = youtube;
-        //LoadTempItems();
+        ExpandMoreCommand = new RelayCommand(ExpandMore);
     }
 
     private async ValueTask CheckHasMoreItemsAsync()
@@ -117,5 +121,19 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
         if(SearchItems==null || (uint)selectedIndex >= SearchItems.Count)
             return;
         await SearchItems[selectedIndex].DoAction();
+    }
+
+
+    private async void ExpandMore()
+    {
+        if (MaxItemsToDisplay == -1)
+            return;
+
+        if (originalAmount == -1)
+            originalAmount = MaxItemsToDisplay;
+
+        MaxItemsToDisplay += originalAmount;
+
+        await ProcessSerchItems();
     }
 }
