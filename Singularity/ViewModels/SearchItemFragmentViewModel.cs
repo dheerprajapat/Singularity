@@ -26,10 +26,36 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
     [ObservableProperty]
     public ObservableCollection<SearchFragmentItem>? searchItems;
+
+    [ObservableProperty]
+    public Visibility moreItemVisibiity=Visibility.Visible;
+
     public SearchItemFragmentViewModel(IYoutubeService youtube)
     {
         Youtube = youtube;
         //LoadTempItems();
+    }
+
+    private async ValueTask CheckHasMoreItemsAsync()
+    {
+        var cloneIterator = items;
+        var ct = 0;
+        var hasMore = false;
+        if(MaxItemsToDisplay!=0 || cloneIterator != null) 
+        await foreach (var item in cloneIterator)
+        {
+            ct++;
+            if (ct <= MaxItemsToDisplay)
+                continue;
+            hasMore = true;
+            break;
+        }
+        if (hasMore)
+        {
+            MoreItemVisibiity = Visibility.Visible;
+        }
+        else
+            MoreItemVisibiity = Visibility.Collapsed;
     }
 
     public IYoutubeService Youtube
@@ -39,11 +65,14 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
     public async Task ProcessSerchItems()
     {
+        await CheckHasMoreItemsAsync();
+
         var r = new ObservableCollection<SearchFragmentItem>();
+
         if (items != null)
             await foreach (var item in items)
             {
-                if (r.Count >= MaxItemsToDisplay)
+                if (MaxItemsToDisplay!=-1 && r.Count >= MaxItemsToDisplay)
                     break;
 
                 if (item is VideoSearchResult i)

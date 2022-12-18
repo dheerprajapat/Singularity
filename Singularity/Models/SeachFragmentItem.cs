@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
+using Singularity.Views;
 using YoutubeExplode.Search;
 
 namespace Singularity.Models;
@@ -34,6 +35,7 @@ public class SearchFragmentItem
         if (Item is VideoSearchResult v)
         {
             await AudioQueue.AddSong(v.Id,playNow:true);
+            MusicControllerView.ExViewModel.Play();
         }
     }
 

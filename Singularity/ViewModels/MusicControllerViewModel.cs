@@ -127,7 +127,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         }
     }
 
-    void Play()
+    public void Play()
     {
         if(playerElement is null) return;
         if (playerElement.MediaPlayer!.CurrentState == MediaPlayerState.Playing)

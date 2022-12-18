@@ -66,7 +66,6 @@ internal static class AudioQueue
             .CreateFromUri(new Uri(video.Thumbnails.GetBestThumbnail()));
         props.MusicProperties.Title = video.Title;
         props.MusicProperties.Artist = video.Author.ChannelTitle;
-        props.VideoProperties.Title = video.Id; //storing id in unused video.title field for later use
         playbackItem.ApplyDisplayProperties(props);
         currentList.Items.Add(playbackItem);
 
