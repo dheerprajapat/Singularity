@@ -17,8 +17,11 @@ using YoutubeExplode.Search;
 namespace Singularity.ViewModels;
 public partial class SearchItemFragmentViewModel : ObservableRecipient
 {
+    [AlsoNotifyChangeFor(nameof(HeaderVisibility))]
     [ObservableProperty]
     public string? header;
+
+    public Visibility HeaderVisibility=>header!=null?Visibility.Visible:Visibility.Collapsed;
 
     [ObservableProperty]
     public IAsyncEnumerable<ISearchResult>? items;
@@ -28,6 +31,8 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
     [ObservableProperty]
     public ObservableCollection<SearchFragmentItem>? searchItems;
+
+    public bool ShowAllItems=false;
 
     [ObservableProperty]
     public Visibility moreItemVisibiity=Visibility.Visible;
@@ -76,7 +81,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
         if (items != null)
             await foreach (var item in items)
             {
-                if (MaxItemsToDisplay!=-1 && r.Count >= MaxItemsToDisplay)
+                if (!ShowAllItems && r.Count >= MaxItemsToDisplay)
                     break;
 
                 if (item is VideoSearchResult i)
@@ -110,6 +115,17 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                         Name = p.Title,
                         ThumbnailUrl = p.Thumbnails.GetBestThumbnail(),
                         Item = p
+                    });
+                }
+                else if (item is PlaylistVideoSearchResult pv)
+                {
+                    r.Add(new()
+                    {
+                        MediaType = "PlaylistVideo",
+                        ChannelName = pv.PlaylistVideo.Author!.ChannelTitle,
+                        Name = pv.Title,
+                        ThumbnailUrl = pv.PlaylistVideo.Thumbnails.GetBestThumbnail(),
+                        Item = pv
                     });
                 }
             }

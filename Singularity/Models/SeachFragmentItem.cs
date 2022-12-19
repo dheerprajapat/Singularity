@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.UI.Xaml;
+using Singularity.Contracts.Services;
+using Singularity.ViewModels;
 using Singularity.Views;
 using YoutubeExplode.Search;
 
@@ -14,6 +16,7 @@ public class SearchFragmentItem
     public string? MediaType { get; set; }
     public string? ChannelName { get; set; }
     public string? ThumbnailUrl { get; set; }
+
     public string? Duration
     {
         get; set;
@@ -28,15 +31,24 @@ public class SearchFragmentItem
 
     public SearchFragmentItem Self => this;
 
+
+
     public async ValueTask DoAction()
     {
         if(Item== null) return;
 
         if (Item is VideoSearchResult v)
         {
-            await AudioQueue.AddSong(v.Id,playNow:true);
+            await AudioQueue.AddSong(v.Id, playNow: true);
             MusicControllerView.ExViewModel.Play();
+
         }
+        else if (Item is PlaylistSearchResult p)
+        {
+            var service= App.GetService<INavigationService>();
+            service.NavigateTo(typeof(PlaylistItemPageViewModel).FullName!, p.Id);
+        }
+
     }
 
 }

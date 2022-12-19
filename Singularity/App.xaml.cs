@@ -97,6 +97,10 @@ public partial class App : Application
             services.AddTransient<SearchItemView>();
             services.AddTransient<SearchItemViewModel>();
 
+
+            services.AddTransient<PlaylistItemPage>();
+            services.AddTransient<PlaylistItemPageViewModel>();
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).

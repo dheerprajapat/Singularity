@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YoutubeExplode.Playlists;
 using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
@@ -25,6 +26,8 @@ public interface IYoutubeService
         CancellationToken token = default);
     ValueTask<List<string>> SuggestionsAsync(string query, CancellationToken token = default);
     ValueTask<ISearchResult?> GetTopSeachQuery(string query, CancellationToken token = default);
+    IAsyncEnumerable<PlaylistVideo> GetPlaylistVideos(string id, CancellationToken token = default);
+
 
 }
 public enum SearchType

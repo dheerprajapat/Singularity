@@ -12,7 +12,8 @@
     mc:Ignorable="d">
 
     <StackPanel Orientation="Vertical">
-        <TextBlock Text="{x:Bind ViewModel.Header,Mode=OneWay}" FontWeight="Bold" FontSize="18"/>
+        <TextBlock Text="{x:Bind ViewModel.Header,Mode=OneWay}" FontWeight="Bold" FontSize="18"
+                   Visibility="{x:Bind ViewModel.HeaderVisibility,Mode=OneWay}"/>
         <ListView ItemsSource="{x:Bind ViewModel.SearchItems, Mode=OneWay}" SelectionMode="Single"
                   SelectionChanged="ListView_SelectionChanged">
             <ListView.ItemContainerStyle>

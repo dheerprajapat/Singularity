@@ -23,9 +23,9 @@ public partial class SearchViewModel: ObservableRecipient
     public IAsyncEnumerable<ISearchResult>? topResultItem;
 
     [ObservableProperty]
-    public ObservableCollection<string> suggestions;
+    public ObservableCollection<string>? suggestions;
 
-    private string? CurrentQuery;
+    public static string? CurrentQuery;
 
     private CancellationTokenSource sourceToken = new();
 
@@ -34,7 +34,10 @@ public partial class SearchViewModel: ObservableRecipient
     public SearchViewModel(IYoutubeService youtube)
     {
         Youtube = youtube;
-
+        if (CurrentQuery != null)
+        {
+            SearchQuery();
+        }
     }
 
     public IYoutubeService Youtube
@@ -58,7 +61,7 @@ public partial class SearchViewModel: ObservableRecipient
     }
     async IAsyncEnumerable<ISearchResult>? ProcessTopResult()
     {
-        yield return await Youtube.GetTopSeachQuery(CurrentQuery, sourceToken.Token);
+         yield return await Youtube.GetTopSeachQuery(CurrentQuery, sourceToken.Token);
 
     }
 

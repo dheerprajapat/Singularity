@@ -19,6 +19,8 @@ public class PageService : IPageService
         Configure<RecentPlayViewModel, RecentPlayPage>();
         Configure<PlaylistViewModel, PlaylistPage>();
         Configure<LikesViewModel, LikesPage>();
+        Configure<PlaylistItemPageViewModel, PlaylistItemPage>();
+
     }
 
     public Type GetPageType(string key)

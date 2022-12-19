@@ -15,6 +15,8 @@ public sealed partial class SearchPage : Page
     {
         ViewModel = App.GetService<SearchViewModel>();
         InitializeComponent();
+        if (SearchViewModel.CurrentQuery is not null)
+            SearchBox.Text = SearchViewModel.CurrentQuery;
     }
 
     private void SearchBox_TextChanged(AutoSuggestBox sender, AutoSuggestBoxTextChangedEventArgs args)

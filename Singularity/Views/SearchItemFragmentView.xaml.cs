@@ -65,6 +65,25 @@ public sealed partial class SearchItemFragmentView : UserControl
 
 
 
+    public bool ShowAllItems
+    {
+        get
+        {
+            return (bool)GetValue(ShowAllItemsProperty);
+        }
+        set
+        {
+           ViewModel.ShowAllItems= value;
+            SetValue(ShowAllItemsProperty, value);
+        }
+    }
+
+    // Using a DependencyProperty as the backing store for ShowAllItems.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty ShowAllItemsProperty =
+        DependencyProperty.Register("ShowAllItems", typeof(bool), typeof(SearchItemFragmentView), new PropertyMetadata(0));
+
+
+
 
     public SearchItemFragmentView()
     {

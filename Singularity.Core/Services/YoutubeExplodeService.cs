@@ -69,6 +69,11 @@ public class YoutubeExplodeService : IYoutubeService
         else
             return _youtubeClient.Search.GetChannelsAsync(query, token);
     }
+
+    public IAsyncEnumerable<PlaylistVideo> GetPlaylistVideos(string id,CancellationToken token=default)
+    {
+        return _youtubeClient.Playlists.GetVideosAsync(PlaylistId.Parse(id), token);
+    }
     
     public async ValueTask<List<string>> SuggestionsAsync(string query, CancellationToken token = default)
     {
