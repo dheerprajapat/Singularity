@@ -33,22 +33,29 @@ public class SearchFragmentItem
 
 
 
-    public async ValueTask DoAction()
+    public void DoAction()
     {
         if(Item== null) return;
 
         if (Item is VideoSearchResult v)
         {
-            await AudioQueue.AddSong(v.Id, playNow: true);
-            MusicControllerView.ExViewModel.Play();
-
+            PlayNow(v.Id);
         }
         else if (Item is PlaylistSearchResult p)
         {
             var service= App.GetService<INavigationService>();
             service.NavigateTo(typeof(PlaylistItemPageViewModel).FullName!, p.Id);
         }
+        else if (Item is PlaylistVideoSearchResult pv)
+        {
+            PlayNow(pv.PlaylistVideo.Id);
+        }
 
+    }
+    private async void PlayNow(string id)
+    {
+        await AudioQueue.AddSong(id, playNow: true);
+        MusicControllerView.ExViewModel.Play();
     }
 
 }

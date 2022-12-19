@@ -47,6 +47,11 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
     private async ValueTask CheckHasMoreItemsAsync()
     {
+        if (ShowAllItems)
+        {
+            MoreItemVisibiity = Visibility.Collapsed;
+            return;
+        }
         var cloneIterator = items;
         var ct = 0;
         var hasMore = false;
@@ -121,22 +126,23 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                 {
                     r.Add(new()
                     {
-                        MediaType = "PlaylistVideo",
+                        MediaType = "Video",
                         ChannelName = pv.PlaylistVideo.Author!.ChannelTitle,
                         Name = pv.Title,
                         ThumbnailUrl = pv.PlaylistVideo.Thumbnails.GetBestThumbnail(),
-                        Item = pv
+                        Item = pv,
+                        Duration = pv.PlaylistVideo.Duration.ToString()
                     });
                 }
             }
         SearchItems = new ObservableCollection<SearchFragmentItem>(r);
     }
 
-    internal async void SelectionChanged(int selectedIndex)
+    internal void SelectionChanged(int selectedIndex)
     {
         if(SearchItems==null || (uint)selectedIndex >= SearchItems.Count)
             return;
-        await SearchItems[selectedIndex].DoAction();
+        SearchItems[selectedIndex].DoAction();
     }
 
 
