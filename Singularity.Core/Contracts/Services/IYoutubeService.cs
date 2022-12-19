@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using YoutubeExplode;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
@@ -28,6 +29,7 @@ public interface IYoutubeService
     ValueTask<ISearchResult?> GetTopSeachQuery(string query, CancellationToken token = default);
     IAsyncEnumerable<PlaylistVideo> GetPlaylistVideos(string id, CancellationToken token = default);
     ValueTask<Playlist> GetPlaylistMetadata(string id, CancellationToken token = default);
+    ValueTask<string> GetLiveStreamUrl(string id);
 
 }
 public enum SearchType

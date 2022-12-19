@@ -24,7 +24,10 @@
                 <FontIcon FontFamily="Segoe Fluent Icons" FontSize="11" 
                           Visibility="{x:Bind ViewModel.Item.HideDuration,Mode=OneWay}"
                                          Glyph="&#xe76c;"/>
-                <TextBlock FontSize="12" FontWeight="SemiBold" Text="{x:Bind ViewModel.Item.Duration, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
+                <TextBlock FontSize="12" FontWeight="SemiBold" Text="{x:Bind ViewModel.Item.Duration, Mode=OneWay}"
+                           Visibility="{x:Bind ViewModel.Item.HideDuration,Mode=OneWay}"
+                           TextTrimming="CharacterEllipsis"/>
+                <TextBlock FontSize="12" Foreground="Red" FontWeight="Bold" Text="Live" Visibility="{x:Bind ViewModel.Item.IsLive, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
             </StackPanel>
         </StackPanel>
     </StackPanel>

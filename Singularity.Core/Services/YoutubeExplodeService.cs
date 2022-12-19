@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Singularity.Core.Contracts.Services;
 using YoutubeExplode;
+using YoutubeExplode.Exceptions;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
@@ -41,7 +42,14 @@ public class YoutubeExplodeService : IYoutubeService
     public async ValueTask<IStreamInfo> GetBestQualityAudio(string id)
     {
         var mainfest = await _youtubeClient.Videos.Streams.GetManifestAsync(id);
-        return mainfest.GetAudioOnlyStreams().GetWithHighestBitrate();
+        try
+        {
+            return mainfest.GetAudioOnlyStreams().GetWithHighestBitrate();
+        }
+        catch (VideoUnplayableException)
+        {
+            return null;
+        }
 
     }
 
@@ -78,6 +86,12 @@ public class YoutubeExplodeService : IYoutubeService
     {
         return _youtubeClient.Playlists.GetAsync(PlaylistId.Parse(id), token);
     }
+    public ValueTask<string> GetLiveStreamUrl(string id)
+    {
+        return _youtubeClient.Videos.Streams.GetHttpLiveStreamUrlAsync(id);
+
+    }
+
 
     public async ValueTask<List<string>> SuggestionsAsync(string query, CancellationToken token = default)
     {

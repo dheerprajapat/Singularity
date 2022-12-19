@@ -14,6 +14,7 @@ using Windows.Media;
 using Windows.Media.Core;
 using Windows.Media.Playback;
 using Windows.Storage.Streams;
+using YoutubeExplode.Exceptions;
 using YoutubeExplode.Videos;
 
 namespace Singularity.Models;
@@ -56,9 +57,17 @@ internal static class AudioQueue
         {
             return;
         }
-        var stream = await Youtube.GetBestQualityAudio(video.Id);
-        var source= MediaSource.CreateFromUri(
-            new Uri(stream.Url));
+        MediaSource source;
+        try
+        {
+            var stream = await Youtube.GetBestQualityAudio(video.Id);
+            source = MediaSource.CreateFromUri(
+                new Uri(stream.Url));
+        }
+        catch (VideoUnplayableException)
+        {
+            source = MediaSource.CreateFromUri(new Uri(await Youtube.GetLiveStreamUrl(video.Id)));
+        }
         var playbackItem = new MediaPlaybackItem(source);
         var props = playbackItem.GetDisplayProperties();
         props.Type = Windows.Media.MediaPlaybackType.Music;
