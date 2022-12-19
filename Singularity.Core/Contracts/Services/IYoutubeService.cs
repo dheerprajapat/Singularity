@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using YoutubeExplode;
+using YoutubeExplode.Channels;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
@@ -30,6 +31,8 @@ public interface IYoutubeService
     IAsyncEnumerable<PlaylistVideo> GetPlaylistVideos(string id, CancellationToken token = default);
     ValueTask<Playlist> GetPlaylistMetadata(string id, CancellationToken token = default);
     ValueTask<string> GetLiveStreamUrl(string id);
+    ValueTask<Channel> GetChannelMetadata(string id, CancellationToken token = default);
+    IAsyncEnumerable<PlaylistVideo> GetChannelUploads(string id, CancellationToken token = default);
 
 }
 public enum SearchType

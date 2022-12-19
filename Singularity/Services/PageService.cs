@@ -20,7 +20,7 @@ public class PageService : IPageService
         Configure<PlaylistViewModel, PlaylistPage>();
         Configure<LikesViewModel, LikesPage>();
         Configure<PlaylistItemPageViewModel, PlaylistItemPage>();
-
+        Configure<ChannelItemPageViewModel, ChannelItemPage>();
     }
 
     public Type GetPageType(string key)

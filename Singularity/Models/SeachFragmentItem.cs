@@ -48,12 +48,17 @@ public partial class SearchFragmentItem:ObservableRecipient
         }
         else if (Item is PlaylistSearchResult p)
         {
-            var service= App.GetService<INavigationService>();
+            var service = App.GetService<INavigationService>();
             service.NavigateTo(typeof(PlaylistItemPageViewModel).FullName!, p.Id);
         }
         else if (Item is PlaylistVideoSearchResult pv)
         {
             PlayNow(pv.PlaylistVideo.Id);
+        }
+        else if (Item is ChannelSearchResult c)
+        {
+            var service = App.GetService<INavigationService>();
+            service.NavigateTo(typeof(ChannelItemPageViewModel).FullName!, c.Id);
         }
 
     }

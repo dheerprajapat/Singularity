@@ -101,6 +101,9 @@ public partial class App : Application
             services.AddTransient<PlaylistItemPage>();
             services.AddTransient<PlaylistItemPageViewModel>();
 
+            services.AddTransient<ChannelItemPage>();
+            services.AddTransient<ChannelItemPageViewModel>();
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).

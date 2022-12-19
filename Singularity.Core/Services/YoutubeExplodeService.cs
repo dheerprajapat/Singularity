@@ -8,6 +8,7 @@ using System.Threading.Tasks;
 using AngleSharp.Dom;
 using Singularity.Core.Contracts.Services;
 using YoutubeExplode;
+using YoutubeExplode.Channels;
 using YoutubeExplode.Exceptions;
 using YoutubeExplode.Playlists;
 using YoutubeExplode.Search;
@@ -90,6 +91,14 @@ public class YoutubeExplodeService : IYoutubeService
     {
         return _youtubeClient.Videos.Streams.GetHttpLiveStreamUrlAsync(id);
 
+    }
+    public ValueTask<Channel> GetChannelMetadata(string id, CancellationToken token=default)
+    {
+        return _youtubeClient.Channels.GetAsync(ChannelId.Parse(id),token);
+    }
+    public IAsyncEnumerable<PlaylistVideo> GetChannelUploads(string id, CancellationToken token = default)
+    {
+        return _youtubeClient.Channels.GetUploadsAsync(ChannelId.Parse(id), token);
     }
 
 
