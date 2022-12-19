@@ -11,7 +11,37 @@
     mc:Ignorable="d">
 
     <Grid>
-        <ScrollViewer>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="128"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid RowSpacing="10" Margin="20 -76 20 20">
+
+            <Grid CornerRadius="10">
+                <Image Source="{x:Bind ViewModel.Thumbnail,Mode=OneWay}"  Stretch="Fill"/>
+                <!--<Rectangle>
+                    <Rectangle.Fill>
+                        --><!--<media:BackdropBlurBrush Amount="10"/>--><!--
+                    </Rectangle.Fill>
+                </Rectangle>-->
+                <StackPanel Orientation="Vertical" Margin="10" Spacing="10">
+                    <TextBlock FontWeight="Bold" FontSize="24" Margin="10"
+                           Text="{x:Bind ViewModel.Title,Mode=OneWay}"/>
+                    <TextBlock FontWeight="SemiBold" FontSize="20" Margin="10"
+                           Text="{x:Bind ViewModel.Author,Mode=OneWay}"/>
+
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom">
+                        <Button Width="50" Height="50" CornerRadius="50" x:Name="playAllBtn">
+                            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xf5b0;" 
+                              x:Name="PlayPauseIcon" Foreground="IndianRed"
+                              VerticalAlignment="Stretch" HorizontalAlignment="Stretch"
+                              FontSize="18" />
+                        </Button>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
             <v:SearchItemFragmentView ShowAllItems="True"
                 Items="{x:Bind ViewModel.VideosInPlaylist,Mode=OneWay}"/>
         </ScrollViewer>
