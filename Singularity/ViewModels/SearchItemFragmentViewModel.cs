@@ -83,6 +83,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
         ObservableCollection<SearchFragmentItem> r;
         if(cleanList) 
             SearchItems = new ObservableCollection<SearchFragmentItem>();
+            SearchItems ??= new();
         r = SearchItems;
         var ct = 0;
         if (items != null)
@@ -91,7 +92,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                 if (r.Count >= MaxItemsToDisplay)
                     break;
 
-                if (r.Count >= ct++)
+                if (r.Count > ct++)
                     continue;
 
                 if (item is VideoSearchResult i)
