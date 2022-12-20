@@ -83,7 +83,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
         ObservableCollection<SearchFragmentItem> r;
         if(cleanList) 
             SearchItems = new ObservableCollection<SearchFragmentItem>();
-        r ??= SearchItems;
+        r = SearchItems;
         var ct = 0;
         if (items != null)
             await foreach (var item in items)
