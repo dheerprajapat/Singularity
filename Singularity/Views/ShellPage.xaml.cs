@@ -4,6 +4,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 
 using Singularity.Contracts.Services;
+using Singularity.Core.Helpers;
 using Singularity.Helpers;
 using Singularity.ViewModels;
 
@@ -42,6 +43,44 @@ public sealed partial class ShellPage : Page
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
+
+        InstallAdditionalDependencies();
+    }
+
+    public async void InstallAdditionalDependencies()
+    {
+        if (!AdditionalToolInstaller.IsAdditionToolsRequired())
+            return;
+        var contentDialog = new ContentDialog();
+        contentDialog.XamlRoot = this.XamlRoot;
+
+        contentDialog.Title = "Additional Dependencies";
+        StackPanel stack = new StackPanel()
+        {
+            Spacing = 20,
+            Orientation = Orientation.Vertical
+        };
+        contentDialog.Content = stack;
+        stack.Children.Add(new ProgressBar() {
+            IsIndeterminate = true,
+            ShowPaused = false,
+            ShowError = false
+        });
+        stack.Children.Add(new TextBlock() {
+            Text = @"For serving you better we are installing some other dependencies, please wait, it wont take longer more than few minutes
+         
+                - Deno"
+            });
+
+        contentDialog.Loaded += OnContentLoad;
+        await contentDialog.ShowAsync();
+    }
+    private async void OnContentLoad(object sender, RoutedEventArgs e)
+    {
+        await AdditionalToolInstaller.DownloadDenoAsync();
+        var contentDialog = (sender as ContentDialog)!;
+        contentDialog.Loaded -= OnContentLoad;
+        contentDialog.Hide();
     }
 
     private void MainWindow_Activated(object sender, WindowActivatedEventArgs args)
