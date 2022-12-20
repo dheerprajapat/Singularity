@@ -47,10 +47,9 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
     private async ValueTask CheckHasMoreItemsAsync()
     {
-        if (ShowAllItems)
+        if (ShowAllItems && MaxItemsToDisplay < 100)
         {
-            MoreItemVisibiity = Visibility.Collapsed;
-            return;
+            MaxItemsToDisplay = 100;
         }
         var cloneIterator = items;
         var ct = 0;
@@ -81,12 +80,12 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
     {
         await CheckHasMoreItemsAsync();
 
-        var r = new ObservableCollection<SearchFragmentItem>();
+       var r = SearchItems = new ObservableCollection<SearchFragmentItem>();
 
         if (items != null)
             await foreach (var item in items)
             {
-                if (!ShowAllItems && r.Count >= MaxItemsToDisplay)
+                if (r.Count >= MaxItemsToDisplay)
                     break;
 
                 if (item is VideoSearchResult i)
@@ -135,7 +134,6 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                     });
                 }
             }
-        SearchItems = new ObservableCollection<SearchFragmentItem>(r);
     }
 
     internal void SelectionChanged(int selectedIndex)
