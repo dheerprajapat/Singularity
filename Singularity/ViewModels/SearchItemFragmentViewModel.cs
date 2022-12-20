@@ -76,17 +76,23 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
         get;
     }
 
-    public async Task ProcessSerchItems()
+    public async Task ProcessSerchItems(bool cleanList = true)
     {
         await CheckHasMoreItemsAsync();
 
-       var r = SearchItems = new ObservableCollection<SearchFragmentItem>();
-
+        ObservableCollection<SearchFragmentItem> r;
+        if(cleanList) 
+            SearchItems = new ObservableCollection<SearchFragmentItem>();
+        r ??= SearchItems;
+        var ct = 0;
         if (items != null)
             await foreach (var item in items)
             {
                 if (r.Count >= MaxItemsToDisplay)
                     break;
+
+                if (r.Count >= ct++)
+                    continue;
 
                 if (item is VideoSearchResult i)
                 {
@@ -154,6 +160,6 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
         MaxItemsToDisplay += originalAmount;
 
-        await ProcessSerchItems();
+        await ProcessSerchItems(false);
     }
 }
