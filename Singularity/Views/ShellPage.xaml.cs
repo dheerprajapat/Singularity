@@ -43,15 +43,8 @@ public sealed partial class ShellPage : Page
 
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.Left, VirtualKeyModifiers.Menu));
         KeyboardAccelerators.Add(BuildKeyboardAccelerator(VirtualKey.GoBack));
-        RunDemon();
     }
 
-    public async void RunDemon()
-    {
-        await InstallAdditionalDependencies();
-
-        DenoServerLauncher.StartServer();
-    }
     public async ValueTask InstallAdditionalDependencies()
     {
         if (!AdditionalToolInstaller.IsAdditionToolsRequired())
