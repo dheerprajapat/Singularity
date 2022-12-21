@@ -11,6 +11,8 @@ public static class AdditionalToolInstaller
 {
     public const string AdditionalToolFolderName = "Tools";
     public static string DenoDirPath = Path.Join(AppDomain.CurrentDomain.BaseDirectory,AdditionalToolFolderName, DenoDirPath);
+    public static string DenoFullPath = Path.Join(DenoDirPath,DenoExeName);
+
     public static string DenoExeName
     {
         get
@@ -40,8 +42,7 @@ public static class AdditionalToolInstaller
     }
     public static async ValueTask DownloadDenoAsync()
     {
-        var http = new HttpClient();
-        using var responseStream = await http.GetStreamAsync(DenoDownloadUrl);
+        using var responseStream = await HttpHelper.Http.GetStreamAsync(DenoDownloadUrl);
         var denoZipPath = Path.Join(
             AppDomain.CurrentDomain.BaseDirectory, "Deno.zip");
 
