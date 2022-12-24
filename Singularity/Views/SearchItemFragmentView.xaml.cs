@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Singularity.Models;
 using Singularity.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -93,6 +94,6 @@ public sealed partial class SearchItemFragmentView : UserControl
 
     private void ListView_ItemClick(object sender, ItemClickEventArgs e)
     {
-        ViewModel.SelectionChanged((sender as ListView)!.SelectedIndex);
+        ViewModel.SelectionChanged(ViewModel.SearchItems!.IndexOf((e.ClickedItem as SearchFragmentItem)!));
     }
 }

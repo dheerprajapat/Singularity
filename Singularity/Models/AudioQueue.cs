@@ -95,7 +95,7 @@ internal static class AudioQueue
     {
         currentList.MoveTo((uint)currentList.Items.IndexOf(item));
         MusicControllerView.ExViewModel.Position = 0;
-        MusicControllerView.ExViewModel.Play();
+        MusicControllerView.ExViewModel.playerElement!.MediaPlayer!.Play();
     }
     public static void MoveToSong(string id)
     {

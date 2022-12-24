@@ -137,6 +137,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     public void Play()
     {
         if(playerElement is null) return;
+
         if (playerElement.MediaPlayer!.CurrentState == MediaPlayerState.Playing)
         {
             playerElement.MediaPlayer.Pause();
