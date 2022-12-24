@@ -39,6 +39,6 @@ public sealed partial class HomePage : Page
     private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
         var genre = (sender as Button)!.DataContext as Genre;
-        GenreGrid.SelectedIndex = ViewModel.Genres.IndexOf(genre);
+        GenreGrid.SelectedIndex = ViewModel.Genres!.IndexOf(genre!);
     }
 }

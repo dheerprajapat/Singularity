@@ -14,7 +14,13 @@
     <StackPanel Orientation="Vertical">
         <TextBlock Text="{x:Bind ViewModel.Header,Mode=OneWay}" FontWeight="Bold" FontSize="18"
                    Visibility="{x:Bind ViewModel.HeaderVisibility,Mode=OneWay}"/>
-        <ListView ItemsSource="{x:Bind ViewModel.SearchItems, Mode=OneWay}" SelectionMode="Single"
+
+        <ProgressRing Visibility="{x:Bind ViewModel.LoaderVisible,Mode=OneWay}"
+            IsActive="True" />
+            
+        <ListView ItemsSource="{x:Bind ViewModel.SearchItems, Mode=OneWay}"
+                  Visibility="{x:Bind ViewModel.ListItemVisible,Mode=OneWay}"
+                  SelectionMode="Single"
                   SelectionChanged="ListView_SelectionChanged">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">

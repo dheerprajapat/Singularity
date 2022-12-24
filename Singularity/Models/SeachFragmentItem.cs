@@ -22,7 +22,7 @@ public partial class SearchFragmentItem:ObservableRecipient
     {
         get; set;
     }
-    public Visibility HideDuration =>  Item is not VideoSearchResult
+    public Visibility HideDuration =>  Item is not VideoSearchResult && Item is not PlaylistVideoSearchResult
     ? Visibility.Collapsed : 
         Duration!="00:00"?
         Visibility.Visible:

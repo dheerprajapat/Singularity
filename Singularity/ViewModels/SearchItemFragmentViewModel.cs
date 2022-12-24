@@ -21,7 +21,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
     [ObservableProperty]
     public string? header;
 
-    public Visibility HeaderVisibility=>header!=null?Visibility.Visible:Visibility.Collapsed;
+    public Visibility HeaderVisibility => header != null ? Visibility.Visible : Visibility.Collapsed;
 
     [ObservableProperty]
     public IAsyncEnumerable<ISearchResult>? items;
@@ -29,13 +29,23 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
     public int MaxItemsToDisplay = 3;
     private int originalAmount = -1;
 
+
+    [AlsoNotifyChangeFor(nameof(ListItemVisible))]
+    [AlsoNotifyChangeFor(nameof(LoaderVisible))]
+    [ObservableProperty]
+    bool isInitalLoaded = false;
+
+    public Visibility ListItemVisible => IsInitalLoaded ? Visibility.Visible : Visibility.Collapsed;
+    public Visibility LoaderVisible => !IsInitalLoaded ? Visibility.Visible : Visibility.Collapsed;
+
+
     [ObservableProperty]
     public ObservableCollection<SearchFragmentItem>? searchItems;
 
-    public bool ShowAllItems=false;
+    public bool ShowAllItems = false;
 
     [ObservableProperty]
-    public Visibility moreItemVisibiity=Visibility.Visible;
+    public Visibility moreItemVisibiity = Visibility.Collapsed;
 
     public ICommand ExpandMoreCommand;
 
@@ -54,15 +64,15 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
         var cloneIterator = items;
         var ct = 0;
         var hasMore = false;
-        if(MaxItemsToDisplay!=0 && cloneIterator != null) 
-        await foreach (var item in cloneIterator)
-        {
-            ct++;
-            if (ct <= MaxItemsToDisplay)
-                continue;
-            hasMore = true;
-            break;
-        }
+        if (MaxItemsToDisplay != 0 && cloneIterator != null)
+            await foreach (var item in cloneIterator)
+            {
+                ct++;
+                if (ct <= MaxItemsToDisplay)
+                    continue;
+                hasMore = true;
+                break;
+            }
         if (hasMore)
         {
             MoreItemVisibiity = Visibility.Visible;
@@ -78,12 +88,15 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
     public async Task ProcessSerchItems(bool cleanList = true)
     {
+        if (SearchItems == null)
+            IsInitalLoaded = false;
+
         await CheckHasMoreItemsAsync();
 
         ObservableCollection<SearchFragmentItem> r;
-        if(cleanList) 
+        if (cleanList)
             SearchItems = new ObservableCollection<SearchFragmentItem>();
-            SearchItems ??= new();
+        SearchItems ??= new();
         r = SearchItems;
         var ct = 0;
         if (items != null)
@@ -98,6 +111,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                 r.Add(GetItemFromSearchResult(item));
 
             }
+        IsInitalLoaded = true;
     }
 
     public static SearchFragmentItem GetItemFromSearchResult(ISearchResult item)
@@ -144,7 +158,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                 Name = pv.Title,
                 ThumbnailUrl = pv.PlaylistVideo.Thumbnails.GetBestThumbnail(),
                 Item = pv,
-                Duration = pv.PlaylistVideo.Duration.ToString()
+                Duration = MediaPlayerHelper.ConvertTimeSpanToDuration(pv.PlaylistVideo.Duration.GetValueOrDefault())
             };
         }
         throw new NotImplementedException();
@@ -152,7 +166,7 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
 
     internal void SelectionChanged(int selectedIndex)
     {
-        if(SearchItems==null || (uint)selectedIndex >= SearchItems.Count)
+        if (SearchItems == null || (uint)selectedIndex >= SearchItems.Count)
             return;
         SearchItems[selectedIndex].DoAction();
     }
