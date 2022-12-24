@@ -16,7 +16,7 @@
             <RowDefinition Height="108"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Grid RowSpacing="10" Margin="12 -76 20 20">
+        <Grid RowSpacing="10" Margin="6 -76 6 20">
 
             <Grid CornerRadius="10">
                 <Image Source="{x:Bind ViewModel.Thumbnail,Mode=OneWay}"  Stretch="Fill"/>
