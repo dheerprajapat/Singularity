@@ -18,29 +18,31 @@
             <local:HomeQuickPlayView x:Name="QuickPlay"/>
         </Button>
         <TextBlock FontWeight="Bold" FontSize="24" Margin="10" Text="Genres" Grid.Row="1"/>
-        <GridView Grid.Row="2" ItemsSource="{x:Bind ViewModel.Genres,Mode=OneWay}" HorizontalAlignment="Stretch"
-                  x:Name="GenreGrid"
+        <ScrollViewer Grid.Row="2">
+            <GridView  ItemsSource="{x:Bind ViewModel.Genres,Mode=OneWay}" HorizontalAlignment="Stretch"
+                  x:Name="GenreGrid" Height="500"
                   SelectionMode="Single" SelectionChanged="GridView_SelectionChanged">
-            <GridView.ItemContainerStyle>
-                <Style TargetType="GridViewItem">
-                    <Setter Property="Margin" Value="10"/>
-                </Style>
-            </GridView.ItemContainerStyle>
-            <GridView.ItemTemplate>
-                <DataTemplate x:DataType="coreModel:Genre">
-                    <Button Width="200" Height="80" HorizontalContentAlignment="Stretch" Click="Button_Click">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
-                            <Border Height="80" Width="80">
-                                <Border.Background>
-                                    <ImageBrush ImageSource="{x:Bind Thumbnail,Mode=OneWay}"/>
-                                </Border.Background>
-                            </Border>
-                            <TextBlock Text="{x:Bind Name,Mode=OneWay}" Margin="10" VerticalAlignment="Center"
+                <GridView.ItemContainerStyle>
+                    <Style TargetType="GridViewItem">
+                        <Setter Property="Margin" Value="10"/>
+                    </Style>
+                </GridView.ItemContainerStyle>
+                <GridView.ItemTemplate>
+                    <DataTemplate x:DataType="coreModel:Genre">
+                        <Button Width="200" Height="80" HorizontalContentAlignment="Stretch" Click="Button_Click">
+                            <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
+                                <Border Height="80" Width="80">
+                                    <Border.Background>
+                                        <ImageBrush ImageSource="{x:Bind Thumbnail,Mode=OneWay}"/>
+                                    </Border.Background>
+                                </Border>
+                                <TextBlock Text="{x:Bind Name,Mode=OneWay}" Margin="10" VerticalAlignment="Center"
                                        HorizontalAlignment="Left"/>
-                        </StackPanel>
-                    </Button>
-                </DataTemplate>
-            </GridView.ItemTemplate>
-        </GridView>
+                            </StackPanel>
+                        </Button>
+                    </DataTemplate>
+                </GridView.ItemTemplate>
+            </GridView>
+        </ScrollViewer>
     </Grid>
 </Page>
