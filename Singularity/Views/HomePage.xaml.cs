@@ -24,11 +24,15 @@ public sealed partial class HomePage : Page
         QuickPlay.NavigateToQuickPlaylist();
     }
 
-    private void GenreBtn_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    private void GridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var id =((sender as Button)!.DataContext as Genre)!.PlaylistId;
+        var index = (sender as GridView)!.SelectedIndex;
+        if (index < 0)
+            return;
+
+        var id = ViewModel.Genres![index]!.PlaylistId;
 
         App.GetService<INavigationService>()
-           .NavigateTo(typeof(PlaylistItemPageViewModel).FullName!,id);
+           .NavigateTo(typeof(PlaylistItemPageViewModel).FullName!, id);
     }
 }

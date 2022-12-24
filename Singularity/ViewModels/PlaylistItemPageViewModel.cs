@@ -30,7 +30,9 @@ public partial class PlaylistItemPageViewModel:ObservableRecipient
     public Playlist? playlist;
 
     public string? Title =>Playlist?.Title;
-    public string? Author => Playlist?.Author?.ChannelTitle;
+    public string? Author => Playlist != null ?
+        Playlist.Author!=null?Playlist.Author.ChannelTitle:"Youtube Music"
+      : null;
     public ImageSource? Thumbnail
     {
         get

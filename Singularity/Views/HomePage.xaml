@@ -18,7 +18,8 @@
             <local:HomeQuickPlayView x:Name="QuickPlay"/>
         </Button>
         <TextBlock FontWeight="Bold" FontSize="24" Margin="10" Text="Genres" Grid.Row="1"/>
-        <GridView Grid.Row="2" ItemsSource="{x:Bind ViewModel.Genres,Mode=OneWay}" HorizontalAlignment="Stretch">
+        <GridView Grid.Row="2" ItemsSource="{x:Bind ViewModel.Genres,Mode=OneWay}" HorizontalAlignment="Stretch"
+                  SelectionMode="Single" SelectionChanged="GridView_SelectionChanged">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
                     <Setter Property="Margin" Value="10"/>
@@ -26,9 +27,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="coreModel:Genre">
-                    <Button Width="200" Height="80" HorizontalContentAlignment="Stretch" Tag="{x:Bind PlaylistId,Mode=OneWay}"
-                            x:Name="GenreBtn"
-                            Click="GenreBtn_Click">
+                    <StackPanel Width="200" Height="80">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                             <Border Height="80" Width="80">
                                 <Border.Background>
@@ -38,7 +37,7 @@
                             <TextBlock Text="{x:Bind Name,Mode=OneWay}" Margin="10" VerticalAlignment="Center"
                                        HorizontalAlignment="Left"/>
                         </StackPanel>
-                    </Button>
+                    </StackPanel>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
