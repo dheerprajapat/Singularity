@@ -27,7 +27,7 @@ public partial class PlaylistItemPageViewModel:ObservableRecipient
     [AlsoNotifyChangeFor(nameof(Thumbnail))]
 
     [ObservableProperty]
-    public Playlist playlist;
+    public Playlist? playlist;
 
     public string? Title =>Playlist?.Title;
     public string? Author => Playlist?.Author?.ChannelTitle;

@@ -24,7 +24,7 @@
                 <Image Source="{x:Bind ViewModel.Thumbnail,Mode=OneWay}"  Stretch="Fill"/>
                 <Rectangle>
                     <Rectangle.Fill>
-                        <winuiEx:BackdropBlurBrush Amount="10"/>
+                        <winuiEx:BackdropBlurBrush Amount="14"/>
                     </Rectangle.Fill>
                 </Rectangle>
             </Grid>
