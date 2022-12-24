@@ -27,9 +27,11 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         PreviousSongCommand = new RelayCommand(PlayPrevious);
         ShuffleCommand = new RelayCommand(ToggleShuffle);
         PlayCommand = new RelayCommand(Play);
+        ToggleRepeatCommand = new RelayCommand(ToggleRepeat);
 
         AudioQueue.OnCurrentPlaybackItemChanged += AudioQueue_OnCurrentPlaybackItemChanged;
         AudioQueue.InitAudioQueue(Youtube);
+        AudioQueue.ToggleRepeat();
     }
 
 
@@ -51,7 +53,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     public string? Singer => video?.Author.ChannelTitle;
     
     public string MaxDurationString => video is not null ?
-        MediaPlayerHelper.ConvertTimeSpanToDuration(video.Duration.GetValueOrDefault()) : "0:00:00";
+        MediaPlayerHelper.ConvertTimeSpanToDuration(video.Duration.GetValueOrDefault()) : "00:00";
     public int MaxDuration => video is not null ? (int)video.Duration.GetValueOrDefault().TotalSeconds : 0;
 
     [ObservableProperty]
@@ -64,6 +66,11 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     public ICommand PreviousSongCommand;
     public ICommand ShuffleCommand;
     public ICommand PlayCommand;
+    public ICommand ToggleRepeatCommand;
+
+
+    [ObservableProperty]
+    public string repeatModeIcon= "\uE8EE";
 
     readonly DispatcherQueue dispatcherQueue = DispatcherQueue.GetForCurrentThread();
     
@@ -151,6 +158,12 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     void ToggleShuffle()
     {
         AudioQueue.ToggleShuffle();
+    }
+
+    void ToggleRepeat()
+    {
+        AudioQueue.ToggleRepeat();
+        RepeatModeIcon = AudioQueue.AutoRepeatEnabled ? "\uE8EE" : "\uF5E7";
     }
     private async void AudioQueue_OnCurrentPlaybackItemChanged(MediaPlaybackList sender,
         CurrentMediaPlaybackItemChangedEventArgs args)

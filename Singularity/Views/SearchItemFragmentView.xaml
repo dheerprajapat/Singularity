@@ -19,9 +19,8 @@
             IsActive="True" />
             
         <ListView ItemsSource="{x:Bind ViewModel.SearchItems, Mode=OneWay}"
-                  Visibility="{x:Bind ViewModel.ListItemVisible,Mode=OneWay}"
-                  SelectionMode="Single"
-                  SelectionChanged="ListView_SelectionChanged">
+                  Visibility="{x:Bind ViewModel.ListItemVisible,Mode=OneWay}" IsItemClickEnabled="True"
+                  SelectionMode="Single" ItemClick="ListView_ItemClick">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="Margin" Value="0 5 5 5"/>

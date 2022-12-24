@@ -91,7 +91,7 @@ public sealed partial class SearchItemFragmentView : UserControl
         this.InitializeComponent();
     }
 
-    private void ListView_SelectionChanged(object sender, SelectionChangedEventArgs e)
+    private void ListView_ItemClick(object sender, ItemClickEventArgs e)
     {
         ViewModel.SelectionChanged((sender as ListView)!.SelectedIndex);
     }

@@ -20,21 +20,24 @@ using YoutubeExplode.Videos;
 namespace Singularity.Models;
 internal static class AudioQueue
 {
-    internal static readonly MediaPlaybackList currentList=new();
-    private static readonly HashSet<string> currentVideoIds=new();
+    internal static readonly MediaPlaybackList currentList = new();
+    private static readonly HashSet<string> currentVideoIds = new();
     private static readonly Dictionary<string, string> IdFromTitleChannelNameMap = new();
     static AudioQueue()
     {
         currentList.CurrentItemChanged += CurrentPlaybackItemChanged;
     }
 
-    private static void CurrentPlaybackItemChanged(MediaPlaybackList sender, 
-        CurrentMediaPlaybackItemChangedEventArgs args) 
-        => OnCurrentPlaybackItemChanged?.Invoke(sender,args);
+    private static void CurrentPlaybackItemChanged(MediaPlaybackList sender,
+        CurrentMediaPlaybackItemChangedEventArgs args)
+        => OnCurrentPlaybackItemChanged?.Invoke(sender, args);
 
 
 #nullable disable
-    internal static  IYoutubeService Youtube { get; private set; }
+    internal static IYoutubeService Youtube
+    {
+        get; private set;
+    }
 #nullable restore
 
     public delegate void CurrentItemChangedHandler(MediaPlaybackList sender,
@@ -46,15 +49,17 @@ internal static class AudioQueue
     {
         Youtube = youtube;
     }
-    public static async ValueTask AddSong(string id,bool playNow=false)
+    public static async ValueTask AddSong(string id, bool playNow = false)
     {
         var vid = await Youtube.GetVideoInfo(id);
-        await AddSong(vid,playNow);
+        await AddSong(vid, playNow);
     }
-    public static async ValueTask AddSong(Video video,bool playNow=false)
+    public static async ValueTask AddSong(Video video, bool playNow = false)
     {
         if (currentVideoIds.Contains(video.Id))
         {
+            if (playNow)
+                MoveToSong(video.Id);
             return;
         }
         MediaSource source;
@@ -75,9 +80,11 @@ internal static class AudioQueue
             .CreateFromUri(new Uri(video.Thumbnails.GetBestThumbnail()));
         props.MusicProperties.Title = video.Title;
         props.MusicProperties.Artist = video.Author.ChannelTitle;
+        props.MusicProperties.Genres.Add(video.Id); ///storing id n genres
         playbackItem.ApplyDisplayProperties(props);
-        currentList.Items.Add(playbackItem);
 
+
+        currentList.Items.Add(playbackItem);
         IdFromTitleChannelNameMap.TryAdd(GetIdTitleKey(props), video.Id);
         currentVideoIds.Add(video.Id);
 
@@ -88,6 +95,15 @@ internal static class AudioQueue
     {
         currentList.MoveTo((uint)currentList.Items.IndexOf(item));
         MusicControllerView.ExViewModel.Position = 0;
+        MusicControllerView.ExViewModel.Play();
+    }
+    public static void MoveToSong(string id)
+    {
+        var item = currentList.Items
+            .FirstOrDefault(x => x.GetDisplayProperties()
+            .MusicProperties.Genres[0] == id);
+        if (item != null)
+            MoveToSong(item);
     }
     private static string GetIdTitleKey(MediaItemDisplayProperties props)
     {
@@ -98,9 +114,9 @@ internal static class AudioQueue
         if (media is null)
             return null;
         var key = GetIdTitleKey(media.GetDisplayProperties());
-        if(!IdFromTitleChannelNameMap.ContainsKey(key))
+        if (!IdFromTitleChannelNameMap.ContainsKey(key))
             return null;
-        string id = IdFromTitleChannelNameMap[key];
+        var id = IdFromTitleChannelNameMap[key];
         return await Youtube.GetVideoFromCache(id);
     }
     public static void PlayNext()
@@ -113,6 +129,12 @@ internal static class AudioQueue
     }
     public static bool ToggleShuffle()
     {
-        return currentList.ShuffleEnabled= !currentList.ShuffleEnabled;
+        return currentList.ShuffleEnabled = !currentList.ShuffleEnabled;
     }
+
+    internal static void ToggleRepeat()
+    {
+        currentList.AutoRepeatEnabled = !currentList.AutoRepeatEnabled;
+    }
+    public static bool AutoRepeatEnabled => currentList == null ? false: currentList.AutoRepeatEnabled;
 }
