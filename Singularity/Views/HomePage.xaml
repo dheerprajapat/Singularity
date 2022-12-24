@@ -19,6 +19,7 @@
         </Button>
         <TextBlock FontWeight="Bold" FontSize="24" Margin="10" Text="Genres" Grid.Row="1"/>
         <GridView Grid.Row="2" ItemsSource="{x:Bind ViewModel.Genres,Mode=OneWay}" HorizontalAlignment="Stretch"
+                  x:Name="GenreGrid"
                   SelectionMode="Single" SelectionChanged="GridView_SelectionChanged">
             <GridView.ItemContainerStyle>
                 <Style TargetType="GridViewItem">
@@ -27,7 +28,7 @@
             </GridView.ItemContainerStyle>
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="coreModel:Genre">
-                    <StackPanel Width="200" Height="80">
+                    <Button Width="200" Height="80" HorizontalContentAlignment="Stretch" Click="Button_Click">
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Stretch">
                             <Border Height="80" Width="80">
                                 <Border.Background>
@@ -37,7 +38,7 @@
                             <TextBlock Text="{x:Bind Name,Mode=OneWay}" Margin="10" VerticalAlignment="Center"
                                        HorizontalAlignment="Left"/>
                         </StackPanel>
-                    </StackPanel>
+                    </Button>
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>

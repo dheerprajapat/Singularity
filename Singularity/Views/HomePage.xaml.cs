@@ -26,7 +26,7 @@ public sealed partial class HomePage : Page
 
     private void GridView_SelectionChanged(object sender, SelectionChangedEventArgs e)
     {
-        var index = (sender as GridView)!.SelectedIndex;
+        var index = GenreGrid.SelectedIndex;
         if (index < 0)
             return;
 
@@ -34,5 +34,11 @@ public sealed partial class HomePage : Page
 
         App.GetService<INavigationService>()
            .NavigateTo(typeof(PlaylistItemPageViewModel).FullName!, id);
+    }
+
+    private void Button_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        var genre = (sender as Button)!.DataContext as Genre;
+        GenreGrid.SelectedIndex = ViewModel.Genres.IndexOf(genre);
     }
 }
