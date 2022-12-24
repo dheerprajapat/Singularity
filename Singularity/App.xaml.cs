@@ -104,6 +104,9 @@ public partial class App : Application
             services.AddTransient<ChannelItemPage>();
             services.AddTransient<ChannelItemPageViewModel>();
 
+            services.AddTransient<HomeQuickPlayViewModel>();
+            services.AddTransient<HomeQuickPlayView>();
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).

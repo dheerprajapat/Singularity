@@ -4,9 +4,12 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:local="using:Singularity.Views"
     mc:Ignorable="d">
 
-    <Grid x:Name="ContentArea">
-
+    <Grid x:Name="ContentArea"  Margin="0 -76 0 0">
+        <Button VerticalAlignment="Top" x:Name="QuickPlayBtn" Click="QuickPlay_Click">
+            <local:HomeQuickPlayView x:Name="QuickPlay"/>
+        </Button>
     </Grid>
 </Page>

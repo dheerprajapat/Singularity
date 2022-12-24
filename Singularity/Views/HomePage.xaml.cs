@@ -16,4 +16,10 @@ public sealed partial class HomePage : Page
         ViewModel = App.GetService<HomeViewModel>();
         InitializeComponent();
     }
+
+
+    private void QuickPlay_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        QuickPlay.NavigateToQuickPlaylist();
+    }
 }

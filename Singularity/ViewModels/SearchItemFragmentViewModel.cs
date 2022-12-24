@@ -95,52 +95,59 @@ public partial class SearchItemFragmentViewModel : ObservableRecipient
                 if (r.Count > ct++)
                     continue;
 
-                if (item is VideoSearchResult i)
-                {
-                    r.Add(new()
-                    {
-                        ChannelName = i.Author.ChannelTitle,
-                        MediaType = "Video",
-                        Name = i.Title,
-                        Duration = MediaPlayerHelper.ConvertTimeSpanToDuration(i.Duration.GetValueOrDefault()),
-                        ThumbnailUrl = i.Thumbnails.GetBestThumbnail(),
-                        Item = i
-                    });
-                }
-                else if (item is ChannelSearchResult c)
-                {
-                    r.Add(new()
-                    {
-                        MediaType = "Channel",
-                        Name = c.Title,
-                        ThumbnailUrl = c.Thumbnails.GetBestThumbnail(),
-                        Item = c
-                    });
-                }
-                else if (item is PlaylistSearchResult p)
-                {
-                    r.Add(new()
-                    {
-                        MediaType = "Playlist",
-                        ChannelName = p.Author!.ChannelTitle,
-                        Name = p.Title,
-                        ThumbnailUrl = p.Thumbnails.GetBestThumbnail(),
-                        Item = p
-                    });
-                }
-                else if (item is PlaylistVideoSearchResult pv)
-                {
-                    r.Add(new()
-                    {
-                        MediaType = "Video",
-                        ChannelName = pv.PlaylistVideo.Author!.ChannelTitle,
-                        Name = pv.Title,
-                        ThumbnailUrl = pv.PlaylistVideo.Thumbnails.GetBestThumbnail(),
-                        Item = pv,
-                        Duration = pv.PlaylistVideo.Duration.ToString()
-                    });
-                }
+                r.Add(GetItemFromSearchResult(item));
+
             }
+    }
+
+    public static SearchFragmentItem GetItemFromSearchResult(ISearchResult item)
+    {
+        if (item is VideoSearchResult i)
+        {
+            return new()
+            {
+                ChannelName = i.Author.ChannelTitle,
+                MediaType = "Video",
+                Name = i.Title,
+                Duration = MediaPlayerHelper.ConvertTimeSpanToDuration(i.Duration.GetValueOrDefault()),
+                ThumbnailUrl = i.Thumbnails.GetBestThumbnail(),
+                Item = i
+            };
+        }
+        else if (item is ChannelSearchResult c)
+        {
+            return new()
+            {
+                MediaType = "Channel",
+                Name = c.Title,
+                ThumbnailUrl = c.Thumbnails.GetBestThumbnail(),
+                Item = c
+            };
+        }
+        else if (item is PlaylistSearchResult p)
+        {
+            return new()
+            {
+                MediaType = "Playlist",
+                ChannelName = p.Author!.ChannelTitle,
+                Name = p.Title,
+                ThumbnailUrl = p.Thumbnails.GetBestThumbnail(),
+                Item = p
+            };
+        }
+        else if (item is PlaylistVideoSearchResult pv)
+        {
+            return new()
+            {
+                MediaType = "Video",
+                ChannelName = pv.PlaylistVideo.Author!.ChannelTitle,
+                Name = pv.Title,
+                ThumbnailUrl = pv.PlaylistVideo.Thumbnails.GetBestThumbnail(),
+                Item = pv,
+                Duration = pv.PlaylistVideo.Duration.ToString()
+            };
+        }
+        throw new NotImplementedException();
     }
 
     internal void SelectionChanged(int selectedIndex)
