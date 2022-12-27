@@ -29,11 +29,17 @@
             </Button>
         </StackPanel>
         <ScrollViewer Grid.Row="1">
-            <StackPanel Orientation="Vertical" Spacing="4">
-                <views:SearchItemFragmentView Header="Top Result" Items="{x:Bind ViewModel.TopResultItem,Mode=OneWay}"/>
-                <views:SearchItemFragmentView Header="Songs" Items="{x:Bind ViewModel.Videos,Mode=OneWay}"/>
-                <views:SearchItemFragmentView Header="Playlists" Items="{x:Bind ViewModel.Playlists,Mode=OneWay}"/>
-                <views:SearchItemFragmentView Header="Artists" Items="{x:Bind ViewModel.Artists,Mode=OneWay}"/>
+            <StackPanel>
+                <views:VideoIdListView Visibility="{x:Bind ViewModel.ShowTrending,Mode=OneWay}"
+                    SongListItems="{x:Bind ViewModel.TrendingVideoIds,Mode=OneWay}"/>
+                <StackPanel Orientation="Vertical" Spacing="4"
+                            Visibility="{x:Bind ViewModel.ShowSearch,Mode=OneWay}">
+                    <views:SearchItemFragmentView Header="Top Result" Items="{x:Bind ViewModel.TopResultItem,Mode=OneWay}"/>
+                    <views:SearchItemFragmentView Header="Songs" Items="{x:Bind ViewModel.Videos,Mode=OneWay}"/>
+                    <views:SearchItemFragmentView Header="Playlists" Items="{x:Bind ViewModel.Playlists,Mode=OneWay}"/>
+                    <views:SearchItemFragmentView Header="Artists" Items="{x:Bind ViewModel.Artists,Mode=OneWay}"/>
+                </StackPanel>
+
             </StackPanel>
         </ScrollViewer>
     </Grid>

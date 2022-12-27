@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -33,6 +34,7 @@ public interface IYoutubeService
     ValueTask<string> GetLiveStreamUrl(string id);
     ValueTask<Channel> GetChannelMetadata(string id, CancellationToken token = default);
     IAsyncEnumerable<PlaylistVideo> GetChannelUploads(string id, CancellationToken token = default);
+    IAsyncEnumerable<string> GetTrendingMusicVideos(CancellationToken token = default);
 
 }
 public enum SearchType

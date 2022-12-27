@@ -3,10 +3,14 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Reflection.Metadata.Ecma335;
+using System.Runtime.CompilerServices;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using AngleSharp;
 using AngleSharp.Dom;
 using Singularity.Core.Contracts.Services;
+using Singularity.Core.Helpers;
 using YoutubeExplode;
 using YoutubeExplode.Channels;
 using YoutubeExplode.Exceptions;
@@ -113,4 +117,35 @@ public class YoutubeExplodeService : IYoutubeService
 
         return parts.ToList();
     }
+
+    public async  IAsyncEnumerable<string> GetTrendingMusicVideos([EnumeratorCancellation]CancellationToken token = default)
+    {
+        IConfiguration config = Configuration.Default;
+
+        //Create a new context for evaluating webpages with the given config
+        IBrowsingContext context = BrowsingContext.New(config);
+
+        //Source to be parsed
+
+        var str= await HttpHelper.GetResponseStringAsync("https://kworb.net/youtube/trending_music.html");
+
+        //Create a virtual request to specify the document to load (here from our fixed string)
+        IDocument document = await context.OpenAsync(req => req.Content(str),token);
+
+        var links = document.QuerySelectorAll("a");
+
+
+        foreach (var link in links)
+        {
+            var href = link.GetAttribute("href");
+            href ??= string.Empty;
+            var regex = Regex.Match(href, @"youtube\/trending\/video\/(.*)\.html");
+            if (!regex.Success)
+                continue;
+            yield return regex.Groups[1].Value;
+
+
+        }
+    }
+
 }

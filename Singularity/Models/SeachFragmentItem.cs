@@ -9,6 +9,7 @@ using Singularity.Contracts.Services;
 using Singularity.ViewModels;
 using Singularity.Views;
 using YoutubeExplode.Search;
+using YoutubeExplode.Videos;
 
 namespace Singularity.Models;
 public partial class SearchFragmentItem:ObservableRecipient
@@ -23,6 +24,7 @@ public partial class SearchFragmentItem:ObservableRecipient
         get; set;
     }
     public Visibility HideDuration =>  Item is not VideoSearchResult && Item is not PlaylistVideoSearchResult
+        && Item is not Video
     ? Visibility.Collapsed : 
         Duration!="00:00"?
         Visibility.Visible:
@@ -30,7 +32,7 @@ public partial class SearchFragmentItem:ObservableRecipient
 
     [AlsoNotifyChangeFor(nameof(HideDuration))]
     [ObservableProperty]
-    private ISearchResult? item;
+    private object? item;
     
     public SearchFragmentItem Self => this;
 
@@ -45,6 +47,10 @@ public partial class SearchFragmentItem:ObservableRecipient
         if (Item is VideoSearchResult v)
         {
             PlayNow(v.Id);
+        }
+        else if (Item is Video vid)
+        {
+            PlayNow(vid.Id);
         }
         else if (Item is PlaylistSearchResult p)
         {

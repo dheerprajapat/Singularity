@@ -29,6 +29,7 @@
     <None Remove="Views\SearchItemFragmentView.xaml" />
     <None Remove="Views\SearchItemView.xaml" />
     <None Remove="Views\SearchPage.xaml" />
+    <None Remove="Views\VideoIdListView.xaml" />
   </ItemGroup>
 
   <ItemGroup>
@@ -51,6 +52,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\VideoIdListView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\HomeQuickPlayView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

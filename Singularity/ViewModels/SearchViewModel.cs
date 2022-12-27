@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 using Singularity.Core.Contracts.Services;
 using YoutubeExplode.Search;
 using YoutubeExplode.Videos;
@@ -23,9 +24,17 @@ public partial class SearchViewModel: ObservableRecipient
     public IAsyncEnumerable<ISearchResult>? topResultItem;
 
     [ObservableProperty]
+    public static ObservableCollection<string>? trendingVideoIds;
+
+    [ObservableProperty]
     public ObservableCollection<string>? suggestions;
 
     public static string? CurrentQuery;
+
+    [ObservableProperty]
+    public Visibility showTrending = Visibility.Visible;
+    [ObservableProperty]
+    public Visibility showSearch = Visibility.Collapsed;
 
     private CancellationTokenSource sourceToken = new();
 
@@ -38,6 +47,8 @@ public partial class SearchViewModel: ObservableRecipient
         {
             SearchQuery();
         }
+        else
+            LoadTrendngVideos();
     }
 
     public IYoutubeService Youtube
@@ -62,12 +73,35 @@ public partial class SearchViewModel: ObservableRecipient
     async IAsyncEnumerable<ISearchResult>? ProcessTopResult()
     {
          yield return await Youtube.GetTopSeachQuery(CurrentQuery, sourceToken.Token);
+    }
+    async void LoadTrendngVideos()
+    {
+        var ct = 0;
+        var vids=new ObservableCollection<string>();
+        await foreach (var id in Youtube.GetTrendingMusicVideos(sourceToken.Token))
+        {
+            if (ct >= 10)
+                break;
 
+            vids.Add(id);
+
+            ct++;
+        }
+        TrendingVideoIds = vids;
     }
 
     internal async Task FetchSearchResults(string? text)
     {
-        if (CurrentQuery!=null && CurrentQuery == text)
+        if (string.IsNullOrWhiteSpace(text))
+        {
+            ShowTrending = Visibility.Visible;
+            ShowSearch = Visibility.Collapsed;
+            return;
+        }
+            ShowTrending = Visibility.Collapsed;
+            ShowSearch = Visibility.Visible;
+
+        if (CurrentQuery == text)
             return;
 
         CurrentQuery = text;

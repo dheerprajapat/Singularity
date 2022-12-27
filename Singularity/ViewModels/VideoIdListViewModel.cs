@@ -1,0 +1,51 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
+using Singularity.Core.Contracts.Services;
+using Singularity.Helpers;
+using Singularity.Models;
+
+namespace Singularity.ViewModels;
+public partial class VideoIdListViewModel : ObservableRecipient
+{
+    public ObservableCollection<string>? VideoIds
+    {
+        get; set;
+    }
+    public IYoutubeService Youtube
+    {
+        get;
+    }
+
+    public VideoIdListViewModel(IYoutubeService youtube)
+    {
+        Youtube = youtube;
+    }
+
+    [ObservableProperty]
+    public ObservableCollection<SearchFragmentItem>? songs;
+    public async void InitSongItems(ObservableCollection<string> videoIds)
+    {
+        VideoIds = videoIds;
+        Songs = new ObservableCollection<SearchFragmentItem>();
+        if(videoIds!=null)
+        foreach (var vidId in VideoIds)
+        {
+            var video = await Youtube.GetVideoInfo(vidId);
+            Songs.Add(new SearchFragmentItem()
+            {
+                ChannelName = video.Author.ChannelTitle,
+                Duration = MediaPlayerHelper.ConvertTimeSpanToDuration(video.Duration.GetValueOrDefault()),
+                MediaType = "Video",
+                Name = video.Title,
+                ThumbnailUrl = video.Thumbnails.GetBestThumbnail(),
+                Item = video
+            }); ;
+        }
+
+    }
+}

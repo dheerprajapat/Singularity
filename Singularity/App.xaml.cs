@@ -107,6 +107,9 @@ public partial class App : Application
             services.AddTransient<HomeQuickPlayViewModel>();
             services.AddTransient<HomeQuickPlayView>();
 
+            services.AddTransient<VideoIdListView>();
+            services.AddTransient<VideoIdListViewModel>();
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
