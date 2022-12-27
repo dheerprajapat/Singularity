@@ -14,6 +14,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Singularity.Models;
 using Singularity.ViewModels;
 using Windows.Foundation;
 using Windows.Foundation.Collections;
@@ -49,10 +50,11 @@ public sealed partial class VideoIdListView : Page
         }
     }
 
-    // Using a DependencyProperty as the backing store for SongListItems.  This enables animation, styling, binding, etc...
     public static readonly DependencyProperty SongListItemsProperty =
         DependencyProperty.Register("SongListItems", typeof(ObservableCollection<string>), typeof(VideoIdListView), new PropertyMetadata(new ObservableCollection<string>()));
 
-
-
+    private void ListView_ItemClick(object sender, ItemClickEventArgs e)
+    {
+        (e.ClickedItem as SearchFragmentItem)!.DoAction();
+    }
 }

@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Xaml;
 using Singularity.Core.Contracts.Services;
 using Singularity.Helpers;
 using Singularity.Models;
@@ -26,8 +27,14 @@ public partial class VideoIdListViewModel : ObservableRecipient
         Youtube = youtube;
     }
 
+    [AlsoNotifyChangeFor(nameof(ShowProgress))]
+    [AlsoNotifyChangeFor(nameof(ShowItems))]
     [ObservableProperty]
     public ObservableCollection<SearchFragmentItem>? songs;
+
+    public Visibility ShowProgress => Songs==null ? Visibility.Visible:Visibility.Collapsed;
+    public Visibility ShowItems => Songs==null ? Visibility.Collapsed : Visibility.Visible;
+
     public async void InitSongItems(ObservableCollection<string> videoIds)
     {
         VideoIds = videoIds;
