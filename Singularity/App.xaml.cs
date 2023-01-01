@@ -65,6 +65,8 @@ public partial class App : Application
             services.AddSingleton<IPageService, PageService>();
             services.AddSingleton<INavigationService, NavigationService>();
             services.AddSingleton<IYoutubeService, YoutubeExplodeService>();
+            services.AddSingleton<IUserSettingsService, UserSettingsService>();
+
             // Core Services
             services.AddSingleton<IFileService, FileService>();
 
