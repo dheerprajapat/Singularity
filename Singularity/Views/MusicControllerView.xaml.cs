@@ -45,14 +45,21 @@ public sealed partial class MusicControllerView : UserControl
 
         ExViewModel = ViewModel;
         ViewModel.InitPlayer(videoPlayer);
+
         volumeSlider.Value = UserSettings.Media.Volume;
         ViewModel.SetVolume((int)volumeSlider.Value);
+
+        if (UserSettings.Media.LastPlayedId != null)
+        {
+            _ = AudioQueue.AddSong(UserSettings.Media.LastPlayedId);
+        }
     }
 
     ~MusicControllerView()
     {
         videoPlayer?.MediaPlayer?.Dispose();
     }
+
 
     private void Slider_ValueChanged(object sender, RangeBaseValueChangedEventArgs e)
     {

@@ -93,6 +93,10 @@ internal static class AudioQueue
     }
     public static void MoveToSong(MediaPlaybackItem item)
     {
+        //save last played song
+        App.GetService<IUserSettingsService>().CurrentSetting
+            .Media.LastPlayedId=item.GetDisplayProperties().MusicProperties.Genres[0];
+
         currentList.MoveTo((uint)currentList.Items.IndexOf(item));
         MusicControllerView.ExViewModel.Position = 0;
         MusicControllerView.ExViewModel.playerElement!.MediaPlayer!.Play();
