@@ -9,6 +9,17 @@ using Singularity.Core.Models;
 namespace Singularity.Core.Services;
 public class UserSettingsService : IUserSettingsService
 {
+    private UserSettings settings;
+    public UserSettings CurrentSetting
+    {
+        get
+        {
+            if (settings != null)
+                return settings;
+             settings=Read();
+            return settings;
+        }
+    }
     public string SettingsPath
     {
         get
@@ -26,7 +37,11 @@ public class UserSettingsService : IUserSettingsService
 
     public UserSettings Read()
     {
-        var settings = FileService.Read<UserSettings>(SettingsPath, FileName);
+        UserSettings? settings = null;
+        lock (lockObj)
+        {
+            settings = FileService.Read<UserSettings>(SettingsPath, FileName);
+        }
         if (settings == null)
             return new UserSettings();
         return settings;

@@ -20,9 +20,10 @@ namespace Singularity.ViewModels;
 public partial class MusicCotrollerViewModel : ObservableRecipient
 {
     public MediaPlayerElement? playerElement;
-    public MusicCotrollerViewModel(IYoutubeService youtube)
+    public MusicCotrollerViewModel(IYoutubeService youtube, IUserSettingsService userSettingsService)
     {
         Youtube = youtube;
+        UserSettingsService = userSettingsService;
         NextSongCommand = new RelayCommand(PlayNext);
         PreviousSongCommand = new RelayCommand(PlayPrevious);
         ShuffleCommand = new RelayCommand(ToggleShuffle);
@@ -36,6 +37,10 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
 
 
     public IYoutubeService Youtube
+    {
+        get;
+    }
+    public IUserSettingsService UserSettingsService
     {
         get;
     }
@@ -197,6 +202,8 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     public void SetVolume(int val)
     {
         Volume = val / 100.0;
+
+        UserSettingsService.CurrentSetting.Media.Volume = val;
 
         if (playerElement is not null && playerElement.MediaPlayer is not null)
         {

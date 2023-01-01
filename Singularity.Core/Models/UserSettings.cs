@@ -10,7 +10,7 @@ public class UserSettings
     public MediaSettngs Media
     {
         get; set;
-    }
+    } = new MediaSettngs();
 }
 
 public class MediaSettngs

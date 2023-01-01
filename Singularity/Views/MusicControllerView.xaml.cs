@@ -15,6 +15,7 @@ using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using Singularity.ViewModels;
 using Singularity.Models;
+using Singularity.Core.Contracts.Services;
 
 namespace Singularity.Views;
 
@@ -40,8 +41,12 @@ public sealed partial class MusicControllerView : UserControl
     {
         this.InitializeComponent();
         ViewModel = App.GetService<MusicCotrollerViewModel>();
+        var UserSettings = App.GetService<IUserSettingsService>().CurrentSetting;
+
         ExViewModel = ViewModel;
         ViewModel.InitPlayer(videoPlayer);
+        volumeSlider.Value = UserSettings.Media.Volume;
+        ViewModel.SetVolume((int)volumeSlider.Value);
     }
 
     ~MusicControllerView()
