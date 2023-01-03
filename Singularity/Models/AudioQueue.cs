@@ -23,6 +23,16 @@ internal static class AudioQueue
     internal static readonly MediaPlaybackList currentList = new();
     private static readonly HashSet<string> currentVideoIds = new();
     private static readonly Dictionary<string, string> IdFromTitleChannelNameMap = new();
+    public static string? CurrentPlayingItemId
+    {
+        get; private set;
+    }
+#nullable disable
+    internal static IYoutubeService Youtube
+    {
+        get; private set;
+    }
+#nullable restore
     static AudioQueue()
     {
         currentList.CurrentItemChanged += CurrentPlaybackItemChanged;
@@ -30,15 +40,15 @@ internal static class AudioQueue
 
     private static void CurrentPlaybackItemChanged(MediaPlaybackList sender,
         CurrentMediaPlaybackItemChangedEventArgs args)
-        => OnCurrentPlaybackItemChanged?.Invoke(sender, args);
-
-
-#nullable disable
-    internal static IYoutubeService Youtube
     {
-        get; private set;
+        if (args.NewItem == null)
+            CurrentPlayingItemId = null;
+        else
+            CurrentPlayingItemId = args.NewItem.GetDisplayProperties().MusicProperties.Genres[0];
+        OnCurrentPlaybackItemChanged?.Invoke(sender, args);
     }
-#nullable restore
+
+
 
     public delegate void CurrentItemChangedHandler(MediaPlaybackList sender,
         CurrentMediaPlaybackItemChangedEventArgs args);

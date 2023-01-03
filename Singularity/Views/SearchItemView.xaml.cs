@@ -39,6 +39,7 @@ public sealed partial class SearchItemView : UserControl
         {
             SetValue(ItemProperty, value);
             ViewModel.Item = value;
+            ViewModel.UpdateCurrentPlayingState();
         }
     }
 

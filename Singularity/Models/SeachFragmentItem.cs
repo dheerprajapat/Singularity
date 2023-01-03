@@ -19,6 +19,21 @@ public partial class SearchFragmentItem:ObservableRecipient
     public string? ChannelName { get; set; }
     public string? ThumbnailUrl { get; set; }
 
+    public string? Id
+    {
+        get
+        {
+            if (Item is VideoSearchResult v)
+            {
+                return v.Id;
+            }
+            else if (Item is Video vid)
+            {
+                return vid.Id;
+            }
+            return null;
+        }
+    }
     public string? Duration
     {
         get; set;

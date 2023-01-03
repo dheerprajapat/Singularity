@@ -46,7 +46,7 @@ public class UserSettingsService : IUserSettingsService
             return new UserSettings();
         return settings;
     }
-    private static readonly object lockObj = new object();
+    private static readonly object lockObj = new();
     public void Write(UserSettings settings)
     {
         lock (lockObj)

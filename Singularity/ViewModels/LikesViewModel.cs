@@ -18,7 +18,7 @@ public partial class LikesViewModel: ObservableRecipient
     {
         UserSettingsService = userSettingsService;
 
-        LikedSongs=userSettingsService.CurrentSetting.LikedSongs;
+        LikedSongs=new(userSettingsService.CurrentSetting.LikedSongs);
         userSettingsService.CurrentSetting.LikedSongs.CollectionChanged += LikedSongs_CollectionChanged;
     }
 
