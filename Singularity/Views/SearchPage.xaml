@@ -30,7 +30,7 @@
         </StackPanel>
         <ScrollViewer Grid.Row="1">
             <StackPanel>
-                <views:VideoIdListView Visibility="{x:Bind ViewModel.ShowTrending,Mode=OneWay}"
+                <views:VideoIdListView Visibility="{x:Bind ViewModel.ShowTrending,Mode=OneWay}" TitleVisibilty="Visible"
                     SongListItems="{x:Bind ViewModel.TrendingVideoIds,Mode=OneWay}"/>
                 <StackPanel Orientation="Vertical" Spacing="4"
                             Visibility="{x:Bind ViewModel.ShowSearch,Mode=OneWay}">

@@ -72,4 +72,9 @@ public sealed partial class MusicControllerView : UserControl
         if(ViewModel is not null)
             ViewModel.SetVolume((int)e.NewValue);
     }
+
+    private void Liked_Btn_Click(object sender, RoutedEventArgs e)
+    {
+        ViewModel.ToggleLiked();
+    }
 }

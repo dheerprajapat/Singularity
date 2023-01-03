@@ -40,6 +40,21 @@ public sealed partial class VideoIdListView : Page
     }
 
 
+
+    public Visibility TitleVisibilty
+    {
+        get => (Visibility)GetValue(TitleVisibiltyProperty);
+        set => SetValue(TitleVisibiltyProperty, value);
+    }
+
+    // Using a DependencyProperty as the backing store for TitleVisibilty.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty TitleVisibiltyProperty =
+        DependencyProperty.Register("TitleVisibilty", typeof(Visibility),
+            typeof(VideoIdListView), new PropertyMetadata(Visibility.Collapsed));
+
+
+
+
     public ObservableCollection<string> SongListItems
     {
         get => (ObservableCollection<string>)GetValue(SongListItemsProperty);
@@ -51,7 +66,8 @@ public sealed partial class VideoIdListView : Page
     }
 
     public static readonly DependencyProperty SongListItemsProperty =
-        DependencyProperty.Register("SongListItems", typeof(ObservableCollection<string>), typeof(VideoIdListView), new PropertyMetadata(new ObservableCollection<string>()));
+        DependencyProperty.Register("SongListItems", typeof(ObservableCollection<string>),
+            typeof(VideoIdListView), new PropertyMetadata(new ObservableCollection<string>()));
 
     private void ListView_ItemClick(object sender, ItemClickEventArgs e)
     {

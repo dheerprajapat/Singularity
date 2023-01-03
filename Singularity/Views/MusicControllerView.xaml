@@ -20,7 +20,7 @@
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="120"/>
                 <ColumnDefinition Width="*"/>
-                <ColumnDefinition Width="100"/>
+                <ColumnDefinition Width="50"/>
             </Grid.ColumnDefinitions>
             <!--Song Thumbnail-->
             <Image 
@@ -32,8 +32,11 @@
             </StackPanel>
             <!--Like Button-->
             <!--Icon from https://docs.microsoft.com/en-us/windows/apps/design/style/segoe-fluent-icons-font-->
-            <FontIcon FontFamily="Segoe Fluent Icons"  
-                      Foreground="IndianRed" Grid.Column="2" x:Name="LikeButton" />
+            <Button Grid.Column="2" CornerRadius="20" Height="42" Width="42" x:Name="Liked_Btn" Click="Liked_Btn_Click">
+                <FontIcon FontFamily="Segoe Fluent Icons"  Glyph="{x:Bind ViewModel.LikedIcon,Mode=OneWay}"
+                      Foreground="IndianRed"  x:Name="LikeButton" />
+            </Button>
+
         </Grid>
 
         <!--central media control panel-->

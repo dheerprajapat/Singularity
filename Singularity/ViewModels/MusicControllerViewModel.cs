@@ -45,6 +45,7 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         get;
     }
 
+    [AlsoNotifyChangeFor(nameof(LikedIcon))]
     [AlsoNotifyChangeFor(nameof(Title))]
     [AlsoNotifyChangeFor(nameof(Singer))]
     [AlsoNotifyChangeFor(nameof(Thumbnail))]
@@ -83,6 +84,15 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
     [AlsoNotifyChangeFor(nameof(VolumeIcon))]
     public double volume = 0.5;
 
+    public string LikedIcon
+    {
+        get
+        {
+            if(video!= null)
+                return UserSettingsService.CurrentSetting.LikedSongs.Contains(Video.Id)? "\uEB52": "\uEB51";
+            return "\uEB51";
+        }
+    }
     public string VolumeIcon=> volume switch
     {
         > .75 => "\ue995",
@@ -222,5 +232,14 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
                 action.Invoke();
             });
         });
+    }
+
+    internal void ToggleLiked()
+    {
+        if (Video != null)
+        {
+            UserSettingsService.CurrentSetting.ToggleLiked(Video.Id);
+            this.OnPropertyChanged(nameof(LikedIcon));
+        }
     }
 }

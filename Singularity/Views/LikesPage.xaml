@@ -17,6 +17,7 @@
             <view:BannerView Thumbnail="../Assets/heart.jpg" Title="Liked" BlurAmount="10"/>
         </Grid>
         <ScrollViewer Grid.Row="1">
+            <view:VideoIdListView SongListItems="{x:Bind ViewModel.LikedSongs,Mode=OneWay}"/>
             <!--<v:SearchItemFragmentView ShowAllItems="True"
                 Items="{x:Bind ViewModel.VideosInPlaylist,Mode=OneWay}"/>-->
         </ScrollViewer>

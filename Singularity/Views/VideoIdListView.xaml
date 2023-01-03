@@ -15,7 +15,7 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <TextBlock Text="Worldwide Trending" FontWeight="Bold" FontSize="18"
+            <TextBlock Text="Worldwide Trending" Visibility="{x:Bind TitleVisibilty,Mode=OneWay}" FontWeight="Bold" FontSize="18"
                    Margin="6"
                    />
             <ListView Grid.Row="1" ItemsSource="{x:Bind ViewModel.Songs, Mode=OneWay}" IsItemClickEnabled="True"
