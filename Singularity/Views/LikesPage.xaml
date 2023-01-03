@@ -4,9 +4,21 @@
     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:winuiEx="using:CommunityToolkit.WinUI.UI.Media"
+    xmlns:view="using:Singularity.Views"
     mc:Ignorable="d">
 
     <Grid x:Name="ContentArea">
-
+        <Grid.RowDefinitions>
+            <RowDefinition Height="108"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid RowSpacing="10" Margin="6 -76 6 20">
+            <view:BannerView Thumbnail="../Assets/heart.jpg" Title="Liked" BlurAmount="10"/>
+        </Grid>
+        <ScrollViewer Grid.Row="1">
+            <!--<v:SearchItemFragmentView ShowAllItems="True"
+                Items="{x:Bind ViewModel.VideosInPlaylist,Mode=OneWay}"/>-->
+        </ScrollViewer>
     </Grid>
 </Page>

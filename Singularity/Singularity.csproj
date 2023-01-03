@@ -18,6 +18,7 @@
   </PropertyGroup>
   <ItemGroup>
     <None Remove="RecentPlaysPage.xaml" />
+    <None Remove="Views\BannerView.xaml" />
     <None Remove="Views\ChannelItemPage.xaml" />
     <None Remove="Views\HomePage.xaml" />
     <None Remove="Views\HomeQuickPlayView.xaml" />
@@ -52,6 +53,9 @@
     <None Update="appsettings.json">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </None>
+    <Page Update="Views\BannerView.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Update="Views\VideoIdListView.xaml">
       <Generator>MSBuild:Compile</Generator>
     </Page>

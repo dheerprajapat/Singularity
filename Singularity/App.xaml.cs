@@ -112,6 +112,9 @@ public partial class App : Application
             services.AddTransient<VideoIdListView>();
             services.AddTransient<VideoIdListViewModel>();
 
+            services.AddTransient<BannerView>();
+            services.AddTransient<BannerViewModel>();
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
