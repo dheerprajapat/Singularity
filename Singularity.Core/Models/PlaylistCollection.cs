@@ -12,7 +12,7 @@ using YoutubeExplode.Playlists;
 namespace Singularity.Core.Models;
 public class PlaylistCollection
 {
-    public ObservableCollection<PlaylistCollection> Playlists { get; set; } = new();
+    public ObservableCollection<PlaylistItem> Playlists { get; set; } = new();
 }
 
 #nullable enable
