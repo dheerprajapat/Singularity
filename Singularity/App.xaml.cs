@@ -95,6 +95,8 @@ public partial class App : Application
             services.AddTransient<SearchItemFragmentView>();
             services.AddTransient<SearchItemFragmentViewModel>();
 
+            services.AddTransient<SongStringCollectionPage>();
+            services.AddTransient<SongStringCollectionPageViewModel>();
 
             services.AddTransient<SearchItemView>();
             services.AddTransient<SearchItemViewModel>();

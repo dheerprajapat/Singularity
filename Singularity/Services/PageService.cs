@@ -21,6 +21,7 @@ public class PageService : IPageService
         Configure<LikesViewModel, LikesPage>();
         Configure<PlaylistItemPageViewModel, PlaylistItemPage>();
         Configure<ChannelItemPageViewModel, ChannelItemPage>();
+        Configure<SongStringCollectionPageViewModel, SongStringCollectionPage>();
     }
 
     public Type GetPageType(string key)
