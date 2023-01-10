@@ -29,8 +29,8 @@ internal partial class SongStringCollectionPageViewModel:ObservableRecipient
     internal void InitInfo(string? json)
     {
         var obj = JsonSerializer.Deserialize<SongStringPageInfoModel>(json);
-        Title = obj.Title;
-        Author = obj.Author;
+        Title = obj!.Title;
+        Author = obj!.Author;
         Items = obj.Items;
         Thumbnail = new BitmapImage()
         {

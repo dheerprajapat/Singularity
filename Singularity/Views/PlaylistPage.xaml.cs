@@ -1,5 +1,7 @@
 using Microsoft.UI.Xaml.Controls;
-
+using Singularity.Contracts.Services;
+using Singularity.Core.Models;
+using Singularity.Models;
 using Singularity.ViewModels;
 
 namespace Singularity.Views;
@@ -10,10 +12,15 @@ public sealed partial class PlaylistPage : Page
     {
         get;
     }
+    public INavigationService NavService
+    {
+        get;
+    }
 
     public PlaylistPage()
     {
         ViewModel = App.GetService<PlaylistViewModel>();
+        NavService = App.GetService<INavigationService>();
         InitializeComponent();
     }
 
@@ -40,5 +47,18 @@ public sealed partial class PlaylistPage : Page
         cd.Content = playlisTxtBox;
         cd.PrimaryButtonClick += (_, _) => ViewModel.CreateNewPlaylist(playlisTxtBox.Text);
         await cd.ShowAsync();
+    }
+
+    private void PlaylistBtn_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
+    {
+        var dataSource = (sender as Button)!.DataContext as PlaylistItem;
+        NavService.NavigateTo(typeof(SongStringCollectionPageViewModel).FullName!,
+            new SongStringPageInfoModel()
+            {
+                Author = dataSource.Author,
+                Items = dataSource.Songs,
+                Title = dataSource.Name,
+                Thumbnail = dataSource.ThumbnailUrl
+            });
     }
 }

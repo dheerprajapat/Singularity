@@ -11,7 +11,8 @@ using Singularity.Core.Models;
 namespace Singularity.ViewModels;
 public partial class PlaylistViewModel: ObservableRecipient
 {
-    public ObservableCollection<PlaylistItem> Playlists;
+    [ObservableProperty]
+    public ObservableCollection<PlaylistItem> playlists;
     public PlaylistViewModel(IUserSettingsService userSettingsService)
     {
         UserSettingsService = userSettingsService;

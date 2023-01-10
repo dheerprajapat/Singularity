@@ -15,10 +15,11 @@
                 <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xE948;" FontSize="20"/>
             </Button>
         </StackPanel>
-        <GridView ItemsSource="{x:Bind ViewModel.UserSettingsService.CurrentSetting.PlaylistCollection.Playlists}">
+        <ScrollViewer>
+        <GridView ItemsSource="{x:Bind ViewModel.Playlists,Mode=OneWay}" Height="auto">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="model:PlaylistItem">
-                    <Button Padding="0" Margin="7" x:Name="PlaylistBtn" >
+                    <Button Padding="0" Margin="7" x:Name="PlaylistBtn" Click="PlaylistBtn_Click">
                         <Grid>
                             <Grid.RowDefinitions>
                                 <RowDefinition Height="200"/>
@@ -40,5 +41,6 @@
                 </DataTemplate>
             </GridView.ItemTemplate>
         </GridView>
+        </ScrollViewer>
     </StackPanel>
 </Page>
