@@ -1,3 +1,4 @@
+using System.Text.Json;
 using Microsoft.UI.Xaml.Controls;
 using Singularity.Contracts.Services;
 using Singularity.Core.Models;
@@ -53,12 +54,12 @@ public sealed partial class PlaylistPage : Page
     {
         var dataSource = (sender as Button)!.DataContext as PlaylistItem;
         NavService.NavigateTo(typeof(SongStringCollectionPageViewModel).FullName!,
-            new SongStringPageInfoModel()
+            JsonSerializer.Serialize(new SongStringPageInfoModel()
             {
                 Author = dataSource.Author,
                 Items = dataSource.Songs,
                 Title = dataSource.Name,
                 Thumbnail = dataSource.ThumbnailUrl
-            });
+            }));
     }
 }

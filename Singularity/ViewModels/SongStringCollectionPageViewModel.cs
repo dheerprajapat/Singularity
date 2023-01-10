@@ -15,16 +15,16 @@ namespace Singularity.ViewModels;
 internal partial class SongStringCollectionPageViewModel:ObservableRecipient
 {
     [ObservableProperty]
-    public string title;
+    public string? title;
 
     [ObservableProperty]
-    public string author;
+    public string? author;
 
     [ObservableProperty]
-    public ImageSource thumbnail;
+    public string? thumbnail;
 
     [ObservableProperty]
-    public ObservableCollection<string> items;
+    public ObservableCollection<string>? items;
 
     internal void InitInfo(string? json)
     {
@@ -32,10 +32,7 @@ internal partial class SongStringCollectionPageViewModel:ObservableRecipient
         Title = obj!.Title;
         Author = obj!.Author;
         Items = obj.Items;
-        Thumbnail = new BitmapImage()
-        {
-            UriSource = new(obj.Thumbnail)
-        };
+        Thumbnail = obj.Thumbnail;
     }
 }
 

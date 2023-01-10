@@ -16,7 +16,8 @@
             </Button>
         </StackPanel>
         <ScrollViewer>
-        <GridView ItemsSource="{x:Bind ViewModel.Playlists,Mode=OneWay}" Height="auto">
+        <GridView ItemsSource="{x:Bind ViewModel.Playlists,Mode=OneWay}" 
+                  IsItemClickEnabled="False" SelectionMode="None">
             <GridView.ItemTemplate>
                 <DataTemplate x:DataType="model:PlaylistItem">
                     <Button Padding="0" Margin="7" x:Name="PlaylistBtn" Click="PlaylistBtn_Click">
