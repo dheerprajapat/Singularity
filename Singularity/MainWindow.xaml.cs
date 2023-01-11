@@ -1,5 +1,6 @@
 ﻿using Singularity.Core.Contracts.Services;
 using Singularity.Helpers;
+using Singularity.Views;
 
 namespace Singularity;
 
@@ -18,5 +19,6 @@ public sealed partial class MainWindow : WindowEx
     {
         var settingsService = App.GetService<IUserSettingsService>();
         settingsService.Write(settingsService.CurrentSetting);
+        MusicControllerView.ExViewModel?.playerElement?.MediaPlayer?.Pause();
     }
 }

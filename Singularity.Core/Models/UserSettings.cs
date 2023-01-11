@@ -27,7 +27,7 @@ public class UserSettings
             LikedSongs.Remove(id);
         else
         {
-            LikedSongs.Add(id);
+            LikedSongs.Insert(0,id);
         }
 
     }
