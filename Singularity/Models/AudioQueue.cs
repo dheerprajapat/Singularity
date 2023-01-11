@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -21,7 +22,7 @@ namespace Singularity.Models;
 internal static class AudioQueue
 {
     internal static readonly MediaPlaybackList currentList = new();
-    private static readonly HashSet<string> currentVideoIds = new();
+    internal static readonly ObservableCollection<string> currentVideoIds = new();
     private static readonly Dictionary<string, string> IdFromTitleChannelNameMap = new();
     public static string? CurrentPlayingItemId
     {
@@ -45,6 +46,15 @@ internal static class AudioQueue
             CurrentPlayingItemId = null;
         else
             CurrentPlayingItemId = args.NewItem.GetDisplayProperties().MusicProperties.Genres[0];
+
+        if (CurrentPlayingItemId != null)
+        {
+            var index = currentVideoIds.IndexOf(CurrentPlayingItemId);
+            currentVideoIds.RemoveAt(index);
+            currentVideoIds.Insert(0,CurrentPlayingItemId);
+        }
+
+
         OnCurrentPlaybackItemChanged?.Invoke(sender, args);
     }
 
