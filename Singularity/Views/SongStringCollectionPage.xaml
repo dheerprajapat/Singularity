@@ -11,18 +11,13 @@
     mc:Ignorable="d">
 
     <Grid Margin="6 -76 6 20">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="160"/>
-            <RowDefinition Height="*"/>
-        </Grid.RowDefinitions>
-        <local:BannerView Title="{x:Bind ViewModel.Title,Mode=OneWay}"
+        <local:LocalCustomSongCollectionView 
+                          Title="{x:Bind ViewModel.Title,Mode=OneWay}"
                           Author="{x:Bind ViewModel.Author,Mode=OneWay}"
-                          Thumbnail="{x:Bind ViewModel.Thumbnail,Mode=OneWay}"/>
+                          Thumbnail="{x:Bind ViewModel.Thumbnail,Mode=OneWay}"
+                          SongListItems="{x:Bind ViewModel.Items,Mode=OneWay}"
+            />
 
-        <ScrollViewer Grid.Row="1">
-            <local:VideoIdListView
-                               SongListItems="{x:Bind ViewModel.Items,Mode=OneWay}"/>
-        </ScrollViewer>
 
     </Grid>
 </Page>

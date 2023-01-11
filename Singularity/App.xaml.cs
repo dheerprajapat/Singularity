@@ -117,6 +117,9 @@ public partial class App : Application
             services.AddTransient<BannerView>();
             services.AddTransient<BannerViewModel>();
 
+            services.AddTransient<LocalCustomSongCollectionView>();
+
+
             // Configuration
             services.Configure<LocalSettingsOptions>(context.Configuration.GetSection(nameof(LocalSettingsOptions)));
         }).
