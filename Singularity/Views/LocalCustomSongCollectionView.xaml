@@ -21,7 +21,7 @@
 
         <ScrollViewer Grid.Row="1">
             <local:VideoIdListView
-                               SongListItems="{x:Bind SongListItems,Mode=OneWay}"/>
+                               SongListItems="{x:Bind SongListItems,Mode=TwoWay}"/>
         </ScrollViewer>
     </Grid>
 </UserControl>

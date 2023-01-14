@@ -5,15 +5,16 @@ using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
+using CommunityToolkit.Mvvm.ComponentModel;
 using Singularity.Core.Services;
 
 namespace Singularity.Core.Models;
-public class UserSettings
+public partial class UserSettings: ObservableRecipient
 {
     [JsonIgnore]
     readonly UserSettingsService userSettingsService = new();
-
-    public ObservableCollection<string> LikedSongs { get; set; } = new();
+    [ObservableProperty]
+    public ObservableCollection<string> likedSongs;
     public PlaylistCollection PlaylistCollection { get; set; } = new();
     public MediaSettngs Media
     {
@@ -24,13 +25,20 @@ public class UserSettings
     public void ToggleLiked(string id)
     {
         if (IsLiked(id))
+        {
             LikedSongs.Remove(id);
+            OnLikePageToggledForId?.Invoke(id, false);
+        }
         else
         {
-            LikedSongs.Insert(0,id);
+            LikedSongs.Insert(0, id);
+            OnLikePageToggledForId?.Invoke(id, true);
         }
 
     }
+    public delegate void LikePageToggledForIdHandler(string id,bool added=false);
+    public event LikePageToggledForIdHandler? OnLikePageToggledForId;
+
 
     public void Save()
     {

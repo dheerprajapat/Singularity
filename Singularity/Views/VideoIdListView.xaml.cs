@@ -4,6 +4,7 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.Collections.Specialized;
 using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.WindowsRuntime;
@@ -61,8 +62,16 @@ public sealed partial class VideoIdListView : Page
         set
         {
             SetValue(SongListItemsProperty, value);
-            ViewModel.InitSongItems(value);
+            if (value != null)
+            {
+                ViewModel.InitSongItems(value);
+            }
         }
+    }
+
+    private void Value_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+    
     }
 
     public static readonly DependencyProperty SongListItemsProperty =

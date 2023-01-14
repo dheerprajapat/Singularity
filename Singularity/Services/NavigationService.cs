@@ -6,6 +6,7 @@ using Microsoft.UI.Xaml.Navigation;
 using Singularity.Contracts.Services;
 using Singularity.Contracts.ViewModels;
 using Singularity.Helpers;
+using Singularity.Views;
 
 namespace Singularity.Services;
 
@@ -16,6 +17,7 @@ public class NavigationService : INavigationService
     private readonly IPageService _pageService;
     private object? _lastParameterUsed;
     private Frame? _frame;
+    private CurrentPageType pageType = CurrentPageType.Other;
 
     public event NavigatedEventHandler? Navigated;
 
@@ -42,6 +44,7 @@ public class NavigationService : INavigationService
 
     [MemberNotNullWhen(true, nameof(Frame), nameof(_frame))]
     public bool CanGoBack => Frame != null && Frame.CanGoBack;
+
 
     public NavigationService(IPageService pageService)
     {
@@ -120,7 +123,24 @@ public class NavigationService : INavigationService
                 navigationAware.OnNavigatedTo(e.Parameter);
             }
 
+            if (e.SourcePageType.FullName == typeof(PlaylistItemPage).FullName)
+                pageType = CurrentPageType.LocalPlayList;
+            else if (e.SourcePageType.FullName == typeof(LikesPage).FullName)
+                pageType = CurrentPageType.Like;
+            else if (e.SourcePageType.FullName == typeof(RecentPlayPage).FullName)
+                pageType = CurrentPageType.RecentPlays;
+            else
+                pageType = CurrentPageType.Other;
+
             Navigated?.Invoke(sender, e);
         }
     }
+    public CurrentPageType GetCurrentPageType() => pageType;
+}
+public enum CurrentPageType
+{
+    Other,
+    Like,
+    LocalPlayList,
+    RecentPlays
 }
