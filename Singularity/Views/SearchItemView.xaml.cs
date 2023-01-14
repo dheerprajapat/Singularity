@@ -106,4 +106,9 @@ public sealed partial class SearchItemView : UserControl
             UserSettingService.CurrentSetting.PlaylistCollection.RemoveSong(ViewModel.MetaInfo.PlaylistName, ViewModel.Item.Id);
         }
     }
+
+    private async void AddToQBtn_Click(object sender, RoutedEventArgs e)
+    {
+        await AudioQueue.AddSong(ViewModel.Item.Id);
+    }
 }
