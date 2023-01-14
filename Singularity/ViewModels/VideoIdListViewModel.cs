@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
+using Microsoft.UI.Dispatching;
 using Microsoft.UI.Xaml;
 using Singularity.Contracts.Services;
 using Singularity.Core.Contracts.Services;
@@ -14,7 +15,7 @@ using Singularity.Models;
 using YoutubeExplode.Videos;
 
 namespace Singularity.ViewModels;
-public partial class VideoIdListViewModel : ObservableRecipient
+public partial class VideoIdListViewModel : ObservableRecipient, ICrossThreadOperable
 {
     [ObservableProperty]
     public ObservableCollection<string>? videoIds;
@@ -47,9 +48,13 @@ public partial class VideoIdListViewModel : ObservableRecipient
     public Visibility ShowProgress => Songs==null ? Visibility.Visible:Visibility.Collapsed;
     public Visibility ShowItems => Songs==null ? Visibility.Collapsed : Visibility.Visible;
 
+    public DispatcherQueue DispatcherQueue { get; set; } = DispatcherQueue.GetForCurrentThread();
+
     ~VideoIdListViewModel()
     {
         UserSettingsService.CurrentSetting.OnLikePageToggledForId -= CurrentSetting_OnLikePageToggledForId;
+        AudioQueue.OnCurrentVideoIdChanged -= AudioQueue_OnCurrentVideoIdChanged;
+
     }
 
     public async void InitSongItems(ObservableCollection<string> videoIds)
@@ -92,6 +97,23 @@ public partial class VideoIdListViewModel : ObservableRecipient
         if (currentPage == Services.CurrentPageType.Like)
         {
             UserSettingsService.CurrentSetting.OnLikePageToggledForId += CurrentSetting_OnLikePageToggledForId;
+        }
+        else if (currentPage == Services.CurrentPageType.RecentPlays)
+        {
+            AudioQueue.OnCurrentVideoIdChanged += AudioQueue_OnCurrentVideoIdChanged;
+        }
+    }
+
+    private void AudioQueue_OnCurrentVideoIdChanged(string? id)
+    {
+        if (id == null)
+            return;
+
+        var item = Songs?.FirstOrDefault(x => x.Id == id);
+        if (item != null)
+        {
+            var index = Songs?.IndexOf(item);
+            Songs?.Move(index.GetValueOrDefault(), 0);
         }
     }
 

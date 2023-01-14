@@ -69,11 +69,6 @@ public sealed partial class VideoIdListView : Page
         }
     }
 
-    private void Value_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-    
-    }
-
     public static readonly DependencyProperty SongListItemsProperty =
         DependencyProperty.Register("SongListItems", typeof(ObservableCollection<string>),
             typeof(VideoIdListView), new PropertyMetadata(new ObservableCollection<string>()));

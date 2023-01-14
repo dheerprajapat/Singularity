@@ -24,6 +24,7 @@ internal static class AudioQueue
     internal static readonly MediaPlaybackList currentList = new();
     internal static readonly ObservableCollection<string> currentVideoIds = new();
     private static readonly Dictionary<string, string> IdFromTitleChannelNameMap = new();
+    
     public static string? CurrentPlayingItemId
     {
         get; private set;
@@ -53,7 +54,6 @@ internal static class AudioQueue
             currentVideoIds.RemoveAt(index);
             currentVideoIds.Insert(0,CurrentPlayingItemId);
         }
-
 
         OnCurrentPlaybackItemChanged?.Invoke(sender, args);
     }
@@ -113,9 +113,17 @@ internal static class AudioQueue
     }
     public static void MoveToSong(MediaPlaybackItem item)
     {
+        var id= item.GetDisplayProperties().MusicProperties.Genres[0]; ;
         //save last played song
         App.GetService<IUserSettingsService>().CurrentSetting
-            .Media.LastPlayedId=item.GetDisplayProperties().MusicProperties.Genres[0];
+            .Media.LastPlayedId=id;
+
+        var index = currentVideoIds.IndexOf(id);
+
+        if(index>0)
+            currentVideoIds.Move(0, index);
+
+        OnCurrentVideoIdChanged?.Invoke(id);
 
         currentList.MoveTo((uint)currentList.Items.IndexOf(item));
         MusicControllerView.ExViewModel.Position = 0;
@@ -161,4 +169,7 @@ internal static class AudioQueue
         currentList.AutoRepeatEnabled = !currentList.AutoRepeatEnabled;
     }
     public static bool AutoRepeatEnabled => currentList == null ? false: currentList.AutoRepeatEnabled;
+
+    public delegate void OnCurrentItemChangedHandler(string? id);
+    public static event OnCurrentItemChangedHandler? OnCurrentVideoIdChanged;
 }
