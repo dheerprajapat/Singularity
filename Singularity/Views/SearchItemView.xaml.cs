@@ -109,7 +109,7 @@ public sealed partial class SearchItemView : UserControl
 
     private async void AddToQBtn_Click(object sender, RoutedEventArgs e)
     {
-        await AudioQueue.AddSong(ViewModel.Item.Id);
+        await AudioQueue.AddSong(ViewModel!.Item!.Id);
     }
 
     private void LikeBtn_Click(object sender, RoutedEventArgs e)

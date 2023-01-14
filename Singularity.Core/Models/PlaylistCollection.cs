@@ -15,6 +15,7 @@ public class PlaylistCollection
     public ObservableCollection<PlaylistItem> Playlists { get; set; } = new();
     public void AddSong(string playlistName, string song)
     {
+        if (song == null || playlistName==null) return;
         var playlist = Playlists.FirstOrDefault(x => x.Name == playlistName);
         if (playlist == null)
             return;
@@ -23,6 +24,7 @@ public class PlaylistCollection
     }
     public void RemoveSong(string playlistName, string song)
     {
+        if (song == null || playlistName == null) return;
         var playlist = Playlists.FirstOrDefault(x => x.Name == playlistName);
         if (playlist == null) return;
         playlist.Remove(song);

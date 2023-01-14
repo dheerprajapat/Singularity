@@ -24,6 +24,9 @@ public partial class UserSettings: ObservableRecipient
     public bool IsLiked(string id) => LikedSongs.Contains(id);
     public void ToggleLiked(string id)
     {
+        if (id == null)
+            return;
+
         if (IsLiked(id))
         {
             LikedSongs.Remove(id);
