@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Singularity.Contracts.Services;
 using Singularity.Core.Contracts.Services;
 using Singularity.Models;
 using Singularity.ViewModels;
@@ -30,6 +31,10 @@ public sealed partial class SearchItemView : UserControl
         get;
     }
     public IUserSettingsService UserSettingService
+    {
+        get;
+    }
+    public INavigationService NavService
     {
         get;
     }
@@ -52,7 +57,11 @@ public sealed partial class SearchItemView : UserControl
     public SongStringPageInfoModel? MetaInfo
     {
         get => (SongStringPageInfoModel?)GetValue(MetaInfoProperty);
-        set => SetValue(MetaInfoProperty, value);
+        set
+        {
+            SetValue(MetaInfoProperty, value);
+            ViewModel.MetaInfo = value;
+        }
     }
 
     // Using a DependencyProperty as the backing store for MetaInfo.  This enables animation, styling, binding, etc...
@@ -67,7 +76,7 @@ public sealed partial class SearchItemView : UserControl
         this.InitializeComponent();
         ViewModel = App.GetService<SearchItemViewModel>();
         UserSettingService = App.GetService<IUserSettingsService>();
-
+        NavService = App.GetService<INavigationService>();
 
     }
 
@@ -75,18 +84,26 @@ public sealed partial class SearchItemView : UserControl
     {
         var m = (sender as MenuFlyoutSubItem)!;
         m.Items.Clear();
-        var createNew = new MenuFlyoutItem { Text = "Create New",Icon = new SymbolIcon(Symbol.Add) };
+        var createNew = new MenuFlyoutItem { Text = "Create New", Icon = new SymbolIcon(Symbol.Add) };
         m.Items.Add(createNew);
-        createNew.Click += async(s,e) => await PlaylistPage.CreatePlaylistDialog(this.XamlRoot,ViewModel.Item!.Id);
+        createNew.Click += async (s, e) => await PlaylistPage.CreatePlaylistDialog(this.XamlRoot, ViewModel.Item!.Id);
         foreach (var playlist in UserSettingService.CurrentSetting.PlaylistCollection.Playlists)
         {
             var playlistBtn = new MenuFlyoutItem() { Text = playlist.Name };
             m.Items.Add(playlistBtn);
-            playlistBtn.Click += (s, e) =>UserSettingService.CurrentSetting.PlaylistCollection.AddSong(playlist.Name,ViewModel.Item.Id);
+            playlistBtn.Click += (s, e) => UserSettingService.CurrentSetting.PlaylistCollection.AddSong(playlist.Name, ViewModel.Item.Id);
         }
     }
 
     private void RemovebBtn_Click(object sender, RoutedEventArgs e)
     {
+        var pageType = NavService.GetCurrentPageType();
+        if (pageType == Services.CurrentPageType.Other)
+            return;
+
+        else if (pageType == Services.CurrentPageType.StringIdsCollection && ViewModel.MetaInfo!=null)
+        {
+            UserSettingService.CurrentSetting.PlaylistCollection.RemoveSong(ViewModel.MetaInfo.PlaylistName, ViewModel.Item.Id);
+        }
     }
 }

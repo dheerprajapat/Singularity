@@ -129,6 +129,8 @@ public class NavigationService : INavigationService
                 pageType = CurrentPageType.Like;
             else if (e.SourcePageType.FullName == typeof(RecentPlayPage).FullName)
                 pageType = CurrentPageType.RecentPlays;
+            else if (e.SourcePageType.FullName == typeof(SongStringCollectionPage).FullName)
+                pageType = CurrentPageType.StringIdsCollection;
             else
                 pageType = CurrentPageType.Other;
 
@@ -142,5 +144,6 @@ public enum CurrentPageType
     Other,
     Like,
     LocalPlayList,
+    StringIdsCollection,
     RecentPlays
 }

@@ -108,6 +108,19 @@ public partial class VideoIdListViewModel : ObservableRecipient, ICrossThreadOpe
         {
             AudioQueue.OnCurrentVideoIdChanged += AudioQueue_OnCurrentVideoIdChanged;
         }
+        else if (currentPage == Services.CurrentPageType.StringIdsCollection)
+        {
+            UserSettingsService.CurrentSetting.PlaylistCollection.SongRemoved += PlaylistCollection_SongRemoved;
+        }
+    }
+
+    private void PlaylistCollection_SongRemoved(string id)
+    {
+        var item = Songs.FirstOrDefault(x => x.Id ==id);
+        if(item != null)
+        {
+            Songs.Remove(item);
+        }
     }
 
     private void AudioQueue_OnCurrentVideoIdChanged(string? id)

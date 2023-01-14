@@ -22,6 +22,8 @@ public partial class SearchItemViewModel:ObservableRecipient, ICrossThreadOperab
     public Visibility currentlyPlaying = Visibility.Collapsed;
 
     private DispatcherQueue dispatchQueue=DispatcherQueue.GetForCurrentThread();
+
+    public SongStringPageInfoModel? MetaInfo;
     public DispatcherQueue DispatcherQueue
     {
         get => dispatchQueue;
