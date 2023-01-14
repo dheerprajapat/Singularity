@@ -74,7 +74,8 @@ public sealed partial class PlaylistPage : Page
                 Author = dataSource.Author,
                 Items = dataSource.Songs,
                 Title = dataSource.Name,
-                Thumbnail = dataSource.ThumbnailUrl
-            }));
+                Thumbnail = dataSource.ThumbnailUrl,
+                PlaylistName = dataSource.Name
+            })) ;
     }
 }

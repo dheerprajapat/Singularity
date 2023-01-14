@@ -18,6 +18,10 @@ public partial class SearchFragmentItem:ObservableRecipient
     public string? MediaType { get; set; }
     public string? ChannelName { get; set; }
     public string? ThumbnailUrl { get; set; }
+    public SongStringPageInfoModel? MetaInfo
+    {
+        get;set;
+    }
 
     public string? Id
     {

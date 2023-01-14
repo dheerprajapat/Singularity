@@ -16,6 +16,7 @@ using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
 using System.Collections.ObjectModel;
+using Singularity.Models;
 
 // To learn more about WinUI, the WinUI project structure,
 // and more about our project templates, see: http://aka.ms/winui-project-info.
@@ -70,5 +71,20 @@ namespace Singularity.Views
         public static readonly DependencyProperty SongListItemsProperty =
             DependencyProperty.Register("SongListItems", typeof(ObservableCollection<string>),
                 typeof(LocalCustomSongCollectionView), new PropertyMetadata(new ObservableCollection<string>()));
+
+
+
+        public SongStringPageInfoModel? MetaInfo
+        {
+            get => (SongStringPageInfoModel?)GetValue(MetaInfoProperty);
+            set => SetValue(MetaInfoProperty, value);
+        }
+
+        // Using a DependencyProperty as the backing store for MetaInfo.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MetaInfoProperty =
+            DependencyProperty.Register("MetaInfo", typeof(SongStringPageInfoModel), typeof(LocalCustomSongCollectionView), new PropertyMetadata(null));
+
+
+
     }
 }

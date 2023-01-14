@@ -20,8 +20,8 @@
                           Thumbnail="{x:Bind Thumbnail,Mode=OneWay}"/>
 
         <ScrollViewer Grid.Row="1">
-            <local:VideoIdListView
-                               SongListItems="{x:Bind SongListItems,Mode=TwoWay}"/>
+            <local:VideoIdListView MetaInfo="{x:Bind MetaInfo,Mode=OneWay}"
+                               SongListItems="{x:Bind SongListItems,Mode=OneWay}"/>
         </ScrollViewer>
     </Grid>
 </UserControl>

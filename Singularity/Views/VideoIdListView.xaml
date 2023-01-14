@@ -28,7 +28,9 @@
                 </ListView.ItemContainerStyle>
                 <ListView.ItemTemplate>
                     <DataTemplate x:DataType="model:SearchFragmentItem">
-                        <local:SearchItemView Item="{x:Bind Self,Mode=OneWay}"/>
+                        <local:SearchItemView 
+                            MetaInfo="{x:Bind MetaInfo,Mode=OneWay}" 
+                            Item="{x:Bind Self,Mode=OneWay}"/>
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>

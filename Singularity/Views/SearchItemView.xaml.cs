@@ -49,6 +49,16 @@ public sealed partial class SearchItemView : UserControl
     public static readonly DependencyProperty ItemProperty =
         DependencyProperty.Register("Item", typeof(SearchFragmentItem), typeof(SearchItemView), new PropertyMetadata(null));
 
+    public SongStringPageInfoModel? MetaInfo
+    {
+        get => (SongStringPageInfoModel?)GetValue(MetaInfoProperty);
+        set => SetValue(MetaInfoProperty, value);
+    }
+
+    // Using a DependencyProperty as the backing store for MetaInfo.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty MetaInfoProperty =
+        DependencyProperty.Register("MetaInfo", typeof(SongStringPageInfoModel), typeof(LocalCustomSongCollectionView), new PropertyMetadata(null));
+
 
 
 
@@ -76,4 +86,7 @@ public sealed partial class SearchItemView : UserControl
         }
     }
 
+    private void RemovebBtn_Click(object sender, RoutedEventArgs e)
+    {
+    }
 }

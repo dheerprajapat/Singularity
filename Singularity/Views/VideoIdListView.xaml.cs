@@ -73,6 +73,22 @@ public sealed partial class VideoIdListView : Page
         DependencyProperty.Register("SongListItems", typeof(ObservableCollection<string>),
             typeof(VideoIdListView), new PropertyMetadata(new ObservableCollection<string>()));
 
+    public SongStringPageInfoModel? MetaInfo
+    {
+        get => (SongStringPageInfoModel?)GetValue(MetaInfoProperty);
+        set
+        {
+            SetValue(MetaInfoProperty, value);
+            ViewModel.MetaInfo = value;
+        }
+    }
+
+    // Using a DependencyProperty as the backing store for MetaInfo.  This enables animation, styling, binding, etc...
+    public static readonly DependencyProperty MetaInfoProperty =
+        DependencyProperty.Register("MetaInfo", typeof(SongStringPageInfoModel), typeof(LocalCustomSongCollectionView), new PropertyMetadata(null));
+
+
+
     private void ListView_ItemClick(object sender, ItemClickEventArgs e)
     {
         (e.ClickedItem as SearchFragmentItem)!.DoAction();

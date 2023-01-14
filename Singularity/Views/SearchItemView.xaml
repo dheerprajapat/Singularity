@@ -50,7 +50,7 @@
                     <MenuFlyoutItem Icon="Share" Text="Share"  ToolTipService.ToolTip="Share"/>
                     <MenuFlyoutItem Text="Add To Queue" Icon="Library" x:Name="addToQBtn"/>
                     <MenuFlyoutSubItem Text="Add Playlist" Icon="Bookmarks" x:Name="PlaylistBtn" Loading="PlaylistBtn_Loading"/>
-                    <MenuFlyoutItem Text="Remove" Icon="Delete" x:Name="remove"/>
+                    <MenuFlyoutItem Text="Remove" Icon="Delete" x:Name="RemovebBtn" Click="RemovebBtn_Click"/>
                 </MenuFlyout>
             </Button.Flyout>
         </Button>

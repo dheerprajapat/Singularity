@@ -31,6 +31,10 @@ public partial class VideoIdListViewModel : ObservableRecipient, ICrossThreadOpe
     {
         get;
     }
+    public SongStringPageInfoModel? MetaInfo
+    {
+        get;set;
+    }
 
     public VideoIdListViewModel(IYoutubeService youtube,INavigationService navigationService,
         IUserSettingsService userSettingsService)
@@ -71,7 +75,9 @@ public partial class VideoIdListViewModel : ObservableRecipient, ICrossThreadOpe
 
             foreach (var vidId in VideoIds.Distinct())
             {
-                Songs.Add(await GetFragmentFromId(vidId));
+                var song = await GetFragmentFromId(vidId);
+                Songs.Add(song);
+                song.MetaInfo = MetaInfo;
             }
         }
 
@@ -129,6 +135,7 @@ public partial class VideoIdListViewModel : ObservableRecipient, ICrossThreadOpe
         else if(Songs!=null)
         {
             var song = await GetFragmentFromId(id);
+            song.MetaInfo = MetaInfo;
             Songs.Insert(0,song);
         }
     }
