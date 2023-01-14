@@ -10,7 +10,12 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     mc:Ignorable="d">
 
-    <StackPanel Orientation="Horizontal">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
         <Grid Margin="5">
             <Image Source="{x:Bind ViewModel.Item.ThumbnailUrl, Mode=OneWay}" 
                 Width="80" Height="80" x:Name="thumnailImg"/>
@@ -34,6 +39,21 @@
                 <TextBlock FontSize="12" Foreground="Red" FontWeight="Bold" Text="Live" Visibility="{x:Bind ViewModel.Item.IsLive, Mode=OneWay}" TextTrimming="CharacterEllipsis"/>
             </StackPanel>
         </StackPanel>
-    </StackPanel>
+        <Button Grid.Column="2" Background="Transparent" BorderBrush="Transparent"
+                VerticalAlignment="Center" HorizontalAlignment="Right">
+            <FontIcon FontFamily="Segoe Fluent Icons" Glyph="&#xe712;" Foreground="White" 
+                                Name="moreItems" VerticalAlignment="Center"/>
+            <Button.Flyout>
+                <MenuFlyout>
+                    <MenuFlyoutItem Icon="Like" Text="Like"/>
+                    <MenuFlyoutItem Icon="Download" Text="Download" ToolTipService.ToolTip="Download"/>
+                    <MenuFlyoutItem Icon="Share" Text="Share"  ToolTipService.ToolTip="Share"/>
+                    <MenuFlyoutItem Text="Add To Queue" x:Name="addToQBtn"/>
+                    <MenuFlyoutItem Text="Add Playlist" x:Name="playlistBtn"/>
+                    <MenuFlyoutItem Text="Remove" x:Name="remove"/>
+                </MenuFlyout>
+            </Button.Flyout>
+        </Button>
+    </Grid>
 
 </UserControl>

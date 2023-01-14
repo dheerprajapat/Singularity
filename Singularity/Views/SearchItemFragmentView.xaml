@@ -23,7 +23,7 @@
                   SelectionMode="Single" ItemClick="ListView_ItemClick">
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
-                    <Setter Property="Margin" Value="0 5 5 5"/>
+                    <Setter Property="Margin" Value="0 0 5 0"/>
                     <Setter Property="HorizontalContentAlignment" Value="Stretch"/>
                 </Style>
             </ListView.ItemContainerStyle>
