@@ -31,6 +31,6 @@ public partial class PlaylistViewModel: ObservableRecipient
             return;
         }
 
-        Playlists.Add(new PlaylistItem(text, string.Empty, new(), "../Assets/playlist_logo.jpg"));
+        Playlists.Add(new PlaylistItem(text, string.Empty, new()));
     }
 }

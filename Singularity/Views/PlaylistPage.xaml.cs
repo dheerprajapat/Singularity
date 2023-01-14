@@ -1,7 +1,11 @@
+using System.Collections.ObjectModel;
 using System.Text.Json;
+using Microsoft.UI.Xaml;
 using Microsoft.UI.Xaml.Controls;
 using Singularity.Contracts.Services;
+using Singularity.Core.Contracts.Services;
 using Singularity.Core.Models;
+using Singularity.Core.Services;
 using Singularity.Models;
 using Singularity.ViewModels;
 
@@ -27,6 +31,12 @@ public sealed partial class PlaylistPage : Page
 
     private async void NewBtn_Click(object sender, Microsoft.UI.Xaml.RoutedEventArgs e)
     {
+
+        await CreatePlaylistDialog(XamlRoot);
+    }
+
+    public static async Task CreatePlaylistDialog(XamlRoot xamlRoot,string? song=null)
+    {
         var cd = new ContentDialog()
         {
             Title = "Add New Playlist",
@@ -34,7 +44,7 @@ public sealed partial class PlaylistPage : Page
             CloseButtonText = "Cancel",
             DefaultButton = ContentDialogButton.Primary,
         };
-        cd.XamlRoot = this.XamlRoot;
+        cd.XamlRoot = xamlRoot;
 
 
         var playlisTxtBox = new TextBox()
@@ -46,7 +56,12 @@ public sealed partial class PlaylistPage : Page
             cd.PrimaryButtonText = !string.IsNullOrWhiteSpace(playlisTxtBox.Text) ? "Create" : "";
         };
         cd.Content = playlisTxtBox;
-        cd.PrimaryButtonClick += (_, _) => ViewModel.CreateNewPlaylist(playlisTxtBox.Text);
+        var songs = new ObservableCollection<string>();
+        if (song != null)
+            songs.Add(song);
+        cd.PrimaryButtonClick += (_, _) => App.GetService<IUserSettingsService>()
+                .CurrentSetting.PlaylistCollection.Playlists.Add(new(playlisTxtBox.Text,"",songs));
+
         await cd.ShowAsync();
     }
 

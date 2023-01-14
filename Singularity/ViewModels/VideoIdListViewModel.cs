@@ -69,7 +69,7 @@ public partial class VideoIdListViewModel : ObservableRecipient, ICrossThreadOpe
         {
             HandleEventsRelatedToPage();
 
-            foreach (var vidId in VideoIds)
+            foreach (var vidId in VideoIds.Distinct())
             {
                 Songs.Add(await GetFragmentFromId(vidId));
             }

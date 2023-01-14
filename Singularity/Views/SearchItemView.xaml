@@ -48,9 +48,9 @@
                     <MenuFlyoutItem Icon="Like" Text="Like"/>
                     <MenuFlyoutItem Icon="Download" Text="Download" ToolTipService.ToolTip="Download"/>
                     <MenuFlyoutItem Icon="Share" Text="Share"  ToolTipService.ToolTip="Share"/>
-                    <MenuFlyoutItem Text="Add To Queue" x:Name="addToQBtn"/>
-                    <MenuFlyoutItem Text="Add Playlist" x:Name="playlistBtn"/>
-                    <MenuFlyoutItem Text="Remove" x:Name="remove"/>
+                    <MenuFlyoutItem Text="Add To Queue" Icon="Library" x:Name="addToQBtn"/>
+                    <MenuFlyoutSubItem Text="Add Playlist" Icon="Bookmarks" x:Name="PlaylistBtn" Loading="PlaylistBtn_Loading"/>
+                    <MenuFlyoutItem Text="Remove" Icon="Delete" x:Name="remove"/>
                 </MenuFlyout>
             </Button.Flyout>
         </Button>

@@ -13,6 +13,14 @@ namespace Singularity.Core.Models;
 public class PlaylistCollection
 {
     public ObservableCollection<PlaylistItem> Playlists { get; set; } = new();
+    public void AddSong(string playlistName, string song)
+    {
+        var playlist=Playlists.FirstOrDefault(x=>x.Name == playlistName);
+        if (playlist == null)
+            return;
+
+        playlist.Add(song);
+    }
 }
 
 #nullable enable
@@ -36,11 +44,16 @@ public class PlaylistItem
     {
         get; set;
     }
-    public PlaylistItem(string name, string author, ObservableCollection<string> songs, string thumbnailUrl)
+    public PlaylistItem(string name, string author, ObservableCollection<string> songs, string thumbnailUrl= "../Assets/playlist_logo.jpg")
     {
         Name = name;
         Author = author;
         Songs = songs;
         ThumbnailUrl = thumbnailUrl;
+    }
+    public void Add(string song)
+    {
+        if(Songs.Contains(song)) return;
+        Songs.Add(song);
     }
 }

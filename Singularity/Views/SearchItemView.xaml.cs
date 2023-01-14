@@ -13,6 +13,7 @@ using Microsoft.UI.Xaml.Data;
 using Microsoft.UI.Xaml.Input;
 using Microsoft.UI.Xaml.Media;
 using Microsoft.UI.Xaml.Navigation;
+using Singularity.Core.Contracts.Services;
 using Singularity.Models;
 using Singularity.ViewModels;
 using Windows.Foundation;
@@ -28,9 +29,10 @@ public sealed partial class SearchItemView : UserControl
     {
         get;
     }
-
-
-
+    public IUserSettingsService UserSettingService
+    {
+        get;
+    }
 
     public SearchFragmentItem Item
     {
@@ -54,6 +56,24 @@ public sealed partial class SearchItemView : UserControl
     {
         this.InitializeComponent();
         ViewModel = App.GetService<SearchItemViewModel>();
+        UserSettingService = App.GetService<IUserSettingsService>();
+
 
     }
+
+    private async void PlaylistBtn_Loading(FrameworkElement sender, object args)
+    {
+        var m = (sender as MenuFlyoutSubItem)!;
+        m.Items.Clear();
+        var createNew = new MenuFlyoutItem { Text = "Create New",Icon = new SymbolIcon(Symbol.Add) };
+        m.Items.Add(createNew);
+        createNew.Click += async(s,e) => await PlaylistPage.CreatePlaylistDialog(this.XamlRoot,ViewModel.Item!.Id);
+        foreach (var playlist in UserSettingService.CurrentSetting.PlaylistCollection.Playlists)
+        {
+            var playlistBtn = new MenuFlyoutItem() { Text = playlist.Name };
+            m.Items.Add(playlistBtn);
+            playlistBtn.Click += (s, e) =>UserSettingService.CurrentSetting.PlaylistCollection.AddSong(playlist.Name,ViewModel.Item.Id);
+        }
+    }
+
 }
