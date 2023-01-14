@@ -111,4 +111,9 @@ public sealed partial class SearchItemView : UserControl
     {
         await AudioQueue.AddSong(ViewModel.Item.Id);
     }
+
+    private void LikeBtn_Click(object sender, RoutedEventArgs e)
+    {
+        UserSettingService.CurrentSetting.ToggleLiked(ViewModel.Item.Id);
+    }
 }
