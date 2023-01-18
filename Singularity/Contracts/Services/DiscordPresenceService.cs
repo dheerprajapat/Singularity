@@ -18,7 +18,7 @@ public class DiscordPresenceService
 
     private static Stopwatch? watch;
     static Stopwatch Watch => watch ??= new Stopwatch();
-    const int MaxLimit = 18_000; //18 sec is hard limit
+    const int MaxLimit = 16_000; //16 sec is hard limit
 
     public void Initialize()
     {
@@ -39,7 +39,7 @@ public class DiscordPresenceService
         if (end!=TimeSpan.Zero)
         {
             progress = MediaPlayerHelper.ConvertTimeSpanToDuration(start) + " " +
-                AsciiProgressBar.GetProgressAscii(start.TotalMilliseconds, end.TotalMilliseconds,11)
+                AsciiProgressBar.GetProgressAscii(start.TotalMilliseconds, end.TotalMilliseconds,9)+" "
                 + MediaPlayerHelper.ConvertTimeSpanToDuration(end);
         }
         client.SetPresence(new()
