@@ -18,7 +18,7 @@ public class DiscordPresenceService
 
     private static Stopwatch? watch;
     static Stopwatch Watch => watch ??= new Stopwatch();
-    const int MaxLimit = 16_000; //16 sec is hard limit
+    const int MaxLimit = 1_000; //16 sec is hard limit
 
     public void Initialize()
     {
