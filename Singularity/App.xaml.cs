@@ -102,6 +102,8 @@ public partial class App : Application
             services.AddTransient<SearchItemViewModel>();
 
 
+            services.AddSingleton<DiscordPresenceService>();
+
             services.AddTransient<PlaylistItemPage>();
             services.AddTransient<PlaylistItemPageViewModel>();
 

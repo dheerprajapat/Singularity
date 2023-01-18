@@ -5,6 +5,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Singularity.Contracts.Services;
 using Singularity.Core.Contracts.Services;
 using Singularity.Helpers;
 using Singularity.ViewModels;
@@ -40,7 +41,7 @@ internal static class AudioQueue
         currentList.CurrentItemChanged += CurrentPlaybackItemChanged;
     }
 
-    private static void CurrentPlaybackItemChanged(MediaPlaybackList sender,
+    private static async void CurrentPlaybackItemChanged(MediaPlaybackList sender,
         CurrentMediaPlaybackItemChangedEventArgs args)
     {
         if (args.NewItem == null)
@@ -53,6 +54,10 @@ internal static class AudioQueue
             var index = currentVideoIds.IndexOf(CurrentPlayingItemId);
             currentVideoIds.RemoveAt(index);
             currentVideoIds.Insert(0,CurrentPlayingItemId);
+
+            //set discord presence
+            App.GetService<DiscordPresenceService>()
+                .SetSongInfo(await Youtube.GetVideoFromCache(CurrentPlayingItemId));
         }
 
         OnCurrentPlaybackItemChanged?.Invoke(sender, args);

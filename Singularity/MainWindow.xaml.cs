@@ -1,4 +1,5 @@
-﻿using Singularity.Core.Contracts.Services;
+﻿using Singularity.Contracts.Services;
+using Singularity.Core.Contracts.Services;
 using Singularity.Helpers;
 using Singularity.Views;
 
@@ -9,7 +10,7 @@ public sealed partial class MainWindow : WindowEx
     public MainWindow()
     {
         InitializeComponent();
-
+        App.GetService<DiscordPresenceService>().Initialize();
         AppWindow.SetIcon(Path.Combine(AppContext.BaseDirectory, "Assets/WindowIcon.ico"));
         Content = null;
         Title = "AppDisplayName".GetLocalized();
