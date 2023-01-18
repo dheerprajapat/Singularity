@@ -54,10 +54,6 @@ internal static class AudioQueue
             var index = currentVideoIds.IndexOf(CurrentPlayingItemId);
             currentVideoIds.RemoveAt(index);
             currentVideoIds.Insert(0,CurrentPlayingItemId);
-
-            //set discord presence
-            App.GetService<DiscordPresenceService>()
-                .SetSongInfo(await Youtube.GetVideoFromCache(CurrentPlayingItemId));
         }
 
         OnCurrentPlaybackItemChanged?.Invoke(sender, args);

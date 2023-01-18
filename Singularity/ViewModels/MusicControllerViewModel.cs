@@ -14,6 +14,7 @@ using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 using CommunityToolkit.Mvvm.Input;
 using System.Windows.Input;
+using Singularity.Contracts.Services;
 
 namespace Singularity.ViewModels;
 
@@ -199,6 +200,12 @@ public partial class MusicCotrollerViewModel : ObservableRecipient
         {
             PositionString = MediaPlayerHelper.ConvertTimeSpanToDuration(sender.Position);
             Position = (int)sender.Position.TotalSeconds;
+
+            //set discord presence
+            App.GetService<DiscordPresenceService>()
+                .SetSongInfo(Video, sender.Position, 
+                Video!.Duration.GetValueOrDefault());
+
         });
 
     }

@@ -1,11 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using DiscordRPC;
 using Singularity.Helpers;
+using Singularity.Models;
 using YoutubeExplode;
 using YoutubeExplode.Videos;
 
@@ -14,17 +16,35 @@ public class DiscordPresenceService
 {
     public DiscordRpcClient client { get; } = new("1065303334929580073");
 
+    private static Stopwatch? watch;
+    static Stopwatch Watch => watch ??= new Stopwatch();
+    const int MaxLimit = 18_000; //18 sec is hard limit
+
     public void Initialize()
     {
         client.Initialize();
+        Watch.Start();
     }
 
-    public void SetSongInfo(Video video)
+
+    public void SetSongInfo(Video video,TimeSpan start,TimeSpan end)
     {
+        if (start.TotalSeconds>5 && Watch.ElapsedMilliseconds < MaxLimit)
+            return;
+
+        Watch.Restart();
+
+        var progress = "Live ⬤";
+        if(end!=TimeSpan.Zero)
+        {
+            progress = MediaPlayerHelper.ConvertTimeSpanToDuration(start) + " " +
+                AsciiProgressBar.GetProgressAscii(start.TotalMilliseconds, end.TotalMilliseconds,11)
+                + MediaPlayerHelper.ConvertTimeSpanToDuration(end);
+        }
         client.SetPresence(new()
         {
-            Details =video.Title+" " + video.Author,
-            State = "Vibing",
+            Details =(video.Title+" " + video.Author).Substring(0,60),
+            State = progress,
             Buttons = new Button[]
             {
                 new Button()
