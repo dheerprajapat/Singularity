@@ -35,7 +35,8 @@ public class DiscordPresenceService
         Watch.Restart();
 
         var progress = "Live ⬤";
-        if(end!=TimeSpan.Zero)
+        var detail = video.Title + " " + video.Author;
+        if (end!=TimeSpan.Zero)
         {
             progress = MediaPlayerHelper.ConvertTimeSpanToDuration(start) + " " +
                 AsciiProgressBar.GetProgressAscii(start.TotalMilliseconds, end.TotalMilliseconds,11)
@@ -43,7 +44,7 @@ public class DiscordPresenceService
         }
         client.SetPresence(new()
         {
-            Details =(video.Title+" " + video.Author).Substring(0,60),
+            Details =detail.Substring(0,Math.Min(60,detail.Length-1)),
             State = progress,
             Buttons = new Button[]
             {
