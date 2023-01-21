@@ -84,6 +84,6 @@ jobs:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
         upload_url: ${{ steps.create_release.outputs.upload_url }} # This pulls from the CREATE RELEASE step above, referencing it's ID to get its outputs object, which include a `upload_url`. See this blog post for more info: https://jasonet.co/posts/new-features-of-github-actions/#passing-data-to-future-steps 
-        asset_path:  ${{ env.Solution_Name }}\\Packages
-        asset_name: Singularity_v1.0.${{ github.run_number }}.zip
-        asset_content_type: application/zip
+        asset_path:  ${{ env.Solution_Name }}\Packages\Singularity_1.0.0.0_${{ matrix.platform }}_Test\Singularity_1.0.0.0_${{ matrix.platform }}.msix
+        asset_name: Singularity_v1.0.${{ github.run_number }}.msix
+        asset_content_type: application/x-msi
