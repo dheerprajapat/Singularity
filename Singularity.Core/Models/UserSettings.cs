@@ -14,7 +14,7 @@ public partial class UserSettings: ObservableRecipient
     [JsonIgnore]
     readonly UserSettingsService userSettingsService = new();
     [ObservableProperty]
-    public ObservableCollection<string> likedSongs;
+    public ObservableCollection<string> likedSongs=new();
     public PlaylistCollection PlaylistCollection { get; set; } = new();
     public MediaSettngs Media
     {
