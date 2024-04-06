@@ -1,0 +1,40 @@
+﻿@inherits ComponentBase
+
+<div class="glass" style="@Style">
+    @ChildContent
+</div>
+
+@code
+{
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    [Parameter]
+    public string Color { get; set; } = "white";
+
+    [Parameter]
+    public string Style { get; set; } = string.Empty;
+
+    [Parameter]
+    public int Blur { get; set; } = 20;
+
+
+
+    protected override void OnParametersSet()
+    {
+        StateHasChanged();
+    }
+}
+
+
+
+
+<style>
+    .glass
+    {
+        color: @Color;
+        background-color: rgba(255,255,255,0.06);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(@(Blur)px);
+    }
+</style>
