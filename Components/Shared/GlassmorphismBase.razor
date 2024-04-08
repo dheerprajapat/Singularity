@@ -9,7 +9,7 @@
     public RenderFragment? ChildContent { get; set; }
 
     [Parameter]
-    public string Color { get; set; } = "white";
+    public string BackgroundColor { get; set; } = "rgba(255,255,255,0.06)";
 
     [Parameter]
     public string Style { get; set; } = string.Empty;
@@ -31,8 +31,7 @@
 <style>
     .glass
     {
-        color: @Color;
-        background-color: rgba(255,255,255,0.06);
+        background-color: @BackgroundColor;
         border: 1px solid rgba(255,255,255,0.1);
         backdrop-filter: blur(@(Blur)px);
     }
