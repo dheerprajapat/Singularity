@@ -36,7 +36,11 @@
 
     private void LocationChanged(object? sender,LocationChangedEventArgs e)
     {
-        //Todo: add logic here
+        foreach(var page in Tabs)
+        {
+            page.IsActive = e.Location.EndsWith(page.Link);
+        }
+        StateHasChanged();
     }
 
     private string GetActiveClass(TabPage tab)
