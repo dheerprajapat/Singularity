@@ -1,21 +1,93 @@
-﻿<nav>
+﻿@using Singularity.Models
+@inject NavigationManager NavManager
+
+<nav>
     <ul>
-        <li class="active">
-            <i class="fas fa-home"></i>
-            <p>Home</p>
-        </li>
-        <li>
-            <i class="fas fa-box"></i>
-            <p>Work</p>
-        </li>
-        <li>
-            <i class="fas fa-book-open"></i>
-            <p>Blog</p>
-        </li>
-        <li>
-            <i class="fas fa-users"></i>
-            <p>About Us</p>
-        </li>
+        @foreach(var tab in Tabs)
+        {
+            <li class="@GetActiveClass(tab)">
+                <a href="@tab.Link">
+                    <img src="@tab.ImagePath" height="32" width="32"/>
+                    @* 
+                        <p>@tab.Name</p>
+                    *@
+                </a>
+         </li>
+        }
+
     </ul>
 </nav>
 
+@code
+{
+    private readonly List<TabPage> Tabs = new List<TabPage>
+    {
+        new TabPage("./images/music.svg","/"),
+        new TabPage("./images/heart.svg","/like"),
+        new TabPage("./images/signal.svg","/explore"),
+        new TabPage("./images/playlist.svg","/playlist"),
+    };
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        NavManager.LocationChanged += LocationChanged;
+    }
+
+    private void LocationChanged(object? sender,LocationChangedEventArgs e)
+    {
+        //Todo: add logic here
+    }
+
+    private string GetActiveClass(TabPage tab)
+    {
+        return tab.IsActive ? "active" : string.Empty;
+    }
+}
+
+<style>
+
+    nav 
+    {
+        background-color: rgba(255,255,255,0.1);
+        border: 1px solid rgba(255,255,255,0.1);
+        backdrop-filter: blur(50px);
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        margin-top: -10px;
+        width: 100%;
+        border-top-left-radius:20px;
+        border-top-right-radius: 20px;
+    }
+
+        nav ul
+        {
+            background-color: transparent;
+            list-style-type: none;
+            display: flex;
+            padding: 0;
+            margin: 0;
+            height: 60px;
+        }
+
+            nav ul li {
+                color: #777;
+                cursor: pointer;
+                flex: 1;
+                padding: 10px;
+                text-align: center;
+                border-left: 1px solid rgba(255,255,255,0.05);
+            }
+
+                nav ul li p {
+                    font-size: 12px;
+                    margin: 2px 0;
+                }
+
+                nav ul li:hover,
+                nav ul li.active {
+                    color: #8e44ad;
+                }
+
+</style>
