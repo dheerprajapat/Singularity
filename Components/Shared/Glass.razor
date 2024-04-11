@@ -1,5 +1,5 @@
 ﻿
-<div class="glass" style="@Style">
+<div class="glass @Class" style="@Style">
     @ChildContent
 </div>
 
@@ -17,6 +17,11 @@
     [Parameter]
     public int Blur { get; set; } = 20;
 
+    [Parameter]
+    public string Class { get; set; } = string.Empty;
+
+    [Parameter]
+    public string Border { get; set; } = "1px solid rgba(255,255,255,0.1)";
 
 
     protected override void OnParametersSet()
@@ -32,7 +37,7 @@
     .glass
     {
         background-color: @BackgroundColor;
-        border: 1px solid rgba(255,255,255,0.1);
+        border: @Border;
         backdrop-filter: blur(@(Blur)px);
     }
 </style>

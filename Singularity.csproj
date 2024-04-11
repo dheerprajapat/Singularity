@@ -64,8 +64,8 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
     </ItemGroup>
 
-		<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+		<!--<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
 			<Exec Command="npm run build" WorkingDirectory="./" />
-		</Target>
+		</Target>-->
 
 </Project>
