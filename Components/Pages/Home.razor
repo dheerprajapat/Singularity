@@ -1,4 +1,167 @@
 ﻿@page "/"
+<div style="height:10%">
+    
+</div>
+<p class="playlist-text">Recent PlayList</p>
+<div class="tracks">
+    @foreach (var song in songs)
+    {
+        <MusicTrack SongName="@song.MusicName" Singers="@song.Singers" IsPlaying="@song.IsPlaying"></MusicTrack>
+    }
+</div>
 
-<p>hello</p>
+
+@code{
+    class Song
+    {
+        public string ?MusicName { get; set; }
+        public List<string> ?Singers { get; set; }
+        public string ?AlbumName { get; set; }
+        public int ReleaseYear { get; set; }
+        public string ?Lyrics { get; set; }
+        public string ?ThumbnailUrl { get; set; }
+        public bool IsPlaying { get; set; } = false;
+    }
+
+
+    List<Song> songs = new List<Song>
+    {
+        new Song
+        {
+            MusicName = "Tera Hone Laga Hoon",
+            Singers = new List<string> { "Atif Aslam", "Alisha Chinai" },
+            AlbumName = "Ajab Prem Ki Ghazab Kahani",
+            ReleaseYear = 2009,
+            Lyrics = "Tera hone laga hoon, khone laga hoon...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=5Yx6Vfj1d0w",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Raabta",
+            Singers = new List<string> { "Arijit Singh", "Nikhita Gandhi" },
+            AlbumName = "Agent Vinod",
+            ReleaseYear = 2012,
+            Lyrics = "Kehte hain khuda ne iss jahan mein...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=ZpsK8zWq7N8",
+            IsPlaying = true
+        },
+        new Song
+        {
+            MusicName = "Tum Se Hi",
+            Singers = new List<string> { "Mohit Chauhan" },
+            AlbumName = "Jab We Met",
+            ReleaseYear = 2007,
+            Lyrics = "Tum se hi din hota hai, surmaiye shaam aati hai...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=3z4lWpXyWd8",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Tera Hone Laga Hoon",
+            Singers = new List<string> { "Atif Aslam", "Alisha Chinai" },
+            AlbumName = "Ajab Prem Ki Ghazab Kahani",
+            ReleaseYear = 2009,
+            Lyrics = "Tera hone laga hoon, khone laga hoon...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=5Yx6Vfj1d0w",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Raabta",
+            Singers = new List<string> { "Arijit Singh", "Nikhita Gandhi" },
+            AlbumName = "Agent Vinod",
+            ReleaseYear = 2012,
+            Lyrics = "Kehte hain khuda ne iss jahan mein...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=ZpsK8zWq7N8",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Tum Se Hi",
+            Singers = new List<string> { "Mohit Chauhan" },
+            AlbumName = "Jab We Met",
+            ReleaseYear = 2007,
+            Lyrics = "Tum se hi din hota hai, surmaiye shaam aati hai...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=3z4lWpXyWd8",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Tera Hone Laga Hoon",
+            Singers = new List<string> { "Atif Aslam", "Alisha Chinai" },
+            AlbumName = "Ajab Prem Ki Ghazab Kahani",
+            ReleaseYear = 2009,
+            Lyrics = "Tera hone laga hoon, khone laga hoon...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=5Yx6Vfj1d0w",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Raabta",
+            Singers = new List<string> { "Arijit Singh", "Nikhita Gandhi" },
+            AlbumName = "Agent Vinod",
+            ReleaseYear = 2012,
+            Lyrics = "Kehte hain khuda ne iss jahan mein...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=ZpsK8zWq7N8",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Tum Se Hi",
+            Singers = new List<string> { "Mohit Chauhan" },
+            AlbumName = "Jab We Met",
+            ReleaseYear = 2007,
+            Lyrics = "Tum se hi din hota hai, surmaiye shaam aati hai...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=3z4lWpXyWd8",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Tera Hone Laga Hoon",
+            Singers = new List<string> { "Atif Aslam", "Alisha Chinai" },
+            AlbumName = "Ajab Prem Ki Ghazab Kahani",
+            ReleaseYear = 2009,
+            Lyrics = "Tera hone laga hoon, khone laga hoon...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=5Yx6Vfj1d0w",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Raabta",
+            Singers = new List<string> { "Arijit Singh", "Nikhita Gandhi" },
+            AlbumName = "Agent Vinod",
+            ReleaseYear = 2012,
+            Lyrics = "Kehte hain khuda ne iss jahan mein...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=ZpsK8zWq7N8",
+            IsPlaying = false
+        },
+        new Song
+        {
+            MusicName = "Tum Se Hi",
+            Singers = new List<string> { "Mohit Chauhan" },
+            AlbumName = "Jab We Met",
+            ReleaseYear = 2007,
+            Lyrics = "Tum se hi din hota hai, surmaiye shaam aati hai...",
+            ThumbnailUrl = "https://www.youtube.com/watch?v=3z4lWpXyWd8",
+            IsPlaying = false
+        },
+    };
+}
+
+
+<style>
+    .tracks {
+        padding : 30px;
+        height: 72%;
+        overflow-y: auto;
+    }
+
+    .playlist-text {
+        color: white;
+        font-size: 23px;
+        display: flex;
+        margin-left: 30px;
+    }
+</style>
 
