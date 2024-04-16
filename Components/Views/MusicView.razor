@@ -5,23 +5,22 @@
 @if (Current != null)
 {
 
-    <Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(255, 211, 92,1)">
+    <Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(255, 0, 0,0.4)">
         @if (isMusicViewActive)
         {
             <div class="toggle-controls" @onclick="ToggleMusicView">
-
                 <img class="cover-image" src="@ThumbnailUrl" />
-                <div style="display:flex;width:100%;align-items:center;justify-content:space-between">
-                    <div>@(TimeSpan.FromSeconds(CurrentTime).ToString(@"mm\:ss"))</div>
-                    <SliderRange Value="@((int)CurrentTime)" Max="@((int)Duration)" Style="height:2px;margin-top:-10px;width:70vw;padding-left:12px;padding-right:12px;flex-grow:1" OnChange="OnTimeChange"/>
-                    <div>@(TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss"))</div>
-                </div>
-                <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white;">
+                <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white;margin-top:20px">
                     <p class="ellepsis"><b>@Current.Video.Title</b></p>
                     <p class="ellepsis">@Current.Video.Author</p>
                     <div></div>
                 </div>
-                <div class="music-control" style="margin:4px">
+                <div style="display:flex;width:100%;align-items:center;justify-content:space-between;margin-top:20px">
+                    <div>@(TimeSpan.FromSeconds(CurrentTime).ToString(@"mm\:ss"))</div>
+                    <SliderRange Value="@((int)CurrentTime)" Max="@((int)Duration)" Style="width:70vw;padding-left:4px;padding-right:4px" OnChange="OnTimeChange" />
+                    <div>@(TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss"))</div>
+                </div>
+                <div class="music-control" style="margin-top:20px">
                     <img src="./images/backward.svg" height="32" width="32" />
                     <img src="./images/play.svg" height="32" width="32" />
                     <img src="./images/forward.svg" height="32" width="32" />
