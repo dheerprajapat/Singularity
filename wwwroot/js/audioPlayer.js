@@ -10,6 +10,8 @@ export function createAudio(src,dotnet)
     audio.ontimeupdate = () => dotnet.invokeMethodAsync("ontimeupdate");
     audio.onloadedmetadata = () => dotnet.invokeMethodAsync("onloadedmetadata");
     audio.onended = () => dotnet.invokeMethodAsync("onended");
+    audio.onplay = () => dotnet.invokeMethodAsync("onplay");
+    audio.onpause = () => dotnet.invokeMethodAsync("onpause");
 }
 
 export function setSrc(src) {

@@ -1,46 +1,62 @@
-﻿<Glass Class="track" Blur="20" BackgroundColor="rgba(192, 182, 230, 0.2)" Style="@(IsPlaying ? activeStyle : "")">
-    <div class="control">
-        <div style="width:20%">
-            <img class="cover-img @(IsPlaying ? "circularMotion" : "")" src="https://yt3.googleusercontent.com/VzKX7I0iD2eEHoWqk2drqOTFsPWX6hTGul0drSXXde8hWEcYNq7H_VdWHBC5RDawV_LoUBmD=s900-c-k-c0x00ffffff-no-rj" />
-        </div>
-        <div class="detail" style="width:70%">
-            <p><b>@SongName</b></p>
-            <p>
-            @foreach(var singer in Singers)
-            {
-                <span style="margin:3px">@singer</span>
-            }
-            </p>
-        </div>
-        <div class="music-bar" style="width:10%">
-        @if( IsPlaying)
-        { 
-            <MusicBar></MusicBar>
-        }
-        </div>
-    </div>
-</Glass>
+﻿@inject IJSRuntime runtime
+@inject AudioManager AudioManager
 
-@code {
+@if (Song is not null)
+{
+    <Glass Class="track" Blur="20" BackgroundColor="rgba(192, 182, 230, 0.2)" Style="@(IsPlaying ? activeStyle : "")" Clicked="()=>AudioManager.AddAndPlayAsync(Song)">
+        <div class="control">
+            <div style="width:20%">
+                <img class="cover-img @(IsPlaying ? "circularMotion" : "")" src="@Song.Video.Thumbnails.MaxBy(x=>x.Resolution.Area).Url" />
+            </div>
+            <div class="detail" style="width:70%">
+                <p><b>@Song.Video.Title</b></p>
+                <p>
+                    <span style="margin:3px">@Song.Video.Author</span>
+                </p>
+            </div>
+            <div class="music-bar" style="width:10%">
+                @if (IsPlaying)
+                {
+                    <MusicBar></MusicBar>
+                }
+            </div>
+        </div>
+    </Glass>
+}
+
+@code
+{
     [Parameter]
-    public string ?SongName { get; set; }
-    [Parameter]
-    public List<string> ?Singers { get; set; }
-    [Parameter]
-    public bool IsPlaying { get; set; } = false;
+    public AudioItem? Song { get; set; }
+
 
     private string activeStyle = "background-color:rgba(117,132,147,0.4);";
+
+    private bool IsPlaying = false;
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        AudioManager.OnAudioPlayPlaused += OnAudioPlayPlaused;
+    }
+
+    private void OnAudioPlayPlaused(object sender)
+    {
+        IsPlaying = AudioManager.IsPlaying && Song != null && AudioManager.Current != null && Song.Video.Id == AudioManager.Current.Video.Id;
+        StateHasChanged();
+    }
 }
 
 <style>
     .playing {
-        
     }
+
     .track {
         height: 4rem;
         color: white;
         border-radius: 25px;
     }
+
     .control {
         display: flex;
         justify-content: space-between;
@@ -52,10 +68,10 @@
         animation: circularMotion 10s infinite linear;
     }
 
-    .detail{
+    .detail {
         display: flex;
         flex-direction: column;
-        align-items: start; 
+        align-items: start;
     }
 
     .cover-img {
@@ -69,14 +85,14 @@
         margin-left: 10px;
     }
 
-    .music-bar{
-       
+    .music-bar {
     }
 
     @@keyframes circularMotion {
         from {
             transform: rotateZ(0deg);
         }
+
         to {
             transform: rotateZ(360deg);
         }

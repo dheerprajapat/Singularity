@@ -1,45 +1,64 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.CodeAnalysis;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Components;
+﻿using System.Collections.ObjectModel;
+using System.IO;
+using AngleSharp.Dom;
 using YoutubeExplode;
+using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 
 namespace Singularity.Audio
 {
     internal class AudioQueue
     {
-        public List<IStreamInfo> Songs { get; } = new();
+        public ObservableCollection<AudioItem> Songs { get; } = new();
 
-        public YoutubeClient Client { get; set; }
+        public static YoutubeClient Client { get; set; }
 
         public AudioQueue()
         {
             Client = SingletonFactory.YoutubeClient;
         }
 
-        public void AddSong(IStreamInfo stream)
+        public void AddSong(AudioItem stream)
         {
+            var index = Songs.IndexOf(stream);
+
+            if(index >= 0)
+                Songs.RemoveAt(index);
+
             Songs.Insert(0, stream);
+        }
+
+        public static async Task<AudioItem> GetAudioItem(string url)
+        {
+            var videoInfo = await Client.Videos.GetAsync(url);
+            return new AudioItem(videoInfo);
         }
         public async Task AddSongAsync(string url)
         {
-            var streams = await Client.Videos.Streams.GetManifestAsync(url);
-            var audio = streams.GetAudioStreams().GetWithHighestBitrate();
+            var audio = await GetAudioItem(url);
             AddSong(audio);
         }
-        public void AddSongEnd(IStreamInfo stream)
+        public void AddSongEnd(AudioItem stream)
         {
             Songs.Add(stream);
         }
         public async Task AddSongEndAsync(string url)
         {
-            var streams = await Client.Videos.Streams.GetManifestAsync(url);
-            var audio = streams.GetAudioStreams().GetWithHighestBitrate();
+            var audio = await GetAudioItem(url);
             AddSongEnd(audio);
+        }
+    }
+
+    public record AudioItem(Video Video)
+    {
+        public IStreamInfo? StreamInfo { get; private set; }
+        public async Task LoadStreamData()
+        {
+            if (StreamInfo != null)
+                return;
+
+            var streams = await SingletonFactory.YoutubeClient.Videos.Streams.GetManifestAsync(Video.Id);
+            StreamInfo = streams.GetAudioStreams().GetWithHighestBitrate();
         }
     }
 }

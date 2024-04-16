@@ -107,11 +107,27 @@ namespace Singularity.Audio
             OnEnded?.Invoke(this);
         }
 
+        [JSInvokable("onplay")]
+        public void Playing()
+        {
+            OnEnded?.Invoke(this);
+        }
+        [JSInvokable("onpause")]
+        public void Paused()
+        {
+            OnEnded?.Invoke(this);
+        }
+
         public delegate void AudioEventHandler(object sender);
         public event AudioEventHandler? OnCanPlay;
         public event AudioEventHandler? OnTimeUpdate;
         public event AudioEventHandler? OnLoadedMetadata;
         public event AudioEventHandler? OnEnded;
+        public event AudioEventHandler? OnPlaying;
+        public event AudioEventHandler? OnPaused;
+
+
+
 
 
     }

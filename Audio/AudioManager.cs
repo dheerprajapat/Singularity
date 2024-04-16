@@ -16,29 +16,66 @@ namespace Singularity.Audio
 
         public AudioPlayer Audio { get; private set; }
 
-        public IStreamInfo? Current => Queue.Songs.FirstOrDefault();
+        public AudioItem? Current => Queue.Songs.FirstOrDefault();
+
+        public bool IsPlaying { get; private set; } = false;
 
         public async Task InitialzePlayerAsync(IJSRuntime runtime)
         {
             Audio = await AudioPlayer.CreateAsync(runtime);
+            Audio.OnPlaying += Audio_OnPlaying;
+            Audio.OnEnded += Audio_OnEnded;
+        }
+        ~AudioManager()
+        {
+            Audio.OnPlaying -= Audio_OnPlaying;
+            Audio.OnEnded -= Audio_OnEnded;
         }
 
-        public void AddSong(IStreamInfo stream)
+        private void Audio_OnEnded(object sender)
         {
-            Queue.AddSong(stream);
+            IsPlaying = false;
+            OnAudioPlayPlaused?.Invoke(this);
+        }
+
+        private void Audio_OnPlaying(object sender)
+        {
+            IsPlaying = true;
+            OnAudioPlayPlaused?.Invoke(this);
+        }
+
+        public void AddSong(AudioItem audio)
+        {
+            Queue.AddSong(audio);
         }
         public Task AddSongAsync(string url)
         {
             return Queue.AddSongAsync(url);
         }
+        public void AddSongEnd(AudioItem audio)
+        {
+            Queue.AddSongEnd(audio);
+        }
+        public Task AddSongEndAsync(string url)
+        {
+            return Queue.AddSongEndAsync(url);
+        }
+        public async Task AddAndPlayAsync(AudioItem item)
+        {
+            AddSong(item);
+            await PlayAsync();
+        }
+
         public async ValueTask PlayAsync()
         {
             if (Current is null)
                 return;
-
-            await Audio.SetSrc(Current.Url);
+            await Current.LoadStreamData();
+            await Audio.SetSrc(Current.StreamInfo!.Url);
             await Audio.Play();
         }
 
+        public delegate void PlayPlausedHandler(object sender);
+        public event PlayPlausedHandler? OnAudioPlayPlaused;
     }
 }

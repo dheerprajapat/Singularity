@@ -1,157 +1,34 @@
 ﻿@page "/"
 @using Singularity.Audio
+@using System.Collections.Specialized
 @inject IJSRuntime Runtime
 @inject YoutubeClient Youtube
+@inject AudioManager AudioManager
 
 <div style="height:100px">
     
 </div>
 <p class="playlist-text">Recent PlayList</p>
 <div class="tracks">
-    @foreach (var song in songs)
+    @foreach (var song in AudioManager.Queue.Songs)
     {
-        <MusicTrack SongName="@song.MusicName" Singers="@song.Singers" IsPlaying="@song.IsPlaying"></MusicTrack>
+        <MusicTrack Song="@song"></MusicTrack>
     }
 </div>
 
 
-@code{
-    class Song
+@code
+{
+    protected override void OnInitialized()
     {
-        public string ?MusicName { get; set; }
-        public List<string> ?Singers { get; set; }
-        public string ?AlbumName { get; set; }
-        public int ReleaseYear { get; set; }
-        public string ?Lyrics { get; set; }
-        public string ?ThumbnailUrl { get; set; }
-        public bool IsPlaying { get; set; } = false;
+        base.OnInitialized();
+        AudioManager.Queue.Songs.CollectionChanged += SongListChanged;
     }
 
-
-    List<Song> songs = new List<Song>
+    private void SongListChanged(object? sender, NotifyCollectionChangedEventArgs e)
     {
-        new Song
-        {
-            MusicName = "Tera Hone Laga Hoon",
-            Singers = new List<string> { "Atif Aslam", "Alisha Chinai" },
-            AlbumName = "Ajab Prem Ki Ghazab Kahani",
-            ReleaseYear = 2009,
-            Lyrics = "Tera hone laga hoon, khone laga hoon...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=5Yx6Vfj1d0w",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Raabta",
-            Singers = new List<string> { "Arijit Singh", "Nikhita Gandhi" },
-            AlbumName = "Agent Vinod",
-            ReleaseYear = 2012,
-            Lyrics = "Kehte hain khuda ne iss jahan mein...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=ZpsK8zWq7N8",
-            IsPlaying = true
-        },
-        new Song
-        {
-            MusicName = "Tum Se Hi",
-            Singers = new List<string> { "Mohit Chauhan" },
-            AlbumName = "Jab We Met",
-            ReleaseYear = 2007,
-            Lyrics = "Tum se hi din hota hai, surmaiye shaam aati hai...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=3z4lWpXyWd8",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Tera Hone Laga Hoon",
-            Singers = new List<string> { "Atif Aslam", "Alisha Chinai" },
-            AlbumName = "Ajab Prem Ki Ghazab Kahani",
-            ReleaseYear = 2009,
-            Lyrics = "Tera hone laga hoon, khone laga hoon...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=5Yx6Vfj1d0w",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Raabta",
-            Singers = new List<string> { "Arijit Singh", "Nikhita Gandhi" },
-            AlbumName = "Agent Vinod",
-            ReleaseYear = 2012,
-            Lyrics = "Kehte hain khuda ne iss jahan mein...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=ZpsK8zWq7N8",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Tum Se Hi",
-            Singers = new List<string> { "Mohit Chauhan" },
-            AlbumName = "Jab We Met",
-            ReleaseYear = 2007,
-            Lyrics = "Tum se hi din hota hai, surmaiye shaam aati hai...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=3z4lWpXyWd8",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Tera Hone Laga Hoon",
-            Singers = new List<string> { "Atif Aslam", "Alisha Chinai" },
-            AlbumName = "Ajab Prem Ki Ghazab Kahani",
-            ReleaseYear = 2009,
-            Lyrics = "Tera hone laga hoon, khone laga hoon...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=5Yx6Vfj1d0w",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Raabta",
-            Singers = new List<string> { "Arijit Singh", "Nikhita Gandhi" },
-            AlbumName = "Agent Vinod",
-            ReleaseYear = 2012,
-            Lyrics = "Kehte hain khuda ne iss jahan mein...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=ZpsK8zWq7N8",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Tum Se Hi",
-            Singers = new List<string> { "Mohit Chauhan" },
-            AlbumName = "Jab We Met",
-            ReleaseYear = 2007,
-            Lyrics = "Tum se hi din hota hai, surmaiye shaam aati hai...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=3z4lWpXyWd8",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Tera Hone Laga Hoon",
-            Singers = new List<string> { "Atif Aslam", "Alisha Chinai" },
-            AlbumName = "Ajab Prem Ki Ghazab Kahani",
-            ReleaseYear = 2009,
-            Lyrics = "Tera hone laga hoon, khone laga hoon...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=5Yx6Vfj1d0w",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Raabta",
-            Singers = new List<string> { "Arijit Singh", "Nikhita Gandhi" },
-            AlbumName = "Agent Vinod",
-            ReleaseYear = 2012,
-            Lyrics = "Kehte hain khuda ne iss jahan mein...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=ZpsK8zWq7N8",
-            IsPlaying = false
-        },
-        new Song
-        {
-            MusicName = "Tum Se Hi",
-            Singers = new List<string> { "Mohit Chauhan" },
-            AlbumName = "Jab We Met",
-            ReleaseYear = 2007,
-            Lyrics = "Tum se hi din hota hai, surmaiye shaam aati hai...",
-            ThumbnailUrl = "https://www.youtube.com/watch?v=3z4lWpXyWd8",
-            IsPlaying = false
-        },
-    };
-
+        StateHasChanged();
+    }
 }
 
 
