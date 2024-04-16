@@ -1,19 +1,53 @@
-﻿
-<Glass Class="music" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(66, 245, 209,1)">
-    <div class="controls">
-        <img class="img" src="https://yt3.googleusercontent.com/VzKX7I0iD2eEHoWqk2drqOTFsPWX6hTGul0drSXXde8hWEcYNq7H_VdWHBC5RDawV_LoUBmD=s900-c-k-c0x00ffffff-no-rj" />
-        <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white">
-            <p><b>Pal Pal Dil Ke Paas Tum Rehte ho</b></p>
-            <p>Kishore Kumar</p>
-            <div></div>
+﻿    
+<Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(66, 245, 209,1)">
+    
+
+    @if (isMusicViewActive)
+    {
+        <div class="toggle-controls" @onclick="ToggleMusicView">
+
+            <img class="cover-image" src="https://yt3.googleusercontent.com/VzKX7I0iD2eEHoWqk2drqOTFsPWX6hTGul0drSXXde8hWEcYNq7H_VdWHBC5RDawV_LoUBmD=s900-c-k-c0x00ffffff-no-rj" />
+            <div style="width:80%;">
+                <progress style="height:2px;margin-top:-10px;width:100%;padding-left:12px;padding-right:12px" value="10" max="100" />
+            </div>
+            <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white;">
+                <p><b>Pal Pal Dil Ke Paas Tum Rehte ho</b></p>
+                <p>Kishore Kumar</p>
+                <div></div>
+            </div>
+            <div class="music-control" style="">
+                <img src="./images/backward.svg" height="32" width="32" />
+                <img src="./images/play.svg" height="32" width="32" />
+                <img src="./images/forward.svg" height="32" width="32" />
+            </div>
+
         </div>
-        <img src="./images/play.svg" height="32" width="32" />
-    </div>
-    <Progress Value="50" Style="width:100%;margin-top:-2px;left:0px;right:0px" />
+    }
+    else
+    {
+        <div class="controls" @onclick="ToggleMusicView">
+            <img class="img" src="https://yt3.googleusercontent.com/VzKX7I0iD2eEHoWqk2drqOTFsPWX6hTGul0drSXXde8hWEcYNq7H_VdWHBC5RDawV_LoUBmD=s900-c-k-c0x00ffffff-no-rj" />
+            <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white">
+                <p><b>Pal Pal Dil Ke Paas Tum Rehte ho</b></p>
+                <p>Kishore Kumar</p>
+                <div></div>
+            </div>
+            <img src="./images/play.svg" height="32" width="32" />
+        </div>
+        <progress style="height:2px;margin-top:-10px;width:100%;padding-left:12px;padding-right:12px" value="10" max="100" />
+    }
 </Glass>
+    
+
+
 
 @code {
+    private bool isMusicViewActive { get; set; } = false;
 
+    private void ToggleMusicView()
+    {
+        isMusicViewActive = !isMusicViewActive;
+    }
 }
 
 
@@ -31,13 +65,51 @@
         display:flex;
         flex-direction:column;
         justify-content:space-around;
+        transition: height 0.5s,bottom 0.5s;
     }
+
+    .toggle-music {
+        height: 83%;
+        width: 100%;
+        position: absolute;
+        bottom: 70px;
+        border-top-left-radius: 20px;
+        border-top-right-radius: 20px;
+        border-color: 1px solid rgba(66, 245, 209,0.5);
+        padding: 20px;
+        transition: height 0.5s, bottom 0.5s;
+    }
+
+    .cover-image
+    {
+        height:50%;
+        width: 60%;
+    }
+
     .controls
     {
         display:flex;
         align-items:center;
         justify-content:space-between;
     }
+
+    .toggle-controls{
+        height: 85vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+    }
+
+    .music-control
+    {
+        margin-top: 10px;
+        display: flex;
+        width: 60%;
+        justify-content: space-between;
+       
+    }
+
     .img
     {
         border-radius:20px;
