@@ -1,0 +1,30 @@
+﻿
+<Glass Class="playlist-element" Blur="20" BackgroundColor="rgba(192, 182, 230, 0.2)">
+    <div style="width:15%; display: flex;justify-content: center;align-items: center;margin:4px;">
+        <img src="./images/music.svg" height="32" width="32" />
+    </div>
+    <div style="width:80%;display: flex;flex-direction: column;justify-content:center">
+        <div>
+            <p style="display:flex;"><b>@PlaylistData.PlayListName</b></p>
+        </div>
+        <div style="display:flex">
+            <p>Playlist * Dhiraj Kumar</p>
+        </div>
+    </div>
+</Glass>
+
+@code {
+    [Parameter]
+    public PlaylistData? PlaylistData { get; set; }
+}
+
+<style>
+    .playlist-element
+    {
+        color : white;
+        display: flex;
+        border-radius: 25px;
+        height: 5rem;
+    }
+
+</style>
