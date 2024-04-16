@@ -17,8 +17,8 @@
                     <div>@(TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss"))</div>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white;">
-                    <p><b>@Current.Video.Title</b></p>
-                    <p>@Current.Video.Author</p>
+                    <p class="ellepsis"><b>@Current.Video.Title</b></p>
+                    <p class="ellepsis">@Current.Video.Author</p>
                     <div></div>
                 </div>
                 <div class="music-control" style="margin:4px">
@@ -34,8 +34,8 @@
             <div class="controls" @onclick="ToggleMusicView">
                 <img class="img" src="@ThumbnailUrl" />
                 <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white">
-                    <p><b>@Current.Video.Title</b></p>
-                    <p>@Current.Video.Author</p>
+                    <p class="ellepsis"><b>@Current.Video.Title</b></p>
+                    <p class="ellepsis">@Current.Video.Author</p>
                     <div></div>
                 </div>
                 <img src="./images/play.svg" height="32" width="32" />
@@ -113,6 +113,13 @@
 
 
 <style>
+    .ellepsis {
+        width: 64vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .music {
         height: 86px;
         width: 100%;

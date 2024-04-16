@@ -9,8 +9,8 @@
                 <img class="cover-img @(IsPlaying ? "circularMotion" : "")" src="@Song.Video.Thumbnails.MaxBy(x=>x.Resolution.Area).Url" />
             </div>
             <div class="detail" style="width:70%">
-                <p><b>@Song.Video.Title</b></p>
-                <p>
+                <p class="ellepsis"><b>@Song.Video.Title</b></p>
+                <p class="ellepsis">
                     <span style="margin:3px">@Song.Video.Author</span>
                 </p>
             </div>
@@ -48,6 +48,13 @@
 }
 
 <style>
+    .ellepsis {
+        width: 64vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
     .playing {
     }
 
