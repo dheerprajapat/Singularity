@@ -1,6 +1,6 @@
 ﻿@*massive help from https://codepen.io/egrucza*@
 <div id="sliderContainer" class="bg-transparent">
-    <input type="range" min="@Min" max="@Max" class="range @Color" @bind="Value" @onclick="ChangeOccured" />
+    <input type="range" min="@Min" max="@Max" class="range @Color" @bind="Value" @onclick="ChangeOccured" @onclick:stopPropagation="true" />
 </div>
 @code
 {
