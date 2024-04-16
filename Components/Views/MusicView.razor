@@ -38,7 +38,7 @@
                 </div>
                 <img src="./images/play.svg" height="32" width="32" />
             </div>
-            <progress style="height:2px;margin-top:-10px;width:100%;padding-left:12px;padding-right:12px" value="10" max="100" />
+            <Progress Value="@CurrentTime" Max="@Duration" Style="width:100%;" />
         }
     </Glass>
 }
@@ -51,6 +51,8 @@
     private bool isMusicViewActive { get; set; } = false;
 
     private AudioItem? Current;
+    private double CurrentTime;
+    private double Duration;
 
     private void ToggleMusicView()
     {
@@ -67,12 +69,26 @@
         await AudioManager.AddSongEndAsync("d5crO6w6NYs");
         await AudioManager.AddSongEndAsync("hjfzFVw2Zjo");
         await AudioManager.PlayAsync();
+
         AudioManager.OnAudioPlayPlaused += OnAudioPlayPlaused;
+        AudioManager.Audio.OnTimeUpdate += OnTimeUpdate;
+        AudioManager.Audio.OnLoadedMetadata += OnLoadedMetadata;
     }
+
 
     private void OnAudioPlayPlaused(object sender)
     {
         Current = AudioManager.Current;
+        StateHasChanged();
+    }
+    private async void OnLoadedMetadata(object sender)
+    {
+        Duration = await AudioManager.Audio.GetDuration();
+        StateHasChanged();
+    }
+    private async void OnTimeUpdate(object sender)
+    {
+        CurrentTime = await AudioManager.Audio.GetCurrentTime();
         StateHasChanged();
     }
 
