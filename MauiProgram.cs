@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using MudBlazor.Services;
 using Singularity.Audio;
 using YoutubeExplode;
 
@@ -19,8 +20,7 @@ namespace Singularity
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddSingleton(SingletonFactory.YoutubeClient);
             builder.Services.AddSingleton(SingletonFactory.AudioManager);
-
-
+            builder.Services.AddMudServices();
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();

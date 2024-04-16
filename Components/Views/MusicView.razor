@@ -5,14 +5,16 @@
 @if (Current != null)
 {
 
-    <Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(66, 245, 209,1)">
+    <Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(255, 211, 92,1)">
         @if (isMusicViewActive)
         {
             <div class="toggle-controls" @onclick="ToggleMusicView">
 
-                <img class="cover-image" src="@Current.Video.Thumbnails.MaxBy(x=>x.Resolution.Area).Url" />
-                <div style="width:80%;">
-                    <progress style="height:2px;margin-top:-10px;width:100%;padding-left:12px;padding-right:12px" value="10" max="100" />
+                <img class="cover-image" src="@ThumbnailUrl" />
+                <div style="display:flex;width:100%;align-items:center;justify-content:space-between">
+                    <div>@(TimeSpan.FromSeconds(CurrentTime).ToString(@"mm\:ss"))</div>
+                    <SliderRange Value="@((int)CurrentTime)" Max="@((int)Duration)" Style="height:2px;margin-top:-10px;width:70vw;padding-left:12px;padding-right:12px;flex-grow:1" OnChange="OnTimeChange"/>
+                    <div>@(TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss"))</div>
                 </div>
                 <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white;">
                     <p><b>@Current.Video.Title</b></p>
@@ -30,7 +32,7 @@
         else
         {
             <div class="controls" @onclick="ToggleMusicView">
-                <img class="img" src="@Current.Video.Thumbnails.MaxBy(x=>x.Resolution.Area).Url" />
+                <img class="img" src="@ThumbnailUrl" />
                 <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white">
                     <p><b>@Current.Video.Title</b></p>
                     <p>@Current.Video.Author</p>
@@ -38,7 +40,7 @@
                 </div>
                 <img src="./images/play.svg" height="32" width="32" />
             </div>
-            <Progress Value="@CurrentTime" Max="@Duration" Style="width:100%;" />
+            <MudProgressLinear Color="Color.Secondary" Value="@CurrentTime" Max="@Duration" Size="Size.Small" Style="margin-top:-10px;margin-left:80px;margin-right:80px;width:80vw" />
         }
     </Glass>
 }
@@ -53,6 +55,7 @@
     private AudioItem? Current;
     private double CurrentTime;
     private double Duration;
+    private string ThumbnailUrl;
 
     private void ToggleMusicView()
     {
@@ -79,6 +82,10 @@
     private void OnAudioPlayPlaused(object sender)
     {
         Current = AudioManager.Current;
+        if(Current is not null)
+        {
+            ThumbnailUrl= Current.Video.Thumbnails.MaxBy(x => x.Resolution.Area)!.Url;
+        }
         StateHasChanged();
     }
     private async void OnLoadedMetadata(object sender)
@@ -95,6 +102,11 @@
     public void Dispose()
     {
         AudioManager.OnAudioPlayPlaused -= OnAudioPlayPlaused;
+    }
+
+    private async void OnTimeChange(int value)
+    {
+        await AudioManager.Audio.SetCurrentTime(value);
     }
 
 }
