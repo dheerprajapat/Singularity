@@ -1,4 +1,5 @@
 ﻿using Microsoft.Extensions.Logging;
+using Singularity.Audio;
 using YoutubeExplode;
 
 namespace Singularity
@@ -16,10 +17,12 @@ namespace Singularity
                 });
 
             builder.Services.AddMauiBlazorWebView();
-            builder.Services.AddSingleton(new YoutubeClient());
+            builder.Services.AddSingleton(SingletonFactory.YoutubeClient);
+            builder.Services.AddSingleton(SingletonFactory.AudioManager);
+
 
 #if DEBUG
-    		builder.Services.AddBlazorWebViewDeveloperTools();
+            builder.Services.AddBlazorWebViewDeveloperTools();
     		builder.Logging.AddDebug();
 #endif
 

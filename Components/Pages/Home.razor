@@ -152,13 +152,6 @@
         },
     };
 
-    protected override async Task OnInitializedAsync()
-    {
-        var videoInfo = await Youtube.Videos.Streams.GetManifestAsync("H60L40GbfFI");
-        var audioStream = videoInfo.GetAudioOnlyStreams().GetWithHighestBitrate();
-        var audio = await AudioPlayer.CreateAsync(Runtime,audioStream.Url);
-        await audio.Play();
-    }
 }
 
 
