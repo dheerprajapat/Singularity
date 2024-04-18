@@ -1,0 +1,72 @@
+﻿@inject IJSRuntime Runtime
+@inject NavigationManager Nav
+
+<div style="height:100px;display:flex;justify-content:space-between;align-items:center;margin:16px">
+    @if(!IsSearchPage)
+    {
+        <div style="font-weight:lighter;font-size:32px">Singularity</div>
+         <img src="./images/search.svg" width="32" height="32" @onclick="GoToSearch" />
+    }
+    else
+    {
+        <MudAutocomplete T="string" Label="Search" Style="margin:16px" SearchFuncWithCancel="SuggestionsAsync" ValueChanged="(s)=>OnSearch.InvokeAsync(s)"
+                   Immediate AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
+    }
+</div>
+<p class="playlist-text">@Title</p>
+<div style="padding: 30px;height: calc(100vh - 250px);overflow-y: auto;">
+    @ChildContent
+</div>
+
+
+@code
+{
+
+    private const string SearchUrl = "https://clients1.google.com/complete/search?client=youtube&gs_ri=youtube&ds=yt&q=";
+
+
+    [Parameter]
+    public string? Title { get; set; }
+
+    [Parameter]
+    public RenderFragment? ChildContent { get; set; }
+
+    private static HttpClient Http = new HttpClient();
+
+    private bool IsSearchPage => Nav.Uri.EndsWith("search");
+
+    [Parameter]
+    public EventCallback<string> OnSearch { get; set; }
+
+
+    private void GoToSearch()
+    {
+        if(!IsSearchPage)
+            Nav.NavigateTo("/search");
+    }
+
+    public async Task<IEnumerable<string>> SuggestionsAsync(string query, CancellationToken token = default)
+    {
+        var original = query;
+        query = Uri.EscapeDataString(query);
+        query = SearchUrl + query;
+        var res = await Http.GetAsync(query, token);
+        var js = await res.Content.ReadAsStringAsync(token);
+
+        var parts = js.Split('[').Where(t => t.Split('"').Length > 2).Select(t => t.Split('"')[1]);
+
+        return parts.Distinct().ToList();
+    }
+}
+
+
+<style>
+    
+    .playlist-text {
+        color: white;
+        font-size: 23px;
+        display: flex;
+        margin-left: 30px;
+    }
+</style>
+

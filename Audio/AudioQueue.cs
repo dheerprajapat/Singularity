@@ -2,6 +2,7 @@
 using System.IO;
 using AngleSharp.Dom;
 using YoutubeExplode;
+using YoutubeExplode.Common;
 using YoutubeExplode.Videos;
 using YoutubeExplode.Videos.Streams;
 
@@ -31,7 +32,7 @@ namespace Singularity.Audio
         public static async Task<AudioItem> GetAudioItem(string url)
         {
             var videoInfo = await Client.Videos.GetAsync(url);
-            return new AudioItem(videoInfo);
+            return new AudioItem(Video.From(videoInfo));
         }
         public async Task AddSongAsync(string url)
         {
@@ -59,6 +60,18 @@ namespace Singularity.Audio
 
             var streams = await SingletonFactory.YoutubeClient.Videos.Streams.GetManifestAsync(Video.Id);
             StreamInfo = streams.GetAudioStreams().GetWithHighestBitrate();
+        }
+    }
+
+    public record Video(string Title,Author Author,TimeSpan? Duration,string Id,IReadOnlyList<Thumbnail> Thumbnails,string Url)
+    {
+        public static Video From(YoutubeExplode.Videos.Video video)
+        {
+            return new(video.Title, video.Author, video.Duration, video.Id, video.Thumbnails, video.Url);
+        }
+        public static Video From(YoutubeExplode.Search.VideoSearchResult video)
+        {
+            return new(video.Title, video.Author, video.Duration, video.Id, video.Thumbnails, video.Url);
         }
     }
 }

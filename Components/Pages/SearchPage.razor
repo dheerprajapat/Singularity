@@ -1,0 +1,31 @@
+﻿@page "/search"
+@inject YoutubeClient Youtube
+<TabbedPageView Title="Search" OnSearch="OnSearchResult">
+    @foreach(var audio in Results)
+    {
+        <MusicTrack Song="audio"></MusicTrack>
+    }
+</TabbedPageView>
+
+@code
+{
+    private List<AudioItem> Results=new List<AudioItem>();
+    private async void OnSearchResult(string query)
+    {
+        if (string.IsNullOrWhiteSpace(query))
+            return;
+
+        Results.Clear();
+        int count = 0;
+        await foreach(var video in Youtube.Search.GetVideosAsync(query))
+        {
+            if (count > 20)
+                break;
+
+            count++;
+            var audioItem = new AudioItem(Video.From(video));
+            Results.Add(audioItem);
+        }
+        StateHasChanged();
+    }
+}
