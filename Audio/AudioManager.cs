@@ -65,6 +65,42 @@ namespace Singularity.Audio
             AddSong(item);
             await PlayAsync();
         }
+        public async Task PlayNextAsync()
+        {
+            if(Queue.Songs.Count <= 0)
+            {
+                return;
+            }
+
+            var first = Queue.Songs.First();
+            Queue.Songs.Remove(first);
+            Queue.AddSongEnd(first);
+            await Audio.SetCurrentTime(0);
+            await PlayAsync();
+        }
+        public async Task PlayPreviousAsync()
+        {
+            if (Queue.Songs.Count <= 0)
+            {
+                return;
+            }
+
+            var time = await Audio.GetCurrentTime();
+
+            if(time>5)
+            {
+                await Audio.SetCurrentTime(0);
+                return;
+            }
+
+            var last = Queue.Songs.Last();
+            Queue.Songs.Remove(last);
+            Queue.AddSong(last);
+            await Audio.SetCurrentTime(0);
+            await PlayAsync();
+        }
+
+        
 
         public async ValueTask PlayAsync()
         {

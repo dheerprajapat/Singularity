@@ -8,7 +8,7 @@
             <div style="width:20%">
                 <img class="cover-img @(IsPlaying ? "circularMotion" : "")" src="@Song.Video.Thumbnails.MaxBy(x=>x.Resolution.Area).Url" />
             </div>
-            <div class="detail" style="width:70%">
+            <div class="detail" style="width:65%">
                 <p class="ellepsis"><b>@Song.Video.Title</b></p>
                 <p class="ellepsis">
                     <span style="margin:3px">@Song.Video.Author</span>

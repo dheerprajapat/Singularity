@@ -5,7 +5,7 @@
 @if (Current != null)
 {
 
-    <Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(255, 0, 0,0.4)">
+    <Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="@BorderMusic">
         @if (isMusicViewActive)
         {
             <div class="toggle-controls" @onclick="ToggleMusicView">
@@ -15,16 +15,28 @@
                     <p class="ellepsis">@Current.Video.Author</p>
                     <div></div>
                 </div>
-                <div style="display:flex;width:100%;align-items:center;justify-content:space-between;margin-top:20px">
-                    <div>@(TimeSpan.FromSeconds(CurrentTime).ToString(@"mm\:ss"))</div>
+
+                <div style="position:absolute; bottom:60px">
+                    <div style="display:flex;width:100%;align-items:center;justify-content:space-between;margin-top:40px">
+                        <div>@(TimeSpan.FromSeconds(CurrentTime).ToString(@"mm\:ss"))</div>
+                        <div>@(TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss"))</div>
+                    </div>
                     <SliderRange Value="@((int)CurrentTime)" Max="@((int)Duration)" Style="width:70vw;padding-left:4px;padding-right:4px" OnChange="OnTimeChange" />
-                    <div>@(TimeSpan.FromSeconds(Duration).ToString(@"mm\:ss"))</div>
+
+                    <div style="margin-top:20px;margin-top: 10px;display: flex;width: 100%;justify-content: space-between;" @onclick:stopPropagation="true">
+                        <img src="./images/backward.svg" height="32" width="32" @onclick="PlayPrevious"/>
+                        @if (IsPlaying)
+                        {
+                            <img src="./images/pause.svg" height="32" width="32" @onclick="PlayPauseToggle"/>
+                        }
+                        else
+                        {
+                            <img src="./images/play.svg" height="32" width="32" @onclick="PlayPauseToggle" />
+                        }                        
+                        <img src="./images/forward.svg" height="32" width="32" @onclick="PlayNext" />
+                    </div>
                 </div>
-                <div class="music-control" style="margin-top:20px">
-                    <img src="./images/backward.svg" height="32" width="32" />
-                    <img src="./images/play.svg" height="32" width="32" />
-                    <img src="./images/forward.svg" height="32" width="32" />
-                </div>
+                
 
             </div>
         }
@@ -37,7 +49,14 @@
                     <p class="ellepsis">@Current.Video.Author</p>
                     <div></div>
                 </div>
-                <img src="./images/play.svg" height="32" width="32" />
+                @if (IsPlaying)
+                {
+                    <img src="./images/pause.svg" height="32" width="32" @onclick="PlayPauseToggle" @onclick:stopPropagation="true" />
+                }
+                else
+                {
+                    <img src="./images/play.svg" height="32" width="32" @onclick="PlayPauseToggle" @onclick:stopPropagation="true" />
+                }
             </div>
             <MudProgressLinear Color="Color.Secondary" Value="@CurrentTime" Max="@Duration" Size="Size.Small" Style="margin-top:-10px;margin-left:80px;margin-right:80px;width:80vw" />
         }
@@ -50,11 +69,13 @@
 @code
 {
     private bool isMusicViewActive { get; set; } = false;
+    private string BorderMusic =>$"2px solid rgba(255, 0, 0,{(isMusicViewActive?0:0.4)})";
 
     private AudioItem? Current;
     private double CurrentTime;
     private double Duration;
     private string ThumbnailUrl;
+    private bool IsPlaying = false;
 
     private void ToggleMusicView()
     {
@@ -85,6 +106,8 @@
         {
             ThumbnailUrl= Current.Video.Thumbnails.MaxBy(x => x.Resolution.Area)!.Url;
         }
+
+        IsPlaying = AudioManager.IsPlaying;
         StateHasChanged();
     }
     private async void OnLoadedMetadata(object sender)
@@ -106,6 +129,29 @@
     private async void OnTimeChange(int value)
     {
         await AudioManager.Audio.SetCurrentTime(value);
+    }
+
+    private async void PlayNext()
+    {
+        await AudioManager.PlayNextAsync();
+    }
+    private async void PlayPrevious()
+    {
+        await AudioManager.PlayPreviousAsync();
+    }
+
+    private async void PlayPauseToggle()
+    {
+        if(!IsPlaying)
+        {
+            await AudioManager.Audio.Play();
+            IsPlaying = true;
+        }
+        else
+        {
+            await AudioManager.Audio.Pause();
+            IsPlaying = false;
+        }
     }
 
 }
@@ -135,7 +181,7 @@
     }
 
     .toggle-music {
-        height: 83%;
+        height: 100vh;
         width: 100%;
         position: absolute;
         bottom: 70px;
@@ -147,8 +193,8 @@
     }
 
     .cover-image {
-        height: 50%;
-        width: 60%;
+        height: 50vh;
+        width: 50vh;
     }
 
     .controls {
