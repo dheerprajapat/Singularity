@@ -87,11 +87,6 @@
         await base.OnInitializedAsync();
 
         await AudioManager.InitialzePlayerAsync(JSRuntime);
-        await AudioManager.AddSongAsync("wGCMSWEuLsI");
-        await AudioManager.AddSongEndAsync("AMuRRXCuy-4");
-        await AudioManager.AddSongEndAsync("d5crO6w6NYs");
-        await AudioManager.AddSongEndAsync("hjfzFVw2Zjo");
-        await AudioManager.PlayAsync();
 
         AudioManager.OnAudioPlayPlaused += OnAudioPlayPlaused;
         AudioManager.Audio.OnTimeUpdate += OnTimeUpdate;

@@ -58,8 +58,11 @@ namespace Singularity.Audio
             if (StreamInfo != null)
                 return;
 
-            var streams = await SingletonFactory.YoutubeClient.Videos.Streams.GetManifestAsync(Video.Id);
-            StreamInfo = streams.GetAudioStreams().GetWithHighestBitrate();
+            await Task.Run(async() =>
+            {
+                var streams = await SingletonFactory.YoutubeClient.Videos.Streams.GetManifestAsync(Video.Id);
+                StreamInfo = streams.GetAudioStreams().GetWithHighestBitrate();
+            });
         }
     }
 

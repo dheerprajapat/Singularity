@@ -19,7 +19,7 @@
         int count = 0;
         await foreach(var video in Youtube.Search.GetVideosAsync(query))
         {
-            if (count > 20)
+            if (count > 10)
                 break;
 
             count++;
