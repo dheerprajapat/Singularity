@@ -114,15 +114,15 @@
 
     private async void MediaStateChanged(object sender,MediaStateChangedEventArgs e)
     {
-        await Device.InvokeOnMainThreadAsync(() =>
+        await InvokeAsync(() =>
         {
             IsPlaying = AudioManager.IsPlaying;
             StateHasChanged();
         });
     }
-    private void OnLoadedMetadata(object sender)
+    private async void OnLoadedMetadata(object sender)
     {
-        Device.InvokeOnMainThreadAsync(() =>
+        await InvokeAsync(() =>
         {
             Current = AudioManager.Current;
             if (Current is not null)
@@ -142,7 +142,7 @@
             return;
 
         LastTime = DateTime.Now;
-        Device.InvokeOnMainThreadAsync(() =>
+        InvokeAsync(() =>
         {
             CurrentTime = AudioManager.Audio.CurrentTime.TotalSeconds;
             StateHasChanged();
