@@ -18,31 +18,16 @@ namespace Singularity.Audio
 
         public AudioItem? Current => Queue.Songs.FirstOrDefault();
 
-        public bool IsPlaying { get; private set; } = false;
+        public bool IsPlaying => Audio.MediaPlayer.CurrentState == CommunityToolkit.Maui.Core.Primitives.MediaElementState.Playing;
 
-        public async Task InitialzePlayerAsync(IJSRuntime runtime)
+
+        public void Init()
         {
-            Audio = await AudioPlayer.CreateAsync(runtime);
-            Audio.OnPlaying += Audio_OnPlaying;
-            Audio.OnEnded += Audio_OnEnded;
-        }
-        ~AudioManager()
-        {
-            Audio.OnPlaying -= Audio_OnPlaying;
-            Audio.OnEnded -= Audio_OnEnded;
+            if(Audio==null)
+                Audio = new();
         }
 
-        private void Audio_OnEnded(object sender)
-        {
-            IsPlaying = false;
-            OnAudioPlayPlaused?.Invoke(this);
-        }
 
-        private void Audio_OnPlaying(object sender)
-        {
-            IsPlaying = true;
-            OnAudioPlayPlaused?.Invoke(this);
-        }
 
         public void AddSong(AudioItem audio)
         {
@@ -75,7 +60,7 @@ namespace Singularity.Audio
             var first = Queue.Songs.First();
             Queue.Songs.Remove(first);
             Queue.AddSongEnd(first);
-            await Audio.SetCurrentTime(0);
+            Audio.CurrentTime=TimeSpan.Zero;
             await PlayAsync();
         }
         public async Task PlayPreviousAsync()
@@ -85,33 +70,31 @@ namespace Singularity.Audio
                 return;
             }
 
-            var time = await Audio.GetCurrentTime();
+            var time = Audio.CurrentTime;
 
-            if(time>5)
+            if(time.TotalSeconds>5)
             {
-                await Audio.SetCurrentTime(0);
+                Audio.CurrentTime=TimeSpan.Zero;
                 return;
             }
 
             var last = Queue.Songs.Last();
             Queue.Songs.Remove(last);
             Queue.AddSong(last);
-            await Audio.SetCurrentTime(0);
+
+            Audio.CurrentTime = TimeSpan.Zero;
             await PlayAsync();
         }
 
         
 
-        public async ValueTask PlayAsync()
+        public async Task PlayAsync()
         {
             if (Current is null)
                 return;
             await Current.LoadStreamData();
-            await Audio.SetSrc(Current.StreamInfo!.Url);
-            await Audio.Play();
+             Audio.Src=Current.StreamInfo!.Url;
+            Audio.Play();
         }
-
-        public delegate void PlayPlausedHandler(object sender);
-        public event PlayPlausedHandler? OnAudioPlayPlaused;
     }
 }

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using CommunityToolkit.Maui.Core.Primitives;
+using CommunityToolkit.Maui.Views;
 using Microsoft.JSInterop;
 using Microsoft.JSInterop.Implementation;
 
@@ -10,125 +12,88 @@ namespace Singularity.Audio
 {
     internal class AudioPlayer
     {
-        IJSObjectReference audioJSReference;
-        private string src;
-        private AudioPlayer(IJSObjectReference audioJSReference,string src)
+        private string? src;
+
+        public string? Src
         {
-            this.audioJSReference = audioJSReference;
+            get
+            {
+                return src;
+            }
+            set
+            {
+                if(value!=null)
+                    MediaPlayer.Source=MediaSource.FromUri(value);
+                src = value;
+            }
+        }
+
+        public TimeSpan Duration
+        {
+            get => MediaPlayer.Duration;
+        }
+
+        public TimeSpan CurrentTime
+        {
+            get => MediaPlayer.Position;
+            set => MediaPlayer.SeekTo(value);
+        }
+
+        public double Volume
+        {
+            get => MediaPlayer.Volume;
+            set => MediaPlayer.Volume=value;
+        }
+
+        internal MediaElement MediaPlayer { get; }
+        public AudioPlayer(string? src=null)
+        {
+            MediaPlayer = MainPage.MediaElement;
+            MediaPlayer.StateChanged += MediaPlayer_StateChanged;
+            MediaPlayer.PositionChanged += MediaPlayer_PositionChanged;
+            MediaPlayer.MediaOpened += MediaPlayer_MediaOpened;
+
             this.src = src;
         }
-        public static async Task<AudioPlayer> CreateAsync(IJSRuntime runtime,string src=null)
-        {
-            var audioJSObj = await runtime.InvokeAsync<IJSObjectReference>("import","./js/audioPlayer.js");
-            var player = new AudioPlayer(audioJSObj,src);
-            await player.CreateInternalAsync();
-            return player;
-        }
-        private ValueTask CreateInternalAsync()
-        {
-            return audioJSReference.InvokeVoidAsync("createAudio",src,DotNetObjectReference.Create(this));
-        }
 
-        public ValueTask SetSrc(string src)
-        {
-            return audioJSReference.InvokeVoidAsync("setSrc",src);
-        }
-
-        public ValueTask Play()
-        {
-            return audioJSReference.InvokeVoidAsync("play");
-        }
-
-        public ValueTask Pause()
-        {
-            return audioJSReference.InvokeVoidAsync("pause");
-        }
-
-        public ValueTask<double> GetDuration()
-        {
-            return audioJSReference.InvokeAsync<double>("duration");
-        }
-
-        public ValueTask<double> GetCurrentTime()
-        {
-            return audioJSReference.InvokeAsync<double>("getCurrentTime");
-        }
-        public ValueTask SetCurrentTime(double time)
-        {
-            return audioJSReference.InvokeVoidAsync("setCurrentTime",time);
-        }
-        public ValueTask<double> GetVolume()
-        {
-            return audioJSReference.InvokeAsync<double>("getVolume");
-        }
-        public ValueTask SetVolume(double volume)
-        {
-            return audioJSReference.InvokeVoidAsync("setVolume", volume);
-        }
-        public ValueTask<bool> IsPaused()
-        {
-            return audioJSReference.InvokeAsync<bool>("isPaused");
-        }
-        public ValueTask<bool> isMuted()
-        {
-            return audioJSReference.InvokeAsync<bool>("isMuted");
-        }
-        public ValueTask SetMuted(bool muted)
-        {
-            return audioJSReference.InvokeVoidAsync("setMuted", muted);
-        }
-
-        public async ValueTask<ReadyStates> GetReadyState()
-        {
-            return (ReadyStates)(await audioJSReference.InvokeAsync<int>("getReadyState"));
-        }
-
-        [JSInvokable("oncanplay")]
-        public void CanPlay()
-        {
-            OnCanPlay?.Invoke(this);
-        }
-
-        [JSInvokable("ontimeupdate")]
-        public void TimeUpdate()
-        {
-            OnTimeUpdate?.Invoke(this);
-        }
-
-        [JSInvokable("onloadedmetadata")]
-        public void LoadedMetadata()
+        private void MediaPlayer_MediaOpened(object? sender, EventArgs e)
         {
             OnLoadedMetadata?.Invoke(this);
         }
 
-        [JSInvokable("onended")]
-        public void Ended()
+        private void MediaPlayer_PositionChanged(object? sender, MediaPositionChangedEventArgs e)
         {
-            OnEnded?.Invoke(this);
+            OnTimeUpdate?.Invoke(this);
         }
 
-        [JSInvokable("onplay")]
-        public void Playing()
+        ~AudioPlayer()
         {
-            OnPlaying?.Invoke(this);
+            MediaPlayer.StateChanged -= MediaPlayer_StateChanged;
         }
-        [JSInvokable("onpause")]
-        public void Paused()
+
+        private void MediaPlayer_StateChanged(object? sender, MediaStateChangedEventArgs e)
         {
-            OnPaused?.Invoke(this);
+            OnMediaStateChange?.Invoke(this,e);
         }
+
+        public void Play()
+        {
+            MediaPlayer.Play();
+        }
+
+        public void Pause()
+        {
+            MediaPlayer.Pause();
+        }
+
+
 
         public delegate void AudioEventHandler(object sender);
-        public event AudioEventHandler? OnCanPlay;
+        public delegate void MediaStateChangeHandler(object sender, MediaStateChangedEventArgs e);
+
+        public event MediaStateChangeHandler? OnMediaStateChange;
         public event AudioEventHandler? OnTimeUpdate;
         public event AudioEventHandler? OnLoadedMetadata;
-        public event AudioEventHandler? OnEnded;
-        public event AudioEventHandler? OnPlaying;
-        public event AudioEventHandler? OnPaused;
-
-
-
-
 
     }
     public enum ReadyStates

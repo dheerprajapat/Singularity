@@ -1,4 +1,5 @@
-﻿@inject IJSRuntime runtime
+﻿@using CommunityToolkit.Maui.Core.Primitives
+@inject IJSRuntime runtime
 @inject AudioManager AudioManager
 
 @if (Song is not null)
@@ -38,13 +39,16 @@
     protected override void OnInitialized()
     {
         base.OnInitialized();
-        AudioManager.OnAudioPlayPlaused += OnAudioPlayPlaused;
+        AudioManager.Audio.OnMediaStateChange += MediaStateChanged;
     }
 
-    private void OnAudioPlayPlaused(object sender)
+    private void MediaStateChanged(object? sender, MediaStateChangedEventArgs e)
     {
-        IsPlaying = AudioManager.IsPlaying && Song != null && AudioManager.Current != null && Song.Video.Id == AudioManager.Current.Video.Id;
-        StateHasChanged();
+        Device.InvokeOnMainThreadAsync(() =>
+        {
+            IsPlaying = AudioManager.IsPlaying && Song != null && AudioManager.Current != null && Song.Video.Id == AudioManager.Current.Video.Id;
+            StateHasChanged();
+        });
     }
 }
 
