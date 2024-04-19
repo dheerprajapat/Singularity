@@ -11,7 +11,7 @@
         {
             <div class="toggle-controls" @onclick="ToggleMusicView">
                 <img class="cover-image" src="@ThumbnailUrl" />
-                <div style="display:flex;flex-direction:column;align-items:flex-start;margin-left:10px;color:white;margin-top:40px">
+                <div style="display:flex;flex-direction:column;align-items:center;margin-left:10px;color:white;margin-top:40px">
                     <p class="ellepsis"><b>@Current.Video.Title</b></p>
                     <p class="ellepsis">@Current.Video.Author</p>
                     <div></div>
@@ -22,7 +22,19 @@
                         <div>@(TimeSpan.FromSeconds(CurrentTime).ToMusicString())</div>
                         <div>@(TimeSpan.FromSeconds(Duration).ToMusicString())</div>
                     </div>
-                    <SliderRange Value="@((int)CurrentTime)" Max="@((int)Duration)" Style="width:70vw;padding-left:4px;padding-right:4px" OnChange="OnTimeChange" />
+
+                    @* <SliderRange Value="@((int)CurrentTime)" Max="@((int)Duration)" Style="width:70vw;padding-left:4px;padding-right:4px"
+                    MouseDown="MouseDown" MouseUp="MouseUp"
+                    OnChange="OnSliderChange" /> *@
+
+                    <div style="width:70vw;padding-left:4px;padding-right:4px" id="sliderContainer" class="bg-transparent">
+                        <input type="range" value="@CurrentTime" max="@((int)Duration)" @onchange="(e)=>OnSliderChange(int.Parse(e.Value.ToString()))"
+                        @onmousedown="MouseDown"
+                        @onmouseup="MouseUp" @ontouchstart="MouseDown" @ontouchend="MouseUp"
+                        @onclick:stopPropagation="true"
+                               ValueChanged="(d)=>OnSliderChange(d)"></input>
+                    </div>
+
 
                     <div style="margin-top:20px;margin-top: 10px;display: flex;width: 100%;justify-content: space-between;" @onclick:stopPropagation="true">
                         <img src="./images/backward.svg" height="32" width="32" @onclick="PlayPrevious"/>
@@ -59,7 +71,7 @@
                     <img src="./images/play.svg" height="32" width="32" @onclick="PlayPauseToggle" @onclick:stopPropagation="true" />
                 }
             </div>
-            <MudProgressLinear Color="Color.Secondary" Value="@CurrentTime" Max="@Duration" Size="Size.Small" Style="margin-top:-10px;margin-left:80px;margin-right:80px;width:80vw" />
+            <MudProgressLinear Color="Color.Secondary" Value="@CurrentTime" Max="@Duration" Size="Size.Small" Style="margin-top:-10px;margin-left:80px;margin-right:80px;width:calc(100vw - 160px)" />
         }
     </Glass>
 }
@@ -71,6 +83,8 @@
 {
     private bool isMusicViewActive { get; set; } = false;
     private string BorderMusic =>$"2px solid rgba(255, 0, 0,{(isMusicViewActive?0:0.4)})";
+
+    private bool CanUpdateSlider = true;
 
     private AudioItem? Current;
     private double CurrentTime;
@@ -92,12 +106,15 @@
         AudioManager.Audio.OnMediaStateChange += MediaStateChanged;
         AudioManager.Audio.OnTimeUpdate += OnTimeUpdate;
         AudioManager.Audio.OnLoadedMetadata += OnLoadedMetadata;
+
+        await AudioManager.AddSongAsync("H60L40GbfFI");
+        await AudioManager.PlayAsync();
     }
 
 
     private async void MediaStateChanged(object sender,MediaStateChangedEventArgs e)
     {
-        Device.InvokeOnMainThreadAsync(() =>
+        await Device.InvokeOnMainThreadAsync(() =>
         {
             IsPlaying = AudioManager.IsPlaying;
             StateHasChanged();
@@ -113,12 +130,18 @@
                 ThumbnailUrl = Current.Video.Thumbnails.MaxBy(x => x.Resolution.Area)!.Url;
             }
 
-            Duration = AudioManager.Audio.Duration.TotalSeconds;
+            Duration = AudioManager.Current.Video.Duration.GetValueOrDefault().TotalSeconds;
             StateHasChanged();
         });
     }
+
+    private DateTime LastTime = DateTime.Now;
     private void OnTimeUpdate(object sender)
     {
+        if (!CanUpdateSlider || (DateTime.Now-LastTime).TotalSeconds<0.5)
+            return;
+
+        LastTime = DateTime.Now;
         Device.InvokeOnMainThreadAsync(() =>
         {
             CurrentTime = AudioManager.Audio.CurrentTime.TotalSeconds;
@@ -126,12 +149,22 @@
         });
     }
 
+    private void MouseDown()
+    {
+        CanUpdateSlider = false;
+    }
+    private async void MouseUp()
+    {
+        await Task.Delay(100);
+        CanUpdateSlider = true;
+    }
+
     public void Dispose()
     {
         AudioManager.Audio.OnMediaStateChange -= MediaStateChanged;
     }
 
-    private void OnTimeChange(int value)
+    private void OnSliderChange(int value)
     {
          AudioManager.Audio.CurrentTime=TimeSpan.FromSeconds(value);
     }

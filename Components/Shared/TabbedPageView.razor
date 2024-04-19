@@ -1,11 +1,11 @@
 ﻿@inject IJSRuntime Runtime
 @inject NavigationManager Nav
 
-<div style="height:100px;display:flex;justify-content:space-between;align-items:center;margin:16px">
+<div style="height:50px;display:flex;justify-content:space-between;align-items:center;;margin-top:0px;margin-left:8px;margin-right:8px">
     @if(!IsSearchPage)
     {
-        <div style="font-weight:lighter;font-size:32px">Singularity</div>
-         <img src="./images/search.svg" width="32" height="32" @onclick="GoToSearch" />
+@*         <div style="font-weight:lighter;font-size:32px">Singularity</div>
+ *@         <img src="./images/search.svg" width="32" height="32" @onclick="GoToSearch" />
     }
     else
     {
