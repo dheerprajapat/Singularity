@@ -1,0 +1,12 @@
+﻿@page "/like"
+
+<TabbedPageView Title="Liked">
+    @foreach (var video in UserSetting.Instance.LikedSongs)
+    {
+        <MusicTrack Song="new AudioItem(video)"></MusicTrack>
+    }
+</TabbedPageView>
+
+@code {
+    
+}

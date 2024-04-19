@@ -11,9 +11,14 @@
         {
             <div class="toggle-controls" @onclick="ToggleMusicView">
                 <img class="cover-image" src="@ThumbnailUrl" />
-                <div style="display:flex;flex-direction:column;align-items:center;margin-left:10px;color:white;margin-top:40px">
-                    <p class="ellepsis"><b>@Current.Video.Title</b></p>
-                    <p class="ellepsis">@Current.Video.Author</p>
+                <div style="display:flex;align-items:center;color:white;margin-top:40px">
+                    <div @onclick="ToggleLike" @onclick:stopPropagation="true" style="width: 50px;height: 50px;display: flex;justify-content: center;margin-right: 10px;">
+                        <img src=@(IsCurrentSongLiked ? "./images/solid-heart.svg" :"./images/heart.svg") height="32" width="32" />
+                    </div>
+                    <div>
+                        <p class="ellepsis"><b>@Current.Video.Title</b></p>
+                        <p class="ellepsis">@Current.Video.Author</p>
+                    </div>
                     <div></div>
                 </div>
 
@@ -91,6 +96,7 @@
     private double Duration;
     private string ThumbnailUrl;
     private bool IsPlaying = false;
+    private bool IsCurrentSongLiked => UserSetting.Instance.IsLiked(AudioManager.Current!.Video);
 
     private void ToggleMusicView()
     {
@@ -166,7 +172,7 @@
 
     private void OnSliderChange(int value)
     {
-         AudioManager.Audio.CurrentTime=TimeSpan.FromSeconds(value);
+        AudioManager.Audio.CurrentTime=TimeSpan.FromSeconds(value);
     }
 
     private async void PlayNext()
@@ -190,6 +196,11 @@
         }
     }
 
+    private void ToggleLike()
+    {
+        if (IsCurrentSongLiked) UserSetting.Instance.RemoveFromLike(AudioManager.Current!.Video);
+        else UserSetting.Instance.AddToLike(AudioManager.Current!.Video);
+    }
 }
 
 
