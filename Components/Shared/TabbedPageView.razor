@@ -1,11 +1,11 @@
 ﻿@inject IJSRuntime Runtime
 @inject NavigationManager Nav
 
-<div style="height:50px;display:flex;justify-content:space-between;align-items:center;;margin-top:0px;margin-left:8px;margin-right:8px">
+<div style="height:50px;display:flex;justify-content:space-between;align-items:center;margin-left:8px;margin-right:8px;margin-top:8px">
     @if(!IsSearchPage)
     {
-@*         <div style="font-weight:lighter;font-size:32px">Singularity</div>
- *@         <img src="./images/search.svg" width="32" height="32" @onclick="GoToSearch" />
+        <div class="title">@Title</div>
+        <img src="./images/search.svg" width="32" height="32" @onclick="GoToSearch" />
     }
     else
     {
@@ -13,7 +13,6 @@
                    Immediate AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
     }
 </div>
-<p class="playlist-text">@Title</p>
 <div style="padding: 10px;height: calc(100vh - 250px);overflow-y: auto;">
     @ChildContent
 </div>
@@ -62,11 +61,10 @@
 
 <style>
     
-    .playlist-text {
+    .title {
         color: white;
-        font-size: 23px;
-        display: flex;
-        margin-left: 30px;
+        font-size: 22px;
+        margin-left:0px;
     }
 </style>
 
