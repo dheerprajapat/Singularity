@@ -180,7 +180,7 @@
 
     private void PlayPauseToggle()
     {
-        if(AudioManager.IsPlaying)
+        if(!AudioManager.IsPlaying)
         {
             AudioManager.Audio.Play();
         }
