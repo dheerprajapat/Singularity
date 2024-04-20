@@ -3,13 +3,18 @@
   @inject IJSRuntime JSRuntime
   @implements IDisposable
 
+<NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation"></NavigationLock>
+
 @if (Current != null)
 {
 
     <Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="@BorderMusic">
         @if (isMusicViewActive)
         {
-            <div class="toggle-controls" @onclick="ToggleMusicView">
+            <div>
+                <img src="./images/backArrow.svg" width="32" height="32" style="position:absolute;top:85px" @onclick="ToggleMusicView" />
+            </div>
+            <div class="toggle-controls">
                 <img class="cover-image" src="@ThumbnailUrl" />
                 <div style="display:flex;align-items:center;color:white;margin-top:40px">
                     <div>
@@ -114,6 +119,15 @@
 
         await AudioManager.AddSongAsync("H60L40GbfFI");
         await AudioManager.PlayAsync();
+    }
+
+    private void OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        if(isMusicViewActive)
+        {
+            ToggleMusicView();
+            context.PreventNavigation();
+        }
     }
 
 
