@@ -5,6 +5,7 @@ using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
 namespace Singularity.Models
@@ -46,7 +47,7 @@ namespace Singularity.Models
             try
             {
                 var json = File.ReadAllText(FilePath);
-                instance = JsonSerializer.Deserialize<UserSetting>(json)!;
+                instance = (UserSetting)JsonSerializer.Deserialize(json,typeof(UserSetting), UserSettingContext.Default)!;
             }
             catch {
                 instance = new UserSetting();
@@ -58,7 +59,7 @@ namespace Singularity.Models
         {
             if (instance == null) return;
 
-            var json = JsonSerializer.Serialize(instance);
+            var json = JsonSerializer.Serialize(instance,typeof(UserSetting),UserSettingContext.Default);
             File.WriteAllText(FilePath, json);
         }
 
@@ -103,6 +104,12 @@ namespace Singularity.Models
             PlayList[playlistName].Add(video);
             Save();
         }
+
+    }
+
+    [JsonSerializable(typeof(UserSetting))]
+    public partial class UserSettingContext: JsonSerializerContext
+    {
 
     }
 }

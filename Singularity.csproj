@@ -39,6 +39,20 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     </PropertyGroup>
 
+
+	<PropertyGroup>
+		<RunAOTCompilation>True</RunAOTCompilation>
+		<PublishTrimmed>True</PublishTrimmed>
+		<!--<AndroidStripILAfterAOT>true</AndroidStripILAfterAOT>
+		<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>-->
+		<!--<androidenablemarshalmethods>true</androidenablemarshalmethods>-->
+		<!-- 
+		    Note that single-architecture apps will be most successful
+		    https://devblogs.microsoft.com/dotnet/dotnet-8-performance-improvements-in-dotnet-maui/#androidstripilafteraot
+		-->
+		<!--<RuntimeIdentifier>android-arm64</RuntimeIdentifier>-->
+	</PropertyGroup>
+
     <ItemGroup>
         <!-- App Icon -->
         <MauiIcon Include="Resources\AppIcon\appicon.svg" ForegroundFile="Resources\AppIcon\appiconfg.svg" Color="#512BD4" />
@@ -65,10 +79,6 @@
         <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="8.0.0" />
         <PackageReference Include="MudBlazor" Version="6.19.1" />
         <PackageReference Include="YoutubeExplode" Version="6.3.13" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Youtube\" />
     </ItemGroup>
 
 		<!--<Target Name="PreBuild" BeforeTargets="PreBuildEvent">
