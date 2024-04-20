@@ -16,7 +16,7 @@
             </div>
             <div class="toggle-controls">
                 <img class="cover-image" src="@ThumbnailUrl" />
-                <div style="display:flex;align-items:center;color:white;margin-top:40px">
+                <div style="display:flex;align-items:center;color:white;margin-top:75px">
                     <div>
                         <p class="ellepsis"><b>@Current.Video.Title</b></p>
                         <p class="ellepsis">@Current.Video.Author</p>
@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <div style="bottom:60px">
+                <div>
                     <div style="display:flex;width:100%;align-items:center;justify-content:space-between;margin-top:10px">
                         <div>@(TimeSpan.FromSeconds(CurrentTime).ToMusicString())</div>
                         <div>@(TimeSpan.FromSeconds(Duration).ToMusicString())</div>
