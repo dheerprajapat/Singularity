@@ -22,6 +22,7 @@ namespace Singularity
             builder.Services.AddMauiBlazorWebView();
             builder.Services.AddSingleton(SingletonFactory.YoutubeClient);
             builder.Services.AddSingleton(SingletonFactory.AudioManager);
+            builder.Services.AddSingleton(SingletonFactory.Http);
             builder.Services.AddMudServices();
 #if DEBUG
             builder.Services.AddBlazorWebViewDeveloperTools();

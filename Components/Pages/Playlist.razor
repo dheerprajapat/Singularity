@@ -19,7 +19,7 @@
 </Glass>
 
 <div>
-    <ScrollablePage OnCloseButtonClick="ToggleAddPlayList" IsActive="@isAddPlaylistVisible">
+    <Scrollable OnCloseButtonClick="ToggleAddPlayList" IsActive="@isAddPlaylistVisible">
         <div class="scroll-child">
             <div style="height: 10%;">
                 <p style="color:white;"><b>Give your playlist a name</b></p>
@@ -32,8 +32,8 @@
             </div>
             
         </div>
-    </ScrollablePage>
-    <ScrollablePage OnCloseButtonClick="ToggleAddSongInPlaylist" IsActive="@isAddSongsToPlaylistVisible">
+    </Scrollable>
+    <Scrollable OnCloseButtonClick="ToggleAddSongInPlaylist" IsActive="@isAddSongsToPlaylistVisible">
         <div>
             <div>
                 <img src="./images/music.svg" height="50" width="50" />
@@ -47,7 +47,7 @@
                 <button class="btn-addtoplaylist">Add to this playlist</button>
             </div>
         </div>
-    </ScrollablePage>
+    </Scrollable>
 </div>
 
 @code {

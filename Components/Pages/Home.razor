@@ -6,56 +6,36 @@
 @inject AudioManager AudioManager
 @inject NavigationManager Nav
 
-<TabbedPageView Title="Queue">
-    @foreach (var song in AudioManager.Queue.Songs)
+<TabbedPageView Title="Explore">
+    <div style="display:flex;justify-content:center">
+    <Glass Style="display:flex;justify-content:center;border-radius:10px;padding:0px;width:80vw"
+           BackgroundColor="rgba(255, 255, 255,0.1)" Border="1px solid rgba(255, 255, 0,0.1)">
+        <img src="https://cdn.dribbble.com/users/1445486/screenshots/3856847/media/7e998380929df7a8a3663a6e324fdeaa.gif"
+        style="width:80%;height:250px" />
+    </Glass>
+    </div>
+    @if (ExploreItems != null)
     {
-        <MusicTrack Song="@song"></MusicTrack>
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-evenly">
+        @foreach (var item in ExploreItems)
+        {
+                <Glass Blur="40" Style="height:160px;margin:20px;width:120px;padding:10px;border-radius:10px;"
+                       BackgroundColor="rgba(255, 255, 255,0.1)" Border="1px solid rgba(255, 255, 0,0.1)">
+                <div style="display:flex;flex-direction:column;align-items:center;">
+                    <img src="@item.Thumbnail" width="100" height="100" style="margin:5px"/>
+                        <p style="margin:5px">@item.Name</p>
+                </div>
+            </Glass>
+        }
+        </div>
     }
 </TabbedPageView>
 
 @code
 {
-    private const string SearchUrl = "https://clients1.google.com/complete/search?client=youtube&gs_ri=youtube&ds=yt&q=";
-    private HttpClient Http = new HttpClient();
-    private string search;
-
-    protected override void OnInitialized()
+    private ExploreItem[]? ExploreItems;
+    protected override async Task OnInitializedAsync()
     {
-        base.OnInitialized();
-        AudioManager.Queue.Songs.CollectionChanged += SongListChanged;
-    }
-
-    private async Task<IEnumerable<string>> SearchSuggestions(string value, CancellationToken token)
-    {
-        value = Uri.EscapeDataString(value);
-        value = SearchUrl + value;
-        var res = await Http.GetAsync(value, token);
-        var js = await res.Content.ReadAsStringAsync(token);
-
-        var parts = js.Split('[').Where(t => t.Split('"').Length > 2).Select(t => t.Split('"')[1]);
-
-        return parts.Distinct().ToList();
-    }
-
-    private void SongListChanged(object? sender, NotifyCollectionChangedEventArgs e)
-    {
-        StateHasChanged();
+        ExploreItems = await ExploreItem.LoadAsync(Nav); 
     }
 }
-
-
-<style>
-    .tracks {
-        padding : 30px;
-        height: calc(100vh - 250px);
-        overflow-y: auto;
-    }
-
-    .playlist-text {
-        color: white;
-        font-size: 23px;
-        display: flex;
-        margin-left: 30px;
-    }
-</style>
-
