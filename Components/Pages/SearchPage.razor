@@ -1,20 +1,32 @@
 ﻿@page "/search"
 @inject YoutubeClient Youtube
 <TabbedPageView Title="Search" OnSearch="OnSearchResult">
-    @foreach(var audio in Results)
+    @if (CompletedSearch)
     {
-        <MusicTrack Song="audio"></MusicTrack>
+        @foreach (var audio in Results)
+        {
+            <MusicTrack Song="audio"></MusicTrack>
+        }
+    }
+    else
+    {
+        for(int i=0;i<20;i++)
+        {
+            <MusicTrack></MusicTrack>
+        }
     }
 </TabbedPageView>
 
 @code
 {
     private List<AudioItem> Results=new List<AudioItem>();
+    private bool CompletedSearch = false;
+
     private async void OnSearchResult(string query)
     {
         if (string.IsNullOrWhiteSpace(query))
             return;
-
+        CompletedSearch = false;
         Results.Clear();
         int count = 0;
         await foreach(var video in Youtube.Search.GetVideosAsync(query))
@@ -26,6 +38,7 @@
             var audioItem = new AudioItem(Video.From(video));
             Results.Add(audioItem);
         }
+        CompletedSearch = true;
         StateHasChanged();
     }
 }
