@@ -36,6 +36,10 @@ public class Video : IEquatable<Video>
     {
         return new(video.Title, video.Author, video.Duration, video.Id, video.Thumbnails, video.Url);
     }
+    public static Video From(YoutubeExplode.Playlists.PlaylistVideo video)
+    {
+        return new(video.Title, video.Author, video.Duration, video.Id, video.Thumbnails, video.Url);
+    }
 
     public bool Equals(Video? other)
     {

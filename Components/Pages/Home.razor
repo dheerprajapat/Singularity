@@ -10,8 +10,9 @@
     <div style="display:flex;justify-content:center;width:110%;height:250px;margin-top:4px;
         background:url(https://cdn.dribbble.com/users/1445486/screenshots/3856847/media/7e998380929df7a8a3663a6e324fdeaa.gif);
         background-size:100% 100%;
-        background-repeat:no-repeat;">
-        <p style="margin-top:20px;font-weight:bold;font-size:large">Top Spotify Songs</p>
+        background-repeat:no-repeat;" @onclick="OpenTopCharts">
+        <p style="margin-top:20px;font-weight:bold;font-size:large">Top Charts</p>
+
     </div>
     @if (ExploreItems != null)
     {
@@ -19,11 +20,14 @@
         @foreach (var item in ExploreItems)
         {
                 <Glass Blur="40" Style="height:146px;margin:20px;width:120px;padding:10px;border-radius:10px;"
-                       BackgroundColor="rgba(255, 255, 255,0.1)" Border="1px solid rgba(255, 255, 0,0.1)">
+                       BackgroundColor="rgba(255, 255, 255,0.1)" Border="1px solid rgba(255, 255, 0,0.1)"
+                        Clicked="()=>OpenExploreItem(item)">
+
                 <div style="display:flex;flex-direction:column;align-items:center;">
                     <img src="@item.Thumbnail" width="100" height="100" style="margin:5px"/>
                         <p style="margin:5px">@item.Name</p>
                 </div>
+
             </Glass>
         }
         </div>
@@ -33,8 +37,27 @@
 @code
 {
     private ExploreItem[]? ExploreItems;
+
+    private const string TopChartPlaylistId = "PLPit0qsdr5cfYbW72VPdIX_2DRYUDJDGY";
+
     protected override async Task OnInitializedAsync()
     {
         ExploreItems = await ExploreItem.LoadAsync(Nav); 
+    }
+
+
+    private void OpenTopCharts()
+    {
+        Nav.NavigateTo(GetPlaylistUrl(TopChartPlaylistId));
+    }
+
+    private void OpenExploreItem(ExploreItem item)
+    {
+        Nav.NavigateTo(GetPlaylistUrl(item.PlaylistId));
+    }
+
+    private string GetPlaylistUrl(string id)
+    {
+        return $"/youtubePlaylist/{id}";
     }
 }
