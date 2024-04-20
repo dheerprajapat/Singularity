@@ -1,5 +1,5 @@
 ﻿
-<Glass Class="playlist-element" Blur="20" BackgroundColor="rgba(192, 182, 230, 0.2)">
+<Glass Class="playlist-element" Blur="0" BackgroundColor="rgba(192, 182, 230, 0)" Clicked="async ()=>{await Clicked.InvokeAsync();}">
     <div style="width:15%; display: flex;justify-content: center;align-items: center;margin:4px;">
         <img src="./images/music.svg" height="32" width="32" />
     </div>
@@ -16,6 +16,8 @@
 @code {
     [Parameter]
     public string? PlaylistName { get; set; }
+    [Parameter]
+    public EventCallback Clicked { get; set; }
 }
 
 <style>
