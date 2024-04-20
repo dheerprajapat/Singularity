@@ -1,5 +1,5 @@
 ﻿<Glass Blur="20" Style="width: 100%;bottom: 0px;position:absolute" Class="@(IsActive ? "scroll-page-active" : "scroll-page-nonactive")" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(66, 245, 209,1)">
-    <div class="scroll-page-header" @onclick="CloseAddPlaylist">
+    <div class="scroll-page-header" @onclick="ClosePage">
         <img src="./images/cross.svg" height="32" width="32" />
     </div>
     @ChildContent
@@ -11,10 +11,10 @@
     [Parameter]
     public bool IsActive { get; set; }
     [Parameter]
-    public EventCallback onCloseAddPlaylistClick { get; set; }
-    private async Task CloseAddPlaylist()
+    public EventCallback OnCloseButtonClick { get; set; }
+    private async Task ClosePage()
     {
-        await onCloseAddPlaylistClick.InvokeAsync();
+        await OnCloseButtonClick.InvokeAsync();
     }
 }
 

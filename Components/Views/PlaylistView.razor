@@ -1,0 +1,32 @@
+﻿
+<div class="playlist-view">
+    <div style="height:40%;width:100%">
+        <img src="./images/music.svg" height="50" width="50" />
+    </div>
+    <div>
+        <p><b>@PlaylistName</b></p>
+        <p>Dhiraj Kumar</p>
+    </div>
+    <div>
+        <p><b>Let's start building your playlist</b></p>
+        <button class="btn-addtoplaylist" @onclick="AddToPlaylist">Add to this playlist</button>
+    </div>
+</div>
+
+@code 
+{
+    [Parameter]
+    public string? PlaylistName { get; set; }
+
+    private void AddToPlaylist()
+    {
+        
+    }
+}
+<style>
+    .playlist-view {
+        height: 100vh;
+        width: 100%;
+    }
+</style>
+

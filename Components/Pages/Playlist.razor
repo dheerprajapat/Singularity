@@ -13,13 +13,13 @@
     <div style="padding : 30px;">
         @foreach(var playlist in UserSetting.Instance.PlayList)
         {
-            <PlaylistElement PlaylistName="@playlist.Key"></PlaylistElement>
+            <PlaylistElement PlaylistName="@playlist.Key" Clicked="() => ShowPlaylistInfo(playlist.Key)"></PlaylistElement>
         }
     </div>
 </Glass>
 
 <div>
-    <ScrollablePage onCloseAddPlaylistClick="ToggleAddPlayList" IsActive="@isAddPlaylistVisible">
+    <ScrollablePage OnCloseButtonClick="ToggleAddPlayList" IsActive="@isAddPlaylistVisible">
         <div class="scroll-child">
             <div style="height: 10%;">
                 <p style="color:white;"><b>Give your playlist a name</b></p>
@@ -33,10 +33,26 @@
             
         </div>
     </ScrollablePage>
+    <ScrollablePage OnCloseButtonClick="ToggleAddSongInPlaylist" IsActive="@isAddSongsToPlaylistVisible">
+        <div>
+            <div>
+                <img src="./images/music.svg" height="50" width="50" />
+            </div>
+            <div>
+                <p><b></b></p>
+                <p>Dhiraj Kumar</p>
+            </div>
+            <div>
+                <p><b>Let's start building your playlist</b></p>
+                <button class="btn-addtoplaylist">Add to this playlist</button>
+            </div>
+        </div>
+    </ScrollablePage>
 </div>
 
 @code {
     private bool isAddPlaylistVisible = false;
+    private bool isAddSongsToPlaylistVisible = false;
 
     private void ToggleAddPlayList()
     {
@@ -59,9 +75,19 @@
 
     private void AddPlayList()
     {
-        UserSetting.Instance.AddPlaylist(playlistname!);
+        UserSetting.Instance.AddLocalPlaylist(playlistname!);
         playlistname = "";
         isAddPlaylistVisible = false;
+    }
+
+    private void ToggleAddSongInPlaylist()
+    {
+        isAddSongsToPlaylistVisible = !isAddSongsToPlaylistVisible;
+    }
+
+    private void ShowPlaylistInfo(string playlistName)
+    {
+        isAddSongsToPlaylistVisible = true;
     }
 }
 

@@ -25,7 +25,7 @@ namespace Singularity.Models
         }
 
         public ObservableCollection<Video> LikedSongs { get; set; } = new();
-        public Dictionary<string, List<Video>> PlayList { get; set; } = new Dictionary<string, List<Video>>();
+        public Dictionary<string, IPlaylistItem> PlayList { get; set; } = new Dictionary<string, IPlaylistItem>();
 
         public LoopMode LoopMode { get; set; } = LoopMode.All;
 
@@ -83,10 +83,10 @@ namespace Singularity.Models
             }
         }
 
-        public void AddPlaylist(string playlistName)
+        public void AddLocalPlaylist(string playlistName)
         {
             if (PlayList.ContainsKey(playlistName)) return;
-            PlayList.Add(playlistName, new List<Video>());
+            PlayList.Add(playlistName, new LocalPlaylistItem());
             Save();
         }
 
@@ -97,9 +97,9 @@ namespace Singularity.Models
             Save();
         }
 
-        public void AddSongInPlaylist(string playlistName, Video video)
+        public void AddSongInLocalPlaylist(string playlistName, Video video)
         {
-            AddPlaylist(playlistName);
+            AddLocalPlaylist(playlistName);
             PlayList[playlistName].Add(video);
             Save();
         }
