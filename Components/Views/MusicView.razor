@@ -110,6 +110,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
+        MainPage.OnBackButtonPress = HandleBackButtonForMusicView;
 
         AudioManager.Init();
 
@@ -119,6 +120,15 @@
 
         await AudioManager.AddSongAsync("H60L40GbfFI");
         await AudioManager.PlayAsync();
+    }
+
+    bool HandleBackButtonForMusicView()
+    {
+        if (isMusicViewActive){
+            isMusicViewActive = false;
+            return true;
+        }
+            return false;
     }
 
     private void OnBeforeInternalNavigation(LocationChangingContext context)
