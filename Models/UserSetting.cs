@@ -25,6 +25,7 @@ namespace Singularity.Models
         }
 
         public ObservableCollection<Video> LikedSongs { get; set; } = new();
+        public Dictionary<string, List<Video>> PlayList { get; set; } = new Dictionary<string, List<Video>>();
 
         private static string FilePath 
         { 
@@ -79,5 +80,27 @@ namespace Singularity.Models
                 Save();
             }
         }
+
+        public void AddPlaylist(string playlistName)
+        {
+            if (PlayList.ContainsKey(playlistName)) return;
+            PlayList.Add(playlistName, new List<Video>());
+            Save();
+        }
+
+        public void RemovePlaylist(string playlistName)
+        {
+            if (!PlayList.ContainsKey(playlistName)) return;
+            PlayList.Remove(playlistName);
+            Save();
+        }
+
+        public void AddSongInPlaylist(string playlistName, Video video)
+        {
+            AddPlaylist(playlistName);
+            PlayList[playlistName].Add(video);
+            Save();
+        }
+
     }
 }
