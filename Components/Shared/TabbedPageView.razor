@@ -1,7 +1,9 @@
 ﻿@inject IJSRuntime Runtime
 @inject NavigationManager Nav
 
-<div style="height:50px;display:flex;justify-content:space-between;align-items:center;margin-left:8px;margin-right:8px;margin-top:8px">
+<div id="glassTopHeader">
+    <div style="height:60px;display:flex;justify-content:space-between;align-items:center;margin-left:8px;margin-right:8px;padding:4px">
+
     @if(!IsSearchPage)
     {
         <div class="title">@Title</div>
@@ -12,8 +14,10 @@
         <MudAutocomplete T="string" Label="Search" Style="margin:16px" SearchFuncWithCancel="SuggestionsAsync" ValueChanged="(s)=>OnSearch.InvokeAsync(s)"
                    Immediate AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" />
     }
+    </div>
+
 </div>
-<div style="padding: 10px;height: calc(100vh - 250px);overflow-y: auto;">
+<div style="padding: 10px;height: calc(100vh - 200px);overflow-y: scroll;">
     @ChildContent
 </div>
 
@@ -65,6 +69,16 @@
         color: white;
         font-size: 22px;
         margin-left:0px;
+    }
+    #glassTopHeader
+    {
+        background-color: rgba(66, 245, 209,0.1);
+        border: 1px solid rgba(66, 203, 245,0.5);
+        backdrop-filter: blur(80px);
+        margin-top: -10px;
+        width: 100%;
+        border-bottom-left-radius: 20px;
+        border-bottom-right-radius: 20px;
     }
 </style>
 

@@ -21,10 +21,10 @@ namespace Singularity.Audio
 
         public void AddSong(AudioItem stream)
         {
-            var index = Songs.IndexOf(stream);
+            var item = Songs.FirstOrDefault(x=>x.Video.Id==stream.Video.Id);
 
-            if(index >= 0)
-                Songs.RemoveAt(index);
+            if(item != null)
+                Songs.Remove(item);
 
             Songs.Insert(0, stream);
         }
@@ -41,7 +41,11 @@ namespace Singularity.Audio
         }
         public void AddSongEnd(AudioItem stream)
         {
-            Songs.Add(stream);
+            var item = Songs.FirstOrDefault(x => x.Video.Id == stream.Video.Id);
+
+            if (item != null)
+                return;
+                Songs.Add(stream);
         }
         public async Task AddSongEndAsync(string url)
         {
