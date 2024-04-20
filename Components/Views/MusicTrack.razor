@@ -4,7 +4,7 @@
 
 @if (Song is not null)
 {
-    <Glass Class="track" Blur="20" BackgroundColor="rgba(192, 182, 230, 0.2)" Style="@(IsPlaying ? activeStyle : "margin-top:4px")" Clicked="()=>AudioManager.AddAndPlayAsync(Song)">
+    <Glass Class="track" Blur="20" BackgroundColor="@(!IsPlaying?inactiveColor:"rgba(192, 182, 230, 0.2)")" Style="@(IsPlaying ? string.Empty : "margin-top:4px")" Clicked="()=>AudioManager.AddAndPlayAsync(Song)">
         <div class="control">
             <div style="width:20%">
                 <img class="cover-img @(IsPlaying ? "circularMotion" : "")" src="@Song.Video.Thumbnails.MaxBy(x=>x.Resolution.Area)!.Url" />
@@ -32,7 +32,7 @@
     public AudioItem? Song { get; set; }
 
 
-    private string activeStyle = "background-color:rgba(117,132,147,0.4);margin-top:4px";
+    private string inactiveColor = "background-color:rgba(117,132,147,0.4);margin-top:4px;";
 
     private bool IsPlaying = false;
 
@@ -42,9 +42,9 @@
         AudioManager.Audio.OnMediaStateChange += MediaStateChanged;
     }
 
-    private void MediaStateChanged(object? sender, MediaStateChangedEventArgs e)
+    private async void MediaStateChanged(object? sender, MediaStateChangedEventArgs e)
     {
-        Device.InvokeOnMainThreadAsync(() =>
+        await InvokeAsync(() =>
         {
             IsPlaying = AudioManager.IsPlaying && Song != null && AudioManager.Current != null && Song.Video.Id == AudioManager.Current.Video.Id;
             StateHasChanged();
