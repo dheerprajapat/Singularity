@@ -21,13 +21,13 @@
                         <p class="ellepsis"><b>@Current.Video.Title</b></p>
                         <p class="ellepsis">@Current.Video.Author</p>
                     </div>
-                    <div @onclick="ToggleLike" @onclick:stopPropagation="true" style="width: 50px;height: 50px;display: flex;justify-content: center;">
+                    <div @onclick="ToggleLike"  style="width: 50px;height: 50px;display: flex;justify-content: center;">
                         <img src=@(IsCurrentSongLiked ? "./images/solid-heart.svg" :"./images/heart.svg") height="32" width="32" />
                     </div>
                 </div>
 
-                <div style="position:absolute; bottom:60px">
-                    <div style="display:flex;width:100%;align-items:center;justify-content:space-between;margin-top:40px">
+                <div style="bottom:60px">
+                    <div style="display:flex;width:100%;align-items:center;justify-content:space-between;margin-top:10px">
                         <div>@(TimeSpan.FromSeconds(CurrentTime).ToMusicString())</div>
                         <div>@(TimeSpan.FromSeconds(Duration).ToMusicString())</div>
                     </div>
@@ -244,7 +244,7 @@
         height: 100vh;
         width: 100%;
         position: absolute;
-        bottom: 70px;
+        bottom: 0px;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
         border: 1px solid rgba(66, 245, 209,0.5);
