@@ -117,9 +117,6 @@
         AudioManager.Audio.OnMediaStateChange += MediaStateChanged;
         AudioManager.Audio.OnTimeUpdate += OnTimeUpdate;
         AudioManager.Audio.OnLoadedMetadata += OnLoadedMetadata;
-
-        await AudioManager.AddSongAsync("H60L40GbfFI");
-        await AudioManager.PlayAsync();
     }
 
     bool HandleBackButtonForMusicView()
