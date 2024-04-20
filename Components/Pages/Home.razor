@@ -7,31 +7,32 @@
 @inject NavigationManager Nav
 
 <TabbedPageView Title="Explore" Padding="0px">
+    <div>
     <div style="display:flex;justify-content:center;width:110%;height:250px;margin-top:4px;
         background:url(https://cdn.dribbble.com/users/1445486/screenshots/3856847/media/7e998380929df7a8a3663a6e324fdeaa.gif);
-        background-size:100% 100%;
+        background-size:100% 100%; overflow-x:hidden;
         background-repeat:no-repeat;" @onclick="OpenTopCharts">
         <p style="margin-top:20px;font-weight:bold;font-size:large">Top Charts</p>
 
     </div>
     @if (ExploreItems != null)
     {
-        <div style="display:flex;flex-wrap:wrap;justify-content:space-evenly">
+        <div style="display:flex;flex-wrap:wrap;justify-content:space-evenly;scrollbar-width:none">
         @foreach (var item in ExploreItems)
         {
-                <Glass Blur="40" Style="height:146px;margin:20px;width:120px;padding:10px;border-radius:10px;"
+                <Glass Blur="40" Style="height:130px;margin:10px;width:100px;padding:10px;border-radius:10px;"
                        BackgroundColor="rgba(255, 255, 255,0.1)" Border="1px solid rgba(255, 255, 0,0.1)"
                         Clicked="()=>OpenExploreItem(item)">
 
                 <div style="display:flex;flex-direction:column;align-items:center;">
-                    <img src="@item.Thumbnail" width="100" height="100" style="margin:5px"/>
+                    <img src="@item.Thumbnail" width="80" height="80" style="margin:5px"/>
                         <p style="margin:5px">@item.Name</p>
                 </div>
-
             </Glass>
         }
         </div>
     }
+    </div>
 </TabbedPageView>
 
 @code

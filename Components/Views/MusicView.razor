@@ -101,6 +101,7 @@
     private string ThumbnailUrl;
     private bool IsPlaying = false;
     private bool IsCurrentSongLiked => UserSetting.Instance.IsLiked(AudioManager.Current!.Video);
+    public static Action? OnMusicViewInit;
 
     private void ToggleMusicView()
     {
@@ -151,12 +152,14 @@
         await InvokeAsync(() =>
         {
             Current = AudioManager.Current;
+            OnMusicViewInit?.Invoke();
+
             if (Current is not null)
             {
                 ThumbnailUrl = Current.Video.Thumbnails.MaxBy(x => x.Resolution.Area)!.Url;
             }
 
-            Duration = AudioManager.Current.Video.Duration.GetValueOrDefault().TotalSeconds;
+            Duration = AudioManager.Current!.Video.Duration.GetValueOrDefault().TotalSeconds;
             StateHasChanged();
         });
     }

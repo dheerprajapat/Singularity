@@ -1,6 +1,7 @@
 ﻿@inject IJSRuntime Runtime
 @inject NavigationManager Nav
 @inject HttpClient Http
+@inject AudioManager AudioManager
 
 <div id="glassTopHeader">
     <div style="height:60px;display:flex;justify-content:space-between;align-items:center;margin-left:8px;margin-right:8px;padding:4px">
@@ -18,7 +19,7 @@
     </div>
 
 </div>
-<div style="padding: @(Padding);height: calc(100vh - 200px);overflow-y: auto;scrollbar-width:none">
+<div style="padding: @(Padding);height: calc(100vh - @(!isMusicViewInitialized?120:200)px);overflow-y: auto;scrollbar-width:none">
     @ChildContent
 </div>
 
@@ -41,8 +42,21 @@
 
     private bool IsSearchPage => Nav.Uri.EndsWith("search");
 
+    private bool isMusicViewInitialized=false;
+
     [Parameter]
     public EventCallback<string> OnSearch { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+
+        MusicView.OnMusicViewInit = () =>
+        {
+            isMusicViewInitialized = true;
+            StateHasChanged();
+        };
+    }
 
 
     private void GoToSearch()
