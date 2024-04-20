@@ -1,5 +1,6 @@
 ﻿@inject IJSRuntime Runtime
 @inject NavigationManager Nav
+@inject HttpClient Http
 
 <div id="glassTopHeader">
     <div style="height:60px;display:flex;justify-content:space-between;align-items:center;margin-left:8px;margin-right:8px;padding:4px">
@@ -17,7 +18,7 @@
     </div>
 
 </div>
-<div style="padding: 10px;height: calc(100vh - 200px);overflow-y: auto;scrollbar-width:none">
+<div style="padding: @(Padding);height: calc(100vh - 200px);overflow-y: auto;scrollbar-width:none">
     @ChildContent
 </div>
 
@@ -34,7 +35,9 @@
     [Parameter]
     public RenderFragment? ChildContent { get; set; }
 
-    private static HttpClient Http = new HttpClient();
+    [Parameter]
+    public string Padding { get; set; } = "10px";
+
 
     private bool IsSearchPage => Nav.Uri.EndsWith("search");
 
