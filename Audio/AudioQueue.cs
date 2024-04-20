@@ -70,8 +70,25 @@ namespace Singularity.Audio
         }
     }
 
-    public record Video(string Title,Author Author,TimeSpan? Duration,string Id,IReadOnlyList<Thumbnail> Thumbnails,string Url)
+    public class Video :IEquatable<Video>
     {
+        public Video(string title, Author author, TimeSpan? duration, string id, IReadOnlyList<Thumbnail> thumbnails, string url)
+        {
+            Title = title;
+            Author = author;
+            Duration = duration;
+            Id = id;
+            Thumbnails = thumbnails;
+            Url = url;
+        }
+
+        public string Title { get; }
+        public Author Author { get; }
+        public TimeSpan? Duration { get; }
+        public string Id { get; }
+        public IReadOnlyList<Thumbnail> Thumbnails { get; }
+        public string Url { get; }
+
         public static Video From(YoutubeExplode.Videos.Video video)
         {
             return new(video.Title, video.Author, video.Duration, video.Id, video.Thumbnails, video.Url);
@@ -79,6 +96,16 @@ namespace Singularity.Audio
         public static Video From(YoutubeExplode.Search.VideoSearchResult video)
         {
             return new(video.Title, video.Author, video.Duration, video.Id, video.Thumbnails, video.Url);
+        }
+
+        public bool Equals(Video? other)
+        {
+            if(other==null) return false;
+            return Id== other.Id;
+        }
+        public override int GetHashCode()
+        {
+            return Id.GetHashCode();
         }
     }
 }
