@@ -1,32 +1,229 @@
 ﻿
-<div class="playlist-view">
-    <div style="height:40%;width:100%">
-        <img src="./images/music.svg" height="50" width="50" />
-    </div>
-    <div>
-        <p><b>@PlaylistName</b></p>
-        <p>Dhiraj Kumar</p>
-    </div>
-    <div>
-        <p><b>Let's start building your playlist</b></p>
-        <button class="btn-addtoplaylist" @onclick="AddToPlaylist">Add to this playlist</button>
-    </div>
-</div>
+<Glass Class="playlist-parent" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(66, 245, 209,1)">
 
+    <div class="playlist-header">
+        @* <div class="library-text">
+            <span style="color:white;"><b>Cancel</b></span>
+        </div> *@
+        <div class="add-playlist">
+            <span style="color:white;"><b>Add to playlist</b></span>
+        </div>
+    </div>
+    <div style="height: 10%;margin-top:10px;">
+        <button class="btn-add-playlist" @onclick="ToggleAddPlayList">New playlist</button>
+    </div>
+    <div style="padding : 30px;">
+        @foreach (var playlist in UserSetting.Instance.PlayList)
+        {
+            <PlaylistElement PlaylistName="@playlist.Key" OnCheckboxChecked="CheckboxChecked" OnCheckboxUnchecked="CheckboxUnchecked"></PlaylistElement>
+        }
+    </div>
+    <div style="height: 10%; position:absolute ;bottom:10px; width:100%;">
+        <button class="btn-done" @onclick="AddSongInPlaylist">Done</button>
+    </div>
+</Glass>
+<div>
+    <Scrollable OnCloseButtonClick="ToggleAddPlayList" IsActive="@isAddPlaylistVisible">
+        <div class="scroll-child">
+            <div style="height: 10%;">
+                <p style="color:white;"><b>Give your playlist a name</b></p>
+            </div>
+            <div style="height: 30%;">
+                <input @bind="playlistname" class="transparent-input" />
+            </div>
+            <div style="height: 10%;">
+                <button class="btn" @onclick="AddPlayList">Create</button>
+            </div>
+
+        </div>
+    </Scrollable>
+    @* <Scrollable OnCloseButtonClick="ToggleAddSongInPlaylist" IsActive="@isAddSongsToPlaylistVisible">
+        <div>
+            <div>
+                <img src="./images/music.svg" height="50" width="50" />
+            </div>
+            <div>
+                <p><b></b></p>
+                <p>Dhiraj Kumar</p>
+            </div>
+            <div>
+                <p><b>Let's start building your playlist</b></p>
+                <button class="btn-addtoplaylist">Add to this playlist</button>
+            </div>
+        </div>
+    </Scrollable> *@
+</div>
 @code 
 {
     [Parameter]
-    public string? PlaylistName { get; set; }
+    public Video? video { get; set; }
 
-    private void AddToPlaylist()
+    private bool isAddPlaylistVisible = false;
+    private bool isAddSongsToPlaylistVisible = false;
+    private Dictionary<string, bool> playlistCheckboxStatus = new Dictionary<string, bool>();
+
+    private void ToggleAddPlayList()
     {
-        
+        isAddPlaylistVisible = !isAddPlaylistVisible;
+        playlistname = GetPlayListDefaultName();
+    }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        playlistname = GetPlayListDefaultName();
+    }
+
+    private string? playlistname;
+
+    private string GetPlayListDefaultName()
+    {
+        return "My Playlist " + (UserSetting.Instance.PlayList.Count() + 1).ToString();
+    }
+
+    private void AddPlayList()
+    {
+        UserSetting.Instance.AddLocalPlaylist(playlistname!);
+        playlistname = "";
+        isAddPlaylistVisible = false;
+    }
+
+    private void ToggleAddSongInPlaylist()
+    {
+        isAddSongsToPlaylistVisible = !isAddSongsToPlaylistVisible;
+    }
+
+    private void ShowPlaylistInfo(string playlistName)
+    {
+        isAddSongsToPlaylistVisible = true;
+    }
+
+    private void AddToCheckboxStatus(string playlistName, bool isChecked)
+    {
+        if (playlistCheckboxStatus.ContainsKey(playlistName))
+        {
+            playlistCheckboxStatus[playlistname!] = isChecked;
+        }
+        else
+        {
+            playlistCheckboxStatus.Add(playlistName, isChecked);
+        }
+
+    }
+
+    private void SetplaylistCheckboxStatus(string playlistName, bool status)
+    {
+        if (playlistCheckboxStatus.ContainsKey(playlistName))
+        {
+            playlistCheckboxStatus[playlistname!] = status;
+        }
+        else
+        {
+            playlistCheckboxStatus.Add(playlistName, status);
+        }
+    }
+
+    private void CheckboxChecked(string playlistName)
+    {
+        SetplaylistCheckboxStatus(playlistName, true);
+    }
+
+    private void CheckboxUnchecked(string playlistName)
+    {
+        SetplaylistCheckboxStatus(playlistName, false);
+    }
+
+    private void AddSongInPlaylist()
+    {
+        foreach(var key in playlistCheckboxStatus.Keys)
+        {
+            if(playlistCheckboxStatus[key])
+            {
+                UserSetting.Instance.AddSongInLocalPlaylist(key, video!);
+            }
+        }
     }
 }
 <style>
-    .playlist-view {
-        height: 100vh;
+    .playlist-header {
+        height: 50px;
         width: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        background-color: rgba(66, 245, 209, 0.1);
+    }
+
+    .playlist-parent {
+        height: calc(100vh - 64px);
+        overflow-y: auto;
+    }
+
+    .playlist-header-toggle {
+        height: 100% width: 100%;
+        display: flex;
+        align-items: center;
+    }
+
+    .library-text {
+        width: 50%;
+        display: flex;
+        justify-content: flex-start;
+        margin: 20px;
+    }
+
+    .add-playlist {
+        margin: 20px;
+    }
+
+    .btn {
+        background-color: #3bb63b;
+        height: 50px;
+        width: 115px;
+        border-radius: 27px;
+        font-size: 18px;
+        font-weight: bold;
+    }
+
+    .btn-add-playlist
+    {
+        background-color: white;
+        color: black;
+        height: 45px;
+        width: 150px;
+        border-radius: 27px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .btn-done
+    {
+        background-color: greenyellow;
+        color: black;
+        height: 45px;
+        width: 110px;
+        border-radius: 27px;
+        font-size: 15px;
+        font-weight: bold;
+    }
+
+    .scroll-child {
+        height: 56%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+    }
+
+    .transparent-input {
+        width: 70%;
+        height: 45px;
+        background: transparent;
+        border-bottom: 2px solid rgba(66, 245, 209,1);
+        color: white;
+        font-size: 30px;
+        outline: none;
+        font-weight: bold;
+        text-align: center;
     }
 </style>
 
