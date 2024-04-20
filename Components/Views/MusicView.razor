@@ -26,7 +26,7 @@
                     </div>
                 </div>
 
-                <div style="bottom:60px">
+                <div style="position:absolute; bottom:60px">
                     <div style="display:flex;width:100%;align-items:center;justify-content:space-between;margin-top:40px">
                         <div>@(TimeSpan.FromSeconds(CurrentTime).ToMusicString())</div>
                         <div>@(TimeSpan.FromSeconds(Duration).ToMusicString())</div>
@@ -36,7 +36,7 @@
                     MouseDown="MouseDown" MouseUp="MouseUp"
                     OnChange="OnSliderChange" /> *@
 
-                    <div style="width:70vw;padding-left:4px;padding-right:4px" id="sliderContainer" class="bg-transparent">
+                    <div style="width:70vw;padding-left:4px;margin-top:8px" id="sliderContainer" class="bg-transparent">
                         <input type="range" value="@CurrentTime" max="@((int)Duration)" @onchange="(e)=>OnSliderChange(int.Parse(e.Value.ToString()))"
                         @onmousedown="MouseDown"
                         @onmouseup="MouseUp" @ontouchstart="MouseDown" @ontouchend="MouseUp"
@@ -45,7 +45,7 @@
                     </div>
 
 
-                    <div style="margin-top:20px;margin-top: 20px;display: flex;width: 100%;justify-content: space-between;" @onclick:stopPropagation="true">
+                    <div style="margin-top:30px;display: flex;width: 100%;justify-content: space-between;" @onclick:stopPropagation="true">
                         <img src="./images/backward.svg" height="32" width="32" @onclick="PlayPrevious"/>
                         @if (IsPlaying)
                         {
@@ -244,7 +244,7 @@
         height: 100vh;
         width: 100%;
         position: absolute;
-        bottom: 7px;
+        bottom: 70px;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
         border-color: 1px solid rgba(66, 245, 209,0.5);
