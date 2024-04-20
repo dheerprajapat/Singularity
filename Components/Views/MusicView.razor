@@ -13,6 +13,7 @@
         {
             <div>
                 <img src="./images/backArrow.svg" width="24" height="24" style="position:absolute;top:8px" @onclick="ToggleMusicView" />
+                <img src="./images/menu-bar.svg" width="28" height="28" style="position:absolute;top:8px;right:23px;" @onclick="ToggleMenubarDialog" />
             </div>
             <div class="toggle-controls">
                 <img class="cover-image" src="@ThumbnailUrl" />
@@ -83,6 +84,51 @@
             <MudProgressLinear Color="Color.Secondary" Value="@CurrentTime" Max="@Duration" Size="Size.Small" Style="margin-top:-10px;margin-left:80px;margin-right:80px;width:calc(100vw - 160px)" />
         }
     </Glass>
+
+    <ScrollablePage OnCloseButtonClick="ToggleMenubarDialog" IsActive="@isMenubarVisible">
+        <div class="menubar-cover">
+            <img class="menubar-cover-image" src="@ThumbnailUrl" />
+            <div style="display:flex;flex-direction:column;margin-top:12px;">
+                <span class="ellepsis-menubar"><b>@Current.Video.Title</b></span>
+                <span class="ellepsis-menubar">@Current.Video.Author</span>
+            </div>
+        </div>
+
+        <div class="menubar-items">
+            
+            @foreach (var menubarItem in MusicMenubar.Instance.MenubarItems)
+            {
+                switch (menubarItem.Type)
+                {
+                    case MenubarItem.MenubarItemType.AddToPlayList:
+                        {
+                            <div class="menubar-option">
+                                <img src="./images/add-to-playlist.svg" height="32" width="32" @onclick="PlayPauseToggle" @onclick:stopPropagation="true" />
+                                <p style="margin-left: 15px;"><b>@menubarItem.Text</b></p>
+                            </div>
+                            break;
+                        }
+                    case MenubarItem.MenubarItemType.Download:
+                        {
+                            <div class="menubar-option">
+                                <img src="./images/download.svg" height="32" width="32" @onclick="PlayPauseToggle" @onclick:stopPropagation="true" />
+                                <p style="margin-left: 15px;"><b>@menubarItem.Text</b></p>
+                            </div>
+                            break;
+                        }
+                    case MenubarItem.MenubarItemType.Share:
+                        {
+                            <div class="menubar-option">
+                                <img src="./images/share.svg" height="32" width="32" @onclick="PlayPauseToggle" @onclick:stopPropagation="true" />
+                                <p style="margin-left: 15px;"><b>@menubarItem.Text</b></p>
+                            </div>
+                            break;
+                        }
+                }
+
+            }
+        </div>
+    </ScrollablePage>
 }
 
 
@@ -92,6 +138,7 @@
 {
     public static bool isMusicViewActive { get; set; } = false;
     private string BorderMusic =>$"2px solid rgba(255, 0, 0,{(isMusicViewActive?0:0.4)})";
+    private bool isMenubarVisible = false;
 
     private bool CanUpdateSlider = true;
 
@@ -125,7 +172,7 @@
             isMusicViewActive = false;
             return true;
         }
-            return false;
+        return false;
     }
 
     private void OnBeforeInternalNavigation(LocationChangingContext context)
@@ -221,6 +268,11 @@
         if (IsCurrentSongLiked) UserSetting.Instance.RemoveFromLike(AudioManager.Current!.Video);
         else UserSetting.Instance.AddToLike(AudioManager.Current!.Video);
     }
+
+    private void ToggleMenubarDialog()
+    {
+        isMenubarVisible = !isMenubarVisible;
+    }
 }
 
 
@@ -294,5 +346,48 @@
         height: 50px;
         margin-top: -2px;
         margin-left: 10px;
+    }
+
+    .menubar-items 
+    {
+        border: 2px solid black;
+        margin-left: 30px;
+        margin-right: 30px;
+        height: 70%;
+        margin-top: 90px;
+        padding-top: 130px;
+        padding-left: 12px;
+        padding-right: 12px;
+    }
+    .menubar-cover
+    {
+        display: flex;
+        justify-content: center;
+        position: absolute;
+        width: 100%;
+        top: 25px;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .menubar-cover-image
+    {
+        height: 20vh;
+        width: 20vh;
+        box-shadow: 10px 10px 5px 0px rgba(0, 0, 0, 0.75);
+    }
+
+    .menubar-option
+    {
+        display:flex;
+        align-items: center;
+        margin-bottom: 8px;
+    }
+
+    .ellepsis-menubar {
+        width: 40vw;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
     }
 </style>
