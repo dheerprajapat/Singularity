@@ -1,4 +1,6 @@
 ﻿@page "/like"
+@using System.Collections.Specialized
+@implements IDisposable
 
 <TabbedPageView Title="Liked">
     @foreach (var video in UserSetting.Instance.LikedSongs)
@@ -8,5 +10,17 @@
 </TabbedPageView>
 
 @code {
-    
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UserSetting.Instance.LikedSongs.CollectionChanged += OnListChanged;
+    }
+    void OnListChanged(object? sender,NotifyCollectionChangedEventArgs e)
+    {
+        StateHasChanged();
+    }
+    public void Dispose()
+    {
+        UserSetting.Instance.LikedSongs.CollectionChanged -= OnListChanged;
+    }
 }

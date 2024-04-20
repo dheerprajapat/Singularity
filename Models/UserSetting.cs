@@ -1,6 +1,7 @@
 ﻿using Singularity.Audio;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -23,7 +24,7 @@ namespace Singularity.Models
             } 
         }
 
-        public List<Video> LikedSongs { get; set; } = new List<Video>();
+        public ObservableCollection<Video> LikedSongs { get; set; } = new();
 
         private static string FilePath 
         { 
