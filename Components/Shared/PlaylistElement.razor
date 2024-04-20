@@ -5,7 +5,7 @@
     </div>
     <div style="width:80%;display: flex;flex-direction: column;justify-content:center">
         <div>
-            <p style="display:flex;"><b>@PlaylistData.PlayListName</b></p>
+            <p style="display:flex;"><b>@PlaylistName</b></p>
         </div>
         <div style="display:flex">
             <p>Playlist * Dhiraj Kumar</p>
@@ -15,7 +15,7 @@
 
 @code {
     [Parameter]
-    public PlaylistData? PlaylistData { get; set; }
+    public string? PlaylistName { get; set; }
 }
 
 <style>

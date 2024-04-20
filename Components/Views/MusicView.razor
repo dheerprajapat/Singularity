@@ -90,7 +90,7 @@
 
 @code
 {
-    private bool isMusicViewActive { get; set; } = false;
+    public static bool isMusicViewActive { get; set; } = false;
     private string BorderMusic =>$"2px solid rgba(255, 0, 0,{(isMusicViewActive?0:0.4)})";
 
     private bool CanUpdateSlider = true;
@@ -232,7 +232,7 @@
         bottom: 50px;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
-        border-color: 1px solid rgba(66, 245, 209,0.5);
+        border: 1px solid rgba(66, 245, 209,0.5);
         padding: 4px;
         display: flex;
         flex-direction: column;
@@ -247,7 +247,7 @@
         bottom: 70px;
         border-top-left-radius: 20px;
         border-top-right-radius: 20px;
-        border-color: 1px solid rgba(66, 245, 209,0.5);
+        border: 1px solid rgba(66, 245, 209,0.5);
         padding: 20px;
         transition: height 0.5s, bottom 0.5s;
     }
