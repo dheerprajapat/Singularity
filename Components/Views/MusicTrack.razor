@@ -40,15 +40,21 @@
     {
         base.OnInitialized();
         AudioManager.Audio.OnMediaStateChange += MediaStateChanged;
+        UpdateIsPlaying();
     }
 
     private async void MediaStateChanged(object? sender, MediaStateChangedEventArgs e)
     {
         await InvokeAsync(() =>
         {
-            IsPlaying = AudioManager.IsPlaying && Song != null && AudioManager.Current != null && Song.Video.Id == AudioManager.Current.Video.Id;
+            UpdateIsPlaying();
             StateHasChanged();
         });
+    }
+
+    void UpdateIsPlaying()
+    {
+        IsPlaying = AudioManager.IsPlaying && Song != null && AudioManager.Current != null && Song.Video.Id == AudioManager.Current.Video.Id;
     }
 }
 
