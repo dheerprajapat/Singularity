@@ -163,7 +163,7 @@
     private bool IsPlaying = false;
     private bool IsCurrentSongLiked => UserSetting.Instance.IsLiked(AudioManager.Current!.Video);
     public static Action? OnMusicViewInit;
-    private bool IsVideoMode { get; set; } = false;
+    private bool IsVideoMode { get; set; } = true;
     private DateTime LastTime = DateTime.Now;
 
     private ElementReference video;

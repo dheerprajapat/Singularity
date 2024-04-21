@@ -26,7 +26,7 @@ namespace Singularity.Models
         }
 
         public ObservableCollection<Video> LikedSongs { get; set; } = new();
-        public Dictionary<string, IPlaylistItem> PlayList { get; set; } = new Dictionary<string, IPlaylistItem>();
+        public Dictionary<string, PlaylistItem> PlayList { get; set; } = new Dictionary<string, PlaylistItem>();
 
         public LoopMode LoopMode { get; set; } = LoopMode.All;
 
@@ -49,7 +49,7 @@ namespace Singularity.Models
                 var json = File.ReadAllText(FilePath);
                 instance = JsonSerializer.Deserialize<UserSetting>(json)!;
             }
-            catch {
+            catch(Exception e) {
                 instance = new UserSetting();
                 return;
             }
@@ -87,7 +87,7 @@ namespace Singularity.Models
         public void AddLocalPlaylist(string playlistName)
         {
             if (PlayList.ContainsKey(playlistName)) return;
-            PlayList.Add(playlistName, new LocalPlaylistItem());
+            PlayList.Add(playlistName, new PlaylistItem());
             Save();
         }
 
