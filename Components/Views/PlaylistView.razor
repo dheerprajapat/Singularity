@@ -15,13 +15,13 @@
     <div style="padding : 30px;">
         @foreach (var playlist in UserSetting.Instance.PlayList)
         {
-            @if (!IsPlaylistSelectionEnable)
+            @if (IsPlaylistSelectionEnable)
             {
-                <PlaylistElement PlaylistName="@playlist.Key" OnCheckboxChecked="CheckboxChecked" OnCheckboxUnchecked="CheckboxUnchecked"></PlaylistElement>
+                <PlaylistElement PlaylistName="@playlist.Key" IsPlaylistSelectionEnable="true" OnCheckboxChecked="CheckboxChecked" OnCheckboxUnchecked="CheckboxUnchecked"></PlaylistElement>
             }
             else
             {
-                <PlaylistElement PlaylistName="@playlist.Key" Clicked="ShowPlaylistSongs" IsPlaylistSelectionEnable="true"></PlaylistElement>
+                <PlaylistElement PlaylistName="@playlist.Key" Clicked="ShowPlaylistSongs"></PlaylistElement>
             }
         }
     </div>
@@ -44,21 +44,25 @@
 
         </div>
     </Scrollable>
-    @* <Scrollable OnCloseButtonClick="ToggleAddSongInPlaylist" IsActive="@isAddSongsToPlaylistVisible">
-        <div>
-            <div>
-                <img src="./images/music.svg" height="50" width="50" />
-            </div>
-            <div>
-                <p><b></b></p>
+    <Scrollable OnCloseButtonClick="() => isShowPlaylistSongsVisible = false" IsActive="@isShowPlaylistSongsVisible">
+        <div style="margin-top:50px;padding:5px;">
+                      
+            <div style="display: flex;flex-direction: column;">
+                <p style="font-size: 28px;"><b>@currentClickedPlaylistName</b></p>
                 <p>Dhiraj Kumar</p>
             </div>
-            <div>
-                <p><b>Let's start building your playlist</b></p>
-                <button class="btn-addtoplaylist">Add to this playlist</button>
+
+            <div style="margin-top:10px;">
+                @if (UserSetting.Instance.PlayList.Count() > 0 && UserSetting.Instance.PlayList.ContainsKey(currentClickedPlaylistName))
+                {
+                    @foreach (var video in UserSetting.Instance.PlayList[currentClickedPlaylistName].Videos)
+                    {
+                        <MusicTrack Song="new AudioItem(video)"></MusicTrack>
+                    }
+                }
             </div>
         </div>
-    </Scrollable> *@
+    </Scrollable>
 </div>
 @code 
 {
@@ -70,8 +74,9 @@
     public bool IsPlaylistSelectionEnable { get; set; } = false;
 
     private bool isAddPlaylistVisible = false;
-    private bool isAddSongsToPlaylistVisible = false;
+    private bool isShowPlaylistSongsVisible = false;
     private Dictionary<string, bool> playlistCheckboxStatus = new Dictionary<string, bool>();
+    public string currentClickedPlaylistName = "";
 
     private void ToggleAddPlayList()
     {
@@ -89,7 +94,7 @@
 
     private string GetPlayListDefaultName()
     {
-        return "My Playlist " + (UserSetting.Instance.PlayList.Count() + 1).ToString();
+        return "My Playlist #" + (UserSetting.Instance.PlayList.Count() + 1).ToString();
     }
 
     private void AddPlayList()
@@ -99,9 +104,10 @@
         isAddPlaylistVisible = false;
     }
 
-    private void ToggleAddSongInPlaylist()
+    private void ShowPlaylistSongs(string playlist)
     {
-        isAddSongsToPlaylistVisible = !isAddSongsToPlaylistVisible;
+        isShowPlaylistSongsVisible = !isShowPlaylistSongsVisible;
+        currentClickedPlaylistName = playlist;
     }
 
     private void AddToCheckboxStatus(string playlistName, bool isChecked)
@@ -151,10 +157,6 @@
         await OnOperationCompletedClicked.InvokeAsync();
     }
 
-    private void ShowPlaylistSongs(string playlistName)
-    {
-        
-    }
 }
 <style>
     .playlist-header {
