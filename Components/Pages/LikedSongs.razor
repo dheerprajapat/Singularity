@@ -2,7 +2,7 @@
 @using System.Collections.Specialized
 @implements IDisposable
 
-<TabbedPageView Title="Liked">
+<TabbedPageView Title="Liked Songs">
     @foreach (var video in UserSetting.Instance.LikedSongs.Reverse())
     {
         <MusicTrack Song="new AudioItem(video)"></MusicTrack>
