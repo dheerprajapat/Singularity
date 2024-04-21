@@ -152,6 +152,7 @@
             if(playlistCheckboxStatus[key])
             {
                 UserSetting.Instance.AddSongInLocalPlaylist(key, video!);
+                playlistCheckboxStatus[key] = false;
             }
         }
         await OnOperationCompletedClicked.InvokeAsync();
