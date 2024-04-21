@@ -57,6 +57,8 @@
 {
     [Parameter]
     public Video? video { get; set; }
+    [Parameter]
+    public EventCallback OnOperationCompletedClicked { get; set; }
 
     private bool isAddPlaylistVisible = false;
     private bool isAddSongsToPlaylistVisible = false;
@@ -133,7 +135,7 @@
         SetplaylistCheckboxStatus(playlistName, false);
     }
 
-    private void AddSongInPlaylist()
+    private async Task AddSongInPlaylist()
     {
         foreach(var key in playlistCheckboxStatus.Keys)
         {
@@ -142,6 +144,7 @@
                 UserSetting.Instance.AddSongInLocalPlaylist(key, video!);
             }
         }
+        await OnOperationCompletedClicked.InvokeAsync();
     }
 }
 <style>
