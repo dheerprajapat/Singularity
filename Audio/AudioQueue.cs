@@ -57,12 +57,12 @@ namespace Singularity.Audio
     public record AudioItem(Video Video)
     {
         public IStreamInfo? StreamInfo { get; private set; }
-        public async Task LoadStreamData()
+        public Task LoadStreamData()
         {
             if (StreamInfo != null)
-                return;
+                return Task.CompletedTask;
 
-            await Task.Run(async() =>
+            return Task.Run(async() =>
             {
                 var streams = await SingletonFactory.YoutubeClient.Videos.Streams.GetManifestAsync(Video.Id);
                 StreamInfo = streams.GetAudioStreams().GetWithHighestBitrate();
