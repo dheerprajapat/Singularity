@@ -41,8 +41,8 @@
 
 
 	<PropertyGroup>
-		<RunAOTCompilation>True</RunAOTCompilation>
-		<PublishTrimmed>True</PublishTrimmed>
+		<!--<RunAOTCompilation>True</RunAOTCompilation>
+		<PublishTrimmed>True</PublishTrimmed>-->
 		<!--<AndroidStripILAfterAOT>true</AndroidStripILAfterAOT>
 		<AndroidEnableProfiledAot>true</AndroidEnableProfiledAot>-->
 		<!--<androidenablemarshalmethods>true</androidenablemarshalmethods>-->

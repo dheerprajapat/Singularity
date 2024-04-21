@@ -47,7 +47,7 @@ namespace Singularity.Models
             try
             {
                 var json = File.ReadAllText(FilePath);
-                instance = (UserSetting)JsonSerializer.Deserialize(json,typeof(UserSetting), UserSettingContext.Default)!;
+                instance = JsonSerializer.Deserialize<UserSetting>(json)!;
             }
             catch {
                 instance = new UserSetting();
@@ -59,7 +59,7 @@ namespace Singularity.Models
         {
             if (instance == null) return;
 
-            var json = JsonSerializer.Serialize(instance,typeof(UserSetting),UserSettingContext.Default);
+            var json = JsonSerializer.Serialize(instance);
             File.WriteAllText(FilePath, json);
         }
 
