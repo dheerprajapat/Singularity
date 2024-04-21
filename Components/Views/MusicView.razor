@@ -139,9 +139,7 @@
         </div>
     </Scrollable>
     <Scrollable OnCloseButtonClick="ToggleAddToPlaylistDialog" IsActive="@isAddToPlaylistVisible">
-        <PlaylistView video="AudioManager.Current!.Video">
-
-        </PlaylistView>
+        <PlaylistView video="AudioManager.Current!.Video" OnOperationCompletedClicked="ToggleAddToPlaylistDialog"/>
     </Scrollable>
 }
 
