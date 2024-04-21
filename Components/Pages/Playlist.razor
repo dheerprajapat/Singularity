@@ -1,93 +1,12 @@
 ﻿@page "/playlist"
 
-<Glass Class="playlist-parent" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(66, 245, 209,1)">
-    
-    <div class="playlist-header">
-        <div class="library-text">
-            <p style="color:white;"><b>Your Library</b></p>
-        </div>
-        <div class="add-playlist" @onclick="ToggleAddPlayList">
-            <img src="./images/plus.svg" height="32" width="32" />
-        </div>
-    </div>
-    <div style="padding : 30px;">
-        @foreach(var playlist in UserSetting.Instance.PlayList)
-        {
-            <PlaylistElement PlaylistName="@playlist.Key" Clicked="() => ShowPlaylistInfo(playlist.Key)"></PlaylistElement>
-        }
-    </div>
-</Glass>
-
-<div>
-    <Scrollable OnCloseButtonClick="ToggleAddPlayList" IsActive="@isAddPlaylistVisible">
-        <div class="scroll-child">
-            <div style="height: 10%;">
-                <p style="color:white;"><b>Give your playlist a name</b></p>
-            </div>
-            <div style="height: 30%;" >
-                <input @bind="playlistname" class="transparent-input"/>
-            </div>
-            <div style="height: 10%;">
-                <button class="btn" @onclick="AddPlayList">Create</button>
-            </div>
-            
-        </div>
-    </Scrollable>
-    <Scrollable OnCloseButtonClick="ToggleAddSongInPlaylist" IsActive="@isAddSongsToPlaylistVisible">
-        <div>
-            <div>
-                <img src="./images/music.svg" height="50" width="50" />
-            </div>
-            <div>
-                <p><b></b></p>
-                <p>Dhiraj Kumar</p>
-            </div>
-            <div>
-                <p><b>Let's start building your playlist</b></p>
-                <button class="btn-addtoplaylist">Add to this playlist</button>
-            </div>
-        </div>
-    </Scrollable>
-</div>
+<PlaylistView OnOperationCompletedClicked="ToggleAddToPlaylistDialog" />
 
 @code {
-    private bool isAddPlaylistVisible = false;
-    private bool isAddSongsToPlaylistVisible = false;
-
-    private void ToggleAddPlayList()
+    
+    private void ToggleAddToPlaylistDialog()
     {
-        isAddPlaylistVisible = !isAddPlaylistVisible;
-        playlistname = GetPlayListDefaultName();
-    }
-
-    protected override void OnInitialized()
-    {
-        base.OnInitialized();
-        playlistname = GetPlayListDefaultName();
-    }
-
-    private string? playlistname;
-
-    private string GetPlayListDefaultName()
-    {
-        return "My Playlist " + (UserSetting.Instance.PlayList.Count() + 1).ToString();
-    }
-
-    private void AddPlayList()
-    {
-        UserSetting.Instance.AddLocalPlaylist(playlistname!);
-        playlistname = "";
-        isAddPlaylistVisible = false;
-    }
-
-    private void ToggleAddSongInPlaylist()
-    {
-        isAddSongsToPlaylistVisible = !isAddSongsToPlaylistVisible;
-    }
-
-    private void ShowPlaylistInfo(string playlistName)
-    {
-        isAddSongsToPlaylistVisible = true;
+        
     }
 }
 

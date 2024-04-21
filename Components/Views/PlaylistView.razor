@@ -15,7 +15,14 @@
     <div style="padding : 30px;">
         @foreach (var playlist in UserSetting.Instance.PlayList)
         {
-            <PlaylistElement PlaylistName="@playlist.Key" OnCheckboxChecked="CheckboxChecked" OnCheckboxUnchecked="CheckboxUnchecked"></PlaylistElement>
+            @if (!IsPlaylistSelectionEnable)
+            {
+                <PlaylistElement PlaylistName="@playlist.Key" OnCheckboxChecked="CheckboxChecked" OnCheckboxUnchecked="CheckboxUnchecked"></PlaylistElement>
+            }
+            else
+            {
+                <PlaylistElement PlaylistName="@playlist.Key" Clicked="ShowPlaylistSongs" IsPlaylistSelectionEnable="true"></PlaylistElement>
+            }
         }
     </div>
     <div style="height: 10%; position:absolute ;bottom:10px; width:100%;">
@@ -59,6 +66,8 @@
     public Video? video { get; set; }
     [Parameter]
     public EventCallback OnOperationCompletedClicked { get; set; }
+    [Parameter]
+    public bool IsPlaylistSelectionEnable { get; set; } = false;
 
     private bool isAddPlaylistVisible = false;
     private bool isAddSongsToPlaylistVisible = false;
@@ -93,11 +102,6 @@
     private void ToggleAddSongInPlaylist()
     {
         isAddSongsToPlaylistVisible = !isAddSongsToPlaylistVisible;
-    }
-
-    private void ShowPlaylistInfo(string playlistName)
-    {
-        isAddSongsToPlaylistVisible = true;
     }
 
     private void AddToCheckboxStatus(string playlistName, bool isChecked)
@@ -145,6 +149,11 @@
             }
         }
         await OnOperationCompletedClicked.InvokeAsync();
+    }
+
+    private void ShowPlaylistSongs(string playlistName)
+    {
+        
     }
 }
 <style>
