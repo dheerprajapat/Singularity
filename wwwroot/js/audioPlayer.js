@@ -1,62 +1,13 @@
-﻿let audio;
-export function createAudio(src,dotnet)
+﻿window.seekVideo = function (video, time)
 {
-    if (src != undefined && src != null)
-        audio = new Audio(src);
-    else
-        audio = new Audio();
-
-    audio.oncanplay = () => dotnet.invokeMethodAsync("oncanplay");
-    audio.ontimeupdate = () => dotnet.invokeMethodAsync("ontimeupdate");
-    audio.onloadedmetadata = () => dotnet.invokeMethodAsync("onloadedmetadata");
-    audio.onended = () => dotnet.invokeMethodAsync("onended");
-    audio.onplay = () => dotnet.invokeMethodAsync("onplay");
-    audio.onpause = () => dotnet.invokeMethodAsync("onpause");
+    video.currentTime = time;
 }
 
-export function setSrc(src) {
-    audio.src = src;
+window.playVideo = function (video) {
+    video.play();
 }
 
-export function pause() {
-    audio.pause();
+window.pauseVideo = function (video) {
+    video.pause();
 }
 
-export function play() {
-    audio.play();
-}
-
-export function duration() {
-    return audio.duration != undefined ? audio.duration : 0;
-}
-
-export function getCurrentTime()
-{
-    return audio.currentTime;
-}
-export function setCurrentTime(val) {
-    audio.currentTime= val;
-}
-
-export function isPaused() {
-    return audio.paused;
-}
-
-export function getVolume() {
-    return audio.volume;
-}
-
-export function setVolume(value) {
-    audio.volume = value;
-}
-
-export function isMuted() {
-    return audio.muted;
-}
-
-export function setMuted(value) {
-    audio.muted = value;
-}
-export function getReadyState() {
-    return audio.readyState;
-}

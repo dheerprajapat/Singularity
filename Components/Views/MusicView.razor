@@ -8,15 +8,24 @@
 @if (Current != null)
 {
 
-    <Glass Class="@(isMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="@BorderMusic">
-        @if (isMusicViewActive)
+    <Glass Class="@(IsMusicViewActive ? "toggle-music" : "music")" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="@BorderMusic">
+        @if (IsMusicViewActive)
         {
             <div>
                 <img src="./images/backArrow.svg" width="24" height="24" style="position:absolute;top:8px" @onclick="ToggleMusicView" />
                 <img src="./images/menu-bar.svg" width="28" height="28" style="position:absolute;top:8px;right:23px;" @onclick="ToggleMenubarDialog" />
             </div>
             <div class="toggle-controls">
-                <img class="cover-image" src="@ThumbnailUrl" />
+                @if(IsVideoMode)
+                {
+                    <video class="video-ctrl" src="@Current.VideoStreamInfo.Url" autoplay muted @ref="video">
+
+                    </video>
+                }
+                else
+                {
+                    <img class="cover-image" src="@ThumbnailUrl" />
+                }
                 <div style="display:flex;align-items:center;color:white;margin-top:40px">
                     <div>
                         <p class="ellepsis"><b>@Current.Video.Title</b></p>
@@ -141,8 +150,8 @@
 
 @code
 {
-    public static bool isMusicViewActive { get; set; } = false;
-    private string BorderMusic =>$"2px solid rgba(255, 0, 0,{(isMusicViewActive?0:0.4)})";
+    public static bool IsMusicViewActive { get; set; } = false;
+    private string BorderMusic =>$"2px solid rgba(255, 0, 0,{(IsMusicViewActive?0:0.4)})";
     private bool isMenubarVisible = false;
     private bool isAddToPlaylistVisible = false;
     private bool CanUpdateSlider = true;
@@ -154,10 +163,20 @@
     private bool IsPlaying = false;
     private bool IsCurrentSongLiked => UserSetting.Instance.IsLiked(AudioManager.Current!.Video);
     public static Action? OnMusicViewInit;
+    private bool IsVideoMode { get; set; } = false;
+    private DateTime LastTime = DateTime.Now;
 
-    private void ToggleMusicView()
+    private ElementReference video;
+
+    private async void ToggleMusicView()
     {
-        isMusicViewActive = !isMusicViewActive;
+        IsMusicViewActive = !IsMusicViewActive;
+
+        if(IsMusicViewActive)
+        {
+            await Task.Delay(200);
+            await JSRuntime.InvokeVoidAsync("seekVideo", video, AudioManager.Audio.CurrentTime.TotalSeconds);
+        }
     }
 
     protected override async Task OnInitializedAsync()
@@ -174,8 +193,9 @@
 
     bool HandleBackButtonForMusicView()
     {
-        if (isMusicViewActive){
-            isMusicViewActive = false;
+        if (IsMusicViewActive)
+        {
+            IsMusicViewActive = false;
             return true;
         }
         return false;
@@ -183,7 +203,7 @@
 
     private void OnBeforeInternalNavigation(LocationChangingContext context)
     {
-        if(isMusicViewActive)
+        if (IsMusicViewActive)
         {
             ToggleMusicView();
             context.PreventNavigation();
@@ -193,9 +213,19 @@
 
     private async void MediaStateChanged(object sender,MediaStateChangedEventArgs e)
     {
-        await InvokeAsync(() =>
+        await InvokeAsync(async() =>
         {
             IsPlaying = AudioManager.IsPlaying;
+
+            if (IsVideoMode && IsMusicViewActive)
+            {
+                if(e.NewState==MediaElementState.Playing)
+                    await JSRuntime.InvokeVoidAsync("playVideo", video);
+                else
+                    await JSRuntime.InvokeVoidAsync("pauseVideo", video);
+            }
+
+
             StateHasChanged();
         });
     }
@@ -216,7 +246,6 @@
         });
     }
 
-    private DateTime LastTime = DateTime.Now;
     private void OnTimeUpdate(object sender)
     {
         if (!CanUpdateSlider || (DateTime.Now-LastTime).TotalSeconds<0.5)
@@ -245,9 +274,17 @@
         AudioManager.Audio.OnMediaStateChange -= MediaStateChanged;
     }
 
-    private void OnSliderChange(int value)
+    private async void OnSliderChange(int value)
     {
         AudioManager.Audio.CurrentTime=TimeSpan.FromSeconds(value);
+
+        if(IsVideoMode)
+        {
+            //add extra few seconds as seeking takes time
+            if (value + 3 < AudioManager.Audio.Duration.TotalSeconds)
+                value+=3;
+            await JSRuntime.InvokeVoidAsync("window.seekVideo", video, value);
+        }
     }
 
     private async void PlayNext()
@@ -259,7 +296,7 @@
         await AudioManager.PlayPreviousAsync();
     }
 
-    private void PlayPauseToggle()
+    private async void PlayPauseToggle()
     {
         if(!AudioManager.IsPlaying)
         {
@@ -279,7 +316,7 @@
 
     private void ToggleMenubarDialog()
     {
-        isMusicViewActive = false;
+        IsMusicViewActive = false;
         isMenubarVisible = !isMenubarVisible;
     }
 
@@ -326,6 +363,13 @@
         transition: height 0.5s, bottom 0.5s;
     }
 
+    .video-ctrl
+    {
+        margin-top:6px;
+        width:80vw;
+        height:60vh;
+        object-fit: cover;
+    }
     .cover-image {
         height: 50vh;
         width: 50vh;

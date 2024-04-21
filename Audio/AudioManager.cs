@@ -12,7 +12,7 @@ using Singularity.Models;
 
 namespace Singularity.Audio
 {
-    internal class AudioManager:BindableObject
+    internal class AudioManager : BindableObject
     {
         public AudioQueue Queue { get; } = new AudioQueue();
 
@@ -48,7 +48,7 @@ namespace Singularity.Audio
                     await PlayNextAsync();
                 }
             });
-            
+
 
         }
         public void AddSong(AudioItem audio)
@@ -74,7 +74,7 @@ namespace Singularity.Audio
         }
         public async Task PlayNextAsync()
         {
-            if(Queue.Songs.Count <= 0)
+            if (Queue.Songs.Count <= 0)
             {
                 return;
             }
@@ -82,7 +82,7 @@ namespace Singularity.Audio
             var first = Queue.Songs.First();
             Queue.Songs.Remove(first);
             Queue.AddSongEnd(first);
-            Audio.CurrentTime=TimeSpan.Zero;
+            Audio.CurrentTime = TimeSpan.Zero;
             await PlayAsync();
         }
         public async Task PlayPreviousAsync()
@@ -94,9 +94,9 @@ namespace Singularity.Audio
 
             var time = Audio.CurrentTime;
 
-            if(time.TotalSeconds>5)
+            if (time.TotalSeconds > 5)
             {
-                Audio.CurrentTime=TimeSpan.Zero;
+                Audio.CurrentTime = TimeSpan.Zero;
                 return;
             }
 
@@ -108,22 +108,24 @@ namespace Singularity.Audio
             await PlayAsync();
         }
 
-        
 
+        private SemaphoreSlim sema = new SemaphoreSlim(1, 1);
         public async Task PlayAsync()
         {
+            await sema.WaitAsync();
             if (Current is null)
                 return;
             await Current.LoadStreamData();
-             Audio.Src=Current.StreamInfo!.Url;
+            Audio.Src = Current.StreamInfo!.Url;
             Audio.Play();
+            sema.Release();
         }
     }
 
-    public enum LoopMode
-    {
-        All,
-        None,
-        Same
+        public enum LoopMode
+        {
+            All,
+            None,
+            Same
+        }
     }
-}

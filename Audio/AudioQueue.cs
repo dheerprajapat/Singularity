@@ -57,6 +57,7 @@ namespace Singularity.Audio
     public record AudioItem(Video Video)
     {
         public IStreamInfo? StreamInfo { get; private set; }
+        public IStreamInfo? VideoStreamInfo { get;private set; }
         public Task LoadStreamData()
         {
             if (StreamInfo != null)
@@ -66,6 +67,7 @@ namespace Singularity.Audio
             {
                 var streams = await SingletonFactory.YoutubeClient.Videos.Streams.GetManifestAsync(Video.Id);
                 StreamInfo = streams.GetAudioStreams().GetWithHighestBitrate();
+                VideoStreamInfo = streams.GetVideoOnlyStreams().GetWithHighestBitrate();
             });
         }
     }
