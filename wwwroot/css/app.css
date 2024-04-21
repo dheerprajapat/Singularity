@@ -1,4 +1,8 @@
-﻿
+﻿::-webkit-scrollbar {
+    width: 0px;
+    background: transparent; /* make scrollbar transparent */
+    display: none;
+}
 .valid.modified:not([type=checkbox]) {
     outline: 1px solid #26b050;
 }
