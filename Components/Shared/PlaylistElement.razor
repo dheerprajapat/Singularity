@@ -13,8 +13,8 @@
     </div>
     @if (IsPlaylistSelectionEnable)
     {
-        <div style="width: 10%; display:flex;align-items:center;" @onclick:stopPropagation="true">
-            <input class="checkbox" checked="@isChecked" @oninput="OnCheckboxClicked" type="checkbox" />
+        <div style="width: 10%; display:flex;align-items:center;">
+            <input class="checkbox" checked="@IsChecked" type="checkbox" />
         </div>
     }
 </Glass>
@@ -25,27 +25,9 @@
     [Parameter]
     public EventCallback<string> Clicked { get; set; }
     [Parameter]
-    public EventCallback<string> OnCheckboxChecked { get; set; }
-    [Parameter]
-    public EventCallback<string> OnCheckboxUnchecked { get; set; }
-    [Parameter]
     public bool IsPlaylistSelectionEnable { get; set; } = false;
-
-    private bool isChecked = false;
-
-    private async Task OnCheckboxClicked()
-    {
-        isChecked = !isChecked;
-        if (isChecked)
-        {
-            await OnCheckboxChecked.InvokeAsync(PlaylistName);
-        }
-        else
-        {
-            await OnCheckboxUnchecked.InvokeAsync(PlaylistName);
-        }
-    }
-
+    [Parameter]
+    public bool IsChecked { get; set; }
 }
 
 <style>

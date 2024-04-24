@@ -17,7 +17,7 @@
         {
             @if (IsPlaylistSelectionEnable)
             {
-                <PlaylistElement PlaylistName="@playlist.Key" IsPlaylistSelectionEnable="true" OnCheckboxChecked="CheckboxChecked" OnCheckboxUnchecked="CheckboxUnchecked"></PlaylistElement>
+                <PlaylistElement IsChecked="@(playlistCheckboxStatus.ContainsKey(playlist.Key) && playlistCheckboxStatus[playlist.Key])" Clicked="() => ToggleSelection(playlist.Key)" PlaylistName="@playlist.Key" IsPlaylistSelectionEnable="true" ></PlaylistElement>
             }
             else
             {
@@ -28,7 +28,7 @@
     @if(IsPlaylistSelectionEnable)
     {
         <div style="height: 10%; position:absolute ;bottom:10px; width:100%;">
-            <button class="btn-done" @onclick="AddSongInPlaylist">Done</button>
+            <button class="btn-done" @onclick="AddSongsInPlaylist">Done</button>
         </div>
     }
 </Glass>
@@ -126,29 +126,7 @@
 
     }
 
-    private void SetplaylistCheckboxStatus(string playlistName, bool status)
-    {
-        if (playlistCheckboxStatus.ContainsKey(playlistName))
-        {
-            playlistCheckboxStatus[playlistname!] = status;
-        }
-        else
-        {
-            playlistCheckboxStatus.Add(playlistName, status);
-        }
-    }
-
-    private void CheckboxChecked(string playlistName)
-    {
-        SetplaylistCheckboxStatus(playlistName, true);
-    }
-
-    private void CheckboxUnchecked(string playlistName)
-    {
-        SetplaylistCheckboxStatus(playlistName, false);
-    }
-
-    private async Task AddSongInPlaylist()
+    private async Task AddSongsInPlaylist()
     {
         foreach(var key in playlistCheckboxStatus.Keys)
         {
@@ -161,6 +139,17 @@
         await OnOperationCompletedClicked.InvokeAsync();
     }
 
+    private void ToggleSelection(string playlistName)
+    {
+        if (!playlistCheckboxStatus.ContainsKey(playlistName))
+        {
+            playlistCheckboxStatus.Add(playlistName, true);
+        }
+        else
+        {
+            playlistCheckboxStatus[playlistName] = !playlistCheckboxStatus[playlistName];
+        }
+    }
 }
 <style>
     .playlist-header {
