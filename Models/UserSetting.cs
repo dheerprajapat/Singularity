@@ -26,7 +26,7 @@ namespace Singularity.Models
         }
 
         public ObservableCollection<Video> LikedSongs { get; set; } = new();
-        public Dictionary<string, PlaylistItem> PlayList { get; set; } = new Dictionary<string, PlaylistItem>();
+        public ObservableDictionary<string, PlaylistItem> PlayList { get; set; } = new ObservableDictionary<string, PlaylistItem>();
 
         public LoopMode LoopMode { get; set; } = LoopMode.All;
 

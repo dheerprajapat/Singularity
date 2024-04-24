@@ -2,11 +2,14 @@
 <Glass Class="playlist-parent" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)" Border="2px solid rgba(66, 245, 209,1)">
 
     <div class="playlist-header">
-        @* <div class="library-text">
-            <span style="color:white;"><b>Cancel</b></span>
-        </div> *@
         <div class="add-playlist">
             <span style="color:white;"><b>Add to playlist</b></span>
+        </div>
+        <div style="position: absolute;right: 45px;">
+            @if (!IsPlaylistSelectionEnable && playlistCheckboxStatus.ContainsValue(true))
+            {
+                <img src="./images/delete.svg" width="24" height="24" style="" @onclick="DeleteSelectedPlaylist" />
+            }
         </div>
     </div>
     <div style="height: 10%;margin-top:10px;">
@@ -21,7 +24,7 @@
             }
             else
             {
-                <PlaylistElement PlaylistName="@playlist.Key" Clicked="ShowPlaylistSongs"></PlaylistElement>
+                <PlaylistElement PlaylistName="@playlist.Key" Clicked="ShowPlaylistSongs" IsPlaylistSelectionEnable="true" IsPlaylistPage="true" Checked="() => ToggleSelection(playlist.Key)"></PlaylistElement>
             }
         }
     </div>
@@ -150,6 +153,18 @@
             playlistCheckboxStatus[playlistName] = !playlistCheckboxStatus[playlistName];
         }
     }
+
+    private void DeleteSelectedPlaylist()
+    {
+        foreach (var key in playlistCheckboxStatus.Keys)
+        {
+            if (playlistCheckboxStatus[key])
+            {
+                UserSetting.Instance.RemovePlaylist(key);
+                playlistCheckboxStatus.Remove(key);
+            }
+        }
+    }
 }
 <style>
     .playlist-header {
@@ -170,13 +185,6 @@
         height: 100% width: 100%;
         display: flex;
         align-items: center;
-    }
-
-    .library-text {
-        width: 50%;
-        display: flex;
-        justify-content: flex-start;
-        margin: 20px;
     }
 
     .add-playlist {
