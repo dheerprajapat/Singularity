@@ -22,9 +22,15 @@
             {
                 <PlaylistElement IsChecked="@(playlistCheckboxStatus.ContainsKey(playlist.Key) && playlistCheckboxStatus[playlist.Key])" Clicked="() => ToggleSelection(playlist.Key)" PlaylistName="@playlist.Key" IsPlaylistSelectionEnable="true" ></PlaylistElement>
             }
+            else if (!isPlaylistSelectionEnable)
+            {
+                <LongPressItem LongPressed="()=>{ PlaylistLongPressed(playlist.Key);}">
+                    <PlaylistElement PlaylistName="@playlist.Key" Clicked="ShowPlaylistSongs" IsPlaylistSelectionEnable="isPlaylistSelectionEnable" IsPlaylistPage="true" Checked="() => ToggleSelection(playlist.Key)"></PlaylistElement>
+                </LongPressItem>
+            }
             else
             {
-                <PlaylistElement PlaylistName="@playlist.Key" Clicked="ShowPlaylistSongs" IsPlaylistSelectionEnable="true" IsPlaylistPage="true" Checked="() => ToggleSelection(playlist.Key)"></PlaylistElement>
+                <PlaylistElement PlaylistName="@playlist.Key" Clicked="ShowPlaylistSongs" IsPlaylistSelectionEnable="isPlaylistSelectionEnable" IsPlaylistPage="true" IsChecked="@(playlistCheckboxStatus.ContainsKey(playlist.Key) && playlistCheckboxStatus[playlist.Key])" Checked="() => ToggleSelection(playlist.Key)"></PlaylistElement>
             }
         }
     </div>
@@ -106,7 +112,24 @@
     private bool isAnyTrackSelected => CheckAnySongIsSelected();
     private Dictionary<string, bool> playlistCheckboxStatus = new Dictionary<string, bool>();
     private bool isSingleSelectionMode = true;
+    private bool isPlaylistSelectionEnable = false;
     public string currentClickedPlaylistName = "";
+
+    protected override async Task OnInitializedAsync()
+    {
+        await base.OnInitializedAsync();
+        MainPage.OnBackButtonPress = HandleBackButtonForPlaylistView;
+    }
+
+    private bool HandleBackButtonForPlaylistView()
+    {
+        if (isShowPlaylistSongsVisible)
+        {
+            isShowPlaylistSongsVisible = false;
+            return true;
+        }
+        return false;
+    }
 
     private void ToggleAddPlayList()
     {
@@ -231,6 +254,7 @@
 
     private bool CheckAnySongIsSelected()
     {
+        if (!UserSetting.Instance.PlayList.ContainsKey(currentClickedPlaylistName)) return false;
         foreach (var video in UserSetting.Instance.PlayList[currentClickedPlaylistName].Videos)
         {
             if (video.IsSelected)
@@ -239,6 +263,17 @@
             }
         }
         return false;
+    }
+
+    private void PlaylistLongPressed(string playlistName)
+    {
+        isPlaylistSelectionEnable = true;
+        foreach (var playlist in playlistCheckboxStatus.Keys)
+        {
+            playlistCheckboxStatus[playlist] = false;
+        }
+        if (playlistCheckboxStatus.ContainsKey(playlistName)) playlistCheckboxStatus[playlistName] = true;
+        else playlistCheckboxStatus.Add(playlistName, true);
     }
 }
 <style>
