@@ -50,7 +50,13 @@
 
         </div>
     </Scrollable>
-    <Scrollable OnCloseButtonClick="() => isShowPlaylistSongsVisible = false" IsActive="@isShowPlaylistSongsVisible">
+    <Scrollable OnCloseButtonClick="TogglePlaylistSongScroll" IsActive="@isShowPlaylistSongsVisible">
+        @if (!isSingleSelectionMode && isAnyTrackSelected)
+        {
+            <div style="margin: 10px;position: absolute;left: 0px;" @onclick="DeleteSelectedSongsFromPlaylist">
+                <img src="./images/delete.svg" height="32" width="32" />
+            </div>
+        }
         <div style="margin-top:50px;padding:5px;">
                       
             <div style="display: flex;flex-direction: column;">
@@ -63,7 +69,23 @@
                 {
                     @foreach (var video in UserSetting.Instance.PlayList[currentClickedPlaylistName].Videos)
                     {
-                        <MusicTrack Song="new AudioItem(video)"></MusicTrack>
+                        @if (isSingleSelectionMode)
+                        {
+                            <LongPressItem LongPressed="()=>{ TrackLongPressed(video);}">
+                                <MusicTrack Song="new AudioItem(video)"></MusicTrack>
+                            </LongPressItem>
+                        }
+                        else
+                        {
+                           <div style="display:flex;" @onclick="() => ToggleTrackSelection(video)">
+                                <div style="width:6%;display:flex;align-items: center;justify-content:center;">
+                                    <input style="width:16px;height:16px;" checked="@video.IsSelected" class="checkbox" type="checkbox" />
+                                </div>
+                                <div style="width:94%;" @onclick:stopPropagation="true">
+                                    <MusicTrack Song="new AudioItem(video)"></MusicTrack>
+                                </div>
+                           </div>
+                        }
                     }
                 }
             </div>
@@ -81,13 +103,21 @@
 
     private bool isAddPlaylistVisible = false;
     private bool isShowPlaylistSongsVisible = false;
+    private bool isAnyTrackSelected => CheckAnySongIsSelected();
     private Dictionary<string, bool> playlistCheckboxStatus = new Dictionary<string, bool>();
+    private bool isSingleSelectionMode = true;
     public string currentClickedPlaylistName = "";
 
     private void ToggleAddPlayList()
     {
         isAddPlaylistVisible = !isAddPlaylistVisible;
         playlistname = GetPlayListDefaultName();
+    }
+
+    private void TogglePlaylistSongScroll()
+    {
+        isSingleSelectionMode = true;
+        isShowPlaylistSongsVisible = !isShowPlaylistSongsVisible;
     }
 
     protected override void OnInitialized()
@@ -164,6 +194,51 @@
                 playlistCheckboxStatus.Remove(key);
             }
         }
+    }
+
+    private void TrackLongPressed(Video selectedVideo)
+    {
+        isSingleSelectionMode = false;
+        foreach (var video in UserSetting.Instance.PlayList[currentClickedPlaylistName].Videos)
+        {
+            video.IsSelected = false ; 
+        }
+        selectedVideo.IsSelected = true;
+    }
+
+    private void ToggleTrackSelection(Video video)
+    {
+        video.IsSelected = !video.IsSelected;
+    }
+
+    private void DeleteSelectedSongsFromPlaylist()
+    {
+        var videosToRemove = new List<Video>();
+        foreach (var video in UserSetting.Instance.PlayList[currentClickedPlaylistName].Videos)
+        {
+            if (video.IsSelected)
+            {
+                videosToRemove.Add(video);
+            }
+        }
+
+        foreach (var videoToRemove in videosToRemove)
+        {
+            UserSetting.Instance.RemoveSongInLocalPlaylist(currentClickedPlaylistName, videoToRemove);
+        }
+        isSingleSelectionMode = true;
+    }
+
+    private bool CheckAnySongIsSelected()
+    {
+        foreach (var video in UserSetting.Instance.PlayList[currentClickedPlaylistName].Videos)
+        {
+            if (video.IsSelected)
+            {
+                return true;
+            }
+        }
+        return false;
     }
 }
 <style>

@@ -27,6 +27,7 @@ public class Video : IEquatable<Video>
     public string Id { get; }
     public IReadOnlyList<Thumbnail> Thumbnails { get; }
     public string Url { get; }
+    public bool IsSelected { get; set; } = false;
 
     public static Video From(YoutubeExplode.Videos.Video video)
     {

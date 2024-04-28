@@ -105,6 +105,12 @@ namespace Singularity.Models
             Save();
         }
 
+        public void RemoveSongInLocalPlaylist(string playlistName, Video video)
+        {
+            if (!PlayList.ContainsKey(playlistName) || !PlayList[playlistName].Contains(video)) return;
+            PlayList[playlistName].Remove(video);
+            Save();
+        }
     }
 
     [JsonSerializable(typeof(UserSetting))]

@@ -49,7 +49,7 @@ namespace Singularity.Models
 
         public void Remove(Video video)
         {
-            if (PlaylistType == PlaylistType.Local)
+            if (PlaylistType != PlaylistType.Local)
                 return;
             if (!Videos.Contains(video)) return;
                 Videos.Remove(video);
