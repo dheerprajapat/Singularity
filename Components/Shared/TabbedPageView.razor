@@ -20,7 +20,7 @@
     </div>
 
 </div>
-<div style="padding: @(Padding);height: calc(100vh - @(!isMusicViewInitialized?120:200)px);overflow-y: auto;scrollbar-width:none">
+<div style="padding: @(Padding);height: calc(100vh - @(!isMusicViewInitialized?120:200)px);overflow-y: auto;scrollbar-width:none" class="scrollbar-hidden">
     @ChildContent
 </div>
 
@@ -96,6 +96,16 @@
         margin-top: -10px;
         width: 100%;
         transform: translateZ(0);
+    }
+
+    .scrollbar-hidden::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge add Firefox */
+    .scrollbar-hidden {
+        -ms-overflow-style: none;
+        scrollbar-width: none; /* Firefox */
     }
 </style>
 
