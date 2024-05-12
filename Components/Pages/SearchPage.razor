@@ -2,7 +2,7 @@
 @inject YoutubeClient Youtube
 @inject HttpClient Http
 
-<TabbedPageView Title="Search" OnSearch="OnSearchResult">
+<TabbedPageView Title="Search" OnSearch="OnSearchResult" @ref="tabPage">
 
     @if (isInResultMode)
     {
@@ -29,7 +29,7 @@
     {
         @foreach(var option in SearchOptions)
         {
-            <Glass Class="searchOption" Clicked="()=>OnSearchResult((option,true))">
+            <Glass Class="searchOption" Clicked="()=>OnLinkClicked(option)">
                 <div style="display:flex;margin-left:20px;margin-top:10px;margin-right:10px;align-items:center;justify-content:space-between">
                     <img src="./images/search.svg" width="24" height="24" />
                     <p>@option</p>
@@ -50,6 +50,7 @@
     private static SemaphoreSlim SearchSemaphore = new SemaphoreSlim(1,1);
     private List<string> SearchOptions = new List<string>();
     private bool isInResultMode = false;
+    private TabbedPageView tabPage;
 
     private async void OnSearchResult((string,bool) e)
     {
@@ -92,9 +93,15 @@
         }
         catch
         {
-            
+
         }
         SearchSemaphore.Release();
+    }
+
+    private void OnLinkClicked(string option)
+    {
+        tabPage.UpdateLastSearch(option);
+        OnSearchResult((option, true));
     }
 
     public async Task<IEnumerable<string>> SuggestionsAsync(string query, CancellationToken token = default)

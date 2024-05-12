@@ -13,9 +13,7 @@
     }
     else
     {
-        <input id="search" type="search" @oninput="OnSearchChanged" @onkeyup="OnSearchFinished"/>
-        @* <MudAutocomplete T="string" Label="Search" Style="margin:16px" SearchFuncWithCancel="SuggestionsAsync" ValueChanged="(s)=>OnSearch.InvokeAsync(s)"
-                   Immediate AdornmentIcon="@Icons.Material.Filled.Search" AdornmentColor="Color.Primary" /> *@
+        <input @bind-value="lastSearch" id="search" type="search" @oninput="OnSearchChanged" @onkeyup="OnSearchFinished"/>
     }
     </div>
 
@@ -59,6 +57,11 @@
         };
     }
 
+    public void UpdateLastSearch(string newsearch)
+    {
+        lastSearch = newsearch;
+        StateHasChanged();
+    }
 
     private void GoToSearch()
     {
