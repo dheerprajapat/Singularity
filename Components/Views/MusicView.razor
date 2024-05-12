@@ -180,7 +180,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        MainPage.OnBackButtonPress = HandleBackButtonForMusicView;
+        MainPage.OnBackButtonPress += HandleBackButtonForMusicView;
 
         AudioManager.Init();
 
@@ -270,6 +270,8 @@
     public void Dispose()
     {
         AudioManager.Audio.OnMediaStateChange -= MediaStateChanged;
+        MainPage.OnBackButtonPress -= HandleBackButtonForMusicView;
+
     }
 
     private async void OnSliderChange(int value)

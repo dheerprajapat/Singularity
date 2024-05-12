@@ -6,8 +6,12 @@ namespace Singularity
     {
 #nullable disable
         public static MediaElement MediaElement { get; private set; }
-        public static Func<bool> OnBackButtonPress { get; set; }
+
+
 #nullable restore
+        public delegate bool BackButtonHandler();
+        public static event BackButtonHandler? OnBackButtonPress;
+
         public MainPage()
         {
             InitializeComponent();
@@ -18,7 +22,13 @@ namespace Singularity
         {
             if(OnBackButtonPressed == null)
                 return base.OnBackButtonPressed();
-            return OnBackButtonPress.Invoke();
+
+            foreach(var func in OnBackButtonPress!.GetInvocationList())
+            {
+                if ((bool)func.DynamicInvoke())
+                    return true;
+            }    
+            return false;
         }
     }
 }

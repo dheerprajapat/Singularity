@@ -1,4 +1,4 @@
-﻿
+﻿@implements IDisposable
 <Glass Class="playlist-parent" Blur="20" BackgroundColor="rgba(66, 245, 209,0.1)">
 
     <div class="playlist-header">
@@ -118,7 +118,7 @@
     protected override async Task OnInitializedAsync()
     {
         await base.OnInitializedAsync();
-        MainPage.OnBackButtonPress = HandleBackButtonForPlaylistView;
+        MainPage.OnBackButtonPress += HandleBackButtonForPlaylistView;
     }
 
     private bool HandleBackButtonForPlaylistView()
@@ -126,9 +126,15 @@
         if (isShowPlaylistSongsVisible)
         {
             isShowPlaylistSongsVisible = false;
+            StateHasChanged();
             return true;
         }
         return false;
+    }
+
+    public void Dispose()
+    {
+        MainPage.OnBackButtonPress -= HandleBackButtonForPlaylistView;
     }
 
     private void ToggleAddPlayList()

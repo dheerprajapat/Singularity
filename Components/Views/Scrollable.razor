@@ -1,4 +1,5 @@
-﻿<Glass Blur="20" Style="width: 100%;bottom: 0px;position:absolute" Class="@(IsActive ? "scroll-page-active" : "scroll-page-nonactive")" BackgroundColor="rgba(60, 33, 146, 0.6)">
+﻿@implements IDisposable
+<Glass Blur="20" Style="width: 100%;bottom: 0px;position:absolute" Class="@(IsActive ? "scroll-page-active" : "scroll-page-nonactive")" BackgroundColor="rgba(60, 33, 146, 0.6)">
     <div class="scroll-page-header" @onclick="ClosePage">
         <img src="./images/cross.svg" height="32" width="32" />
     </div>
@@ -12,9 +13,30 @@
     public bool IsActive { get; set; }
     [Parameter]
     public EventCallback OnCloseButtonClick { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        MainPage.OnBackButtonPress += OnBackButtonPress;
+    }
+    public void Dispose()
+    {
+        MainPage.OnBackButtonPress -= OnBackButtonPress;
+    }
     private async Task ClosePage()
     {
         await OnCloseButtonClick.InvokeAsync();
+    }
+
+
+    private bool OnBackButtonPress()
+    {
+        if(IsActive)
+        {
+            ClosePage();
+            return true;
+        }
+        return false;
     }
 }
 
