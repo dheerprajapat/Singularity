@@ -27,8 +27,6 @@ jobs:
         dotnet-version: 8.0.x
 
 
-
-
     # Restore the application to populate the obj folder with RuntimeIdentifiers
     - name: Restore the application
       run: dotnet restore
@@ -39,14 +37,21 @@ jobs:
       run: dotnet publish -f net8.0-android -c Release -o="bin/apk/"
 
     - name: Create Release
-      uses: ncipollo/release-action@v1.14.0
+      id: create_release
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-          artifact : bin/apk/com.sps014.singularity-Signed.apk
-      
-
-    # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
-    - name: Upload build artifacts
-      uses: actions/upload-artifact@v3
+        tag_name: v1.0.0.${{ github.run_number }}
+        release_name: Release Binaries
+        draft: false
+        prerelease: false
+    - name: Upload Release Asset
+      uses: actions/upload-release-asset@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       with:
-        name: Apk file
-        path: bin/apk/com.sps014.singularity-Signed.apk
+        upload_url: ${{ steps.create_release.outputs.upload_url }}
+        asset_path: ./bin/apk/com.sps014.singularity-Signed.apk
+        asset_name: singularity.apk
+        asset_content_type: application/octet-stream
