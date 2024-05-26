@@ -38,6 +38,12 @@ jobs:
     - name: Build
       run: dotnet publish -f net8.0-android -c Release -o="bin/apk/"
 
+    - name: Create Release
+      uses: ncipollo/release-action@v1.14.0
+      with:
+          artifact : bin/apk/com.sps014.singularity-Signed.apk
+      
+
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
