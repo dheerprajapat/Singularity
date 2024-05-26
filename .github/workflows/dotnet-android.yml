@@ -43,4 +43,4 @@ jobs:
       uses: actions/upload-artifact@v3
       with:
         name: Apk file
-        path: Singularity/bin/Release/net8.0-android/com.sps014.singularity-Signed.apk
+        path: /bin/Release/net8.0-android/com.sps014.singularity-Signed.apk
