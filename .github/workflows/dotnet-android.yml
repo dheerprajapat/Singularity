@@ -36,11 +36,11 @@ jobs:
 
     # Remove the pfx
     - name: Build
-      run: dotnet publish -f net8.0-android -c Release
+      run: dotnet publish -f net8.0-android -c Release -o="bin/apk/"
 
     # Upload the MSIX package: https://github.com/marketplace/actions/upload-a-build-artifact
     - name: Upload build artifacts
       uses: actions/upload-artifact@v3
       with:
         name: Apk file
-        path: /bin/Release/net8.0-android/com.sps014.singularity-Signed.apk
+        path: bin/apk/com.sps014.singularity-Signed.apk
