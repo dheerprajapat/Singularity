@@ -1,4 +1,7 @@
-﻿using CommunityToolkit.Maui.Core.Primitives;
+﻿using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using System.Threading;
+using CommunityToolkit.Maui.Core.Primitives;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Routing;
 using Singularity.Data;
@@ -107,6 +110,17 @@ public partial class MusicExpandedView: IDisposable
             await AudioManager.PlayAsync();
             StateHasChanged();
         }
+    }
+
+    private async Task DownloadAsync()
+    {
+        //string text = "Download is not yet implemented";
+        //ToastDuration duration = ToastDuration.Short;
+        //double fontSize = 14;
+
+        //var toast = Toast.Make(text, duration, fontSize);
+
+        //await toast.Show();
     }
 
     private async Task AddOrRemoveFromLiked()

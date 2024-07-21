@@ -8,7 +8,9 @@
         <div style="margin-top:60px;">
             <div style="display:flex;justify-content:space-between;margin:20px">
                 <img src="./images/backArrow.svg" width="24" height="24" style="position:absolute;top:8px" @onclick="()=>OnToggled.InvokeAsync()" />
-                <img src="./images/menu-bar.svg" width="28" height="28" style="position:absolute;top:8px;right:23px;" />
+
+@*<img src="./images/menu-bar.svg" width="28" height="28" style="position:absolute;top:8px;right:23px;" />
+ *@
             </div>
             <img class="cover-image" src="@AudioManager.CurrentSong.ThumbnailUrl" />
             <div style="display:flex;justify-content:center">
@@ -22,7 +24,7 @@
 
             <div style="position:absolute;bottom:60px;width:100vw">
                 <div style="display:flex;justify-content:space-between;margin:20px 40px">
-                    <img src=@("./images/download.svg") height="32" width="32" />
+                    <img src=@("./images/download.svg") height="32" width="32" onclick="DownloadAsync" />
 
                     @if(UserSettings.Current.IsLiked(AudioManager.CurrentSong))
                     {
@@ -86,7 +88,7 @@
 
     .toggle-music {
         background: rgba(7,17,27,0.6);
-        backdrop-filter: blur(60px);
+        backdrop-filter: blur(20px);
         height: 100vh;
         width: 100%;
         position: absolute;

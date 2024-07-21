@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Singularity.Data;
 using Singularity.Models;
 using YoutubeExplode.Playlists;
@@ -17,6 +18,7 @@ public partial class UserPlaylistView : IDisposable
 
     [Parameter]
     public EventCallback<string> OnPlaylistSelected { get; set; }
+
     private string? playlistId;
     protected override void OnInitialized()
     {
@@ -53,6 +55,20 @@ public partial class UserPlaylistView : IDisposable
 
         Nav.NavigateTo("/userPlaylistExpandedPage/" + id);
     }
+
+    //On back button
+    private void OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+       
+        if (playlistId!=null)
+        {
+            playlistId = null;
+            OnPlaylistSelected.InvokeAsync(null);
+            context.PreventNavigation();
+            StateHasChanged();
+        }
+    }
+
     public void ResetPlaylistSelected()
     {
         playlistId = null;

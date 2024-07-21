@@ -1,5 +1,5 @@
 ﻿@implements IDisposable
-<Glass Blur="60" Style="width: 100%;bottom: 0px;position:absolute" Class="@(IsActive ? "scroll-page-active" : "scroll-page-nonactive")" BackgroundColor="@BackgroundColor">
+<Glass Blur="60" Style="width: 100%;bottom: 0px;position:absolute;vertical-align:bottom" Class="@(IsActive ? "scroll-page-active" : "scroll-page-nonactive")" BackgroundColor="@BackgroundColor">
     <div class="scroll-page-header" @onclick="ClosePage">
         <img src="./images/cross.svg" height="32" width="32" @onclick="ClosePage" />
     </div>

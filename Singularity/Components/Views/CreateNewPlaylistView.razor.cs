@@ -23,9 +23,10 @@ public partial class CreateNewPlaylistView
         IsVisible = true;
         StateHasChanged();
     }
-    void ToggleAddPlayList()
+    void SetClose()
     {
         IsVisible = false;
+        playlistName = string.Empty;
         StateHasChanged();
     }
     async Task CreateNewPlaylist()

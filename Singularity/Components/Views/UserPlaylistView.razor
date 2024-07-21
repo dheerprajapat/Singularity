@@ -5,7 +5,7 @@
     @foreach (var playlist in PlaylistSettings.Current.Playlists)
     {
         <LongPressItem LongPressed="()=>OnLongPressed(playlist.Value)">
-            <Glass Blur="20" BackgroundColor="@GetStyle(playlist.Value)" Style="padding:16px 6px;" Clicked="() => PlaylistSelected(playlist.Key)">
+            <Glass Blur="20" BackgroundColor="@GetStyle(playlist.Value)" Style="padding:16px 6px;border-radius:15px;margin:4px;" Clicked="() => PlaylistSelected(playlist.Key)">
                 <div style="display:flex;justify-content:space-between;">
                     <div class="detail-list" style="">
                         <p style="font-weight:bold" class="ellepsis-list">@playlist.Value.Name</p>
@@ -21,6 +21,9 @@
         </LongPressItem>
     }
 </div>
+
+ <NavigationLock OnBeforeInternalNavigation="OnBeforeInternalNavigation" />
+
 <style>
     .detail-list {
         display: flex;

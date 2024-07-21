@@ -39,9 +39,15 @@ public partial class UserPlaylistGroupPage
     private void PlaylistItemSelected(string playlistID)
     {
         playlistId = playlistID;
-        DeleteBtnVisible = true;
-        CrossBtnVisible = true;
-        AddBtnVisible = false;
-        StateHasChanged();
+
+        if (playlistId != null)
+        {
+            DeleteBtnVisible = true;
+            CrossBtnVisible = true;
+            AddBtnVisible = false;
+            StateHasChanged();
+        }
+        else
+            CrossBtnClicked();
     }
 }
