@@ -1,0 +1,34 @@
+﻿@page "/like"
+@using System.Collections.Specialized
+@using Singularity.Data
+@using System.Collections.ObjectModel
+@implements IDisposable
+@inject IMusicHub MusicHub
+<TabBarContentView Title="Liked Songs" ShowSearchButton="false">
+
+    @foreach (var songId in UserSettings.Current.LikedSongs)
+    {
+        <div id="@songId">
+            <MusicTrack SongId="@songId"/>
+        </div>
+    }
+
+</TabBarContentView>
+
+
+@code
+{
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        UserSettings.Current.LikedSongs.CollectionChanged += OnListChanged;
+    }
+    void OnListChanged(object? sender, NotifyCollectionChangedEventArgs e)
+    {
+        StateHasChanged();
+    }
+    public void Dispose()
+    {
+        UserSettings.Current.LikedSongs.CollectionChanged -= OnListChanged;
+    }
+}
