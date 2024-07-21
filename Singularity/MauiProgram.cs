@@ -1,5 +1,6 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
+using Microsoft.Maui.LifecycleEvents;
 using Singularity.Contracts;
 using Singularity.Services;
 
@@ -17,8 +18,16 @@ namespace Singularity
                 .ConfigureFonts(fonts =>
                 {
                     fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
+                })
+                .ConfigureLifecycleEvents(events =>
+                {
+#if ANDROID
+                    //events.AddAndroid(android => android.OnDestroy(e=>
+                    //{
+                    //    MainPage.Current.DisposeMediaElement();
+                    //}));
+#endif
                 });
-
             builder.Services.AddSingleton<IMusicHub,YoutubeMusicHub>();
             builder.Services.AddTransient<IAuthenticatonService, FirebaseAuthService>();
             builder.Services.AddTransient<IDatabaseService, FirestoreDbService>();
