@@ -36,7 +36,7 @@ internal partial class PlaylistSettings : ObservableObject
         if (table == null) return;
 
         var online = await table.ToAsync<PlaylistSettings>();
-        if (online == null)
+        if (!await table.ExistsAsync()|| online == null)
         {
             //table doesn't exist
             loadedFromDb = true;

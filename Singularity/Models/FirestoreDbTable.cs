@@ -107,4 +107,17 @@ public class FirestoreDbTable : IDbTable
             return ValueTask.FromResult<string?>(null);
         }
     }
+
+    public ValueTask<bool> ExistsAsync()
+    {
+        try
+        {
+            return Ptr.CallAsync<bool>("exists");
+        }
+        catch (Exception ex)
+        {
+            Logger.LogError(ex, "Can't check exists ");
+            return ValueTask.FromResult(false);
+        }
+    }
 }

@@ -12,5 +12,6 @@ public interface IDbTable
     ValueTask<bool> SetValueAsync<T>(string columnName, T value);
     ValueTask<T?> GetValueAsync<T>(string columnName);
     ValueTask<bool> DeleteValueAsync(string columnName);
+    ValueTask<bool> ExistsAsync();
     ValueTask<T?> ToAsync<T>();
 }

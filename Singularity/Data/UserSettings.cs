@@ -45,7 +45,8 @@ public partial class UserSettings : ObservableObject
         if (table == null) return;
 
         var online = await table.ToAsync<UserSettings>();
-        if (online == null){
+        if (!await table.ExistsAsync() || online == null)
+        {
             //table doesn't exist
             loadedFromDb = true;
             return;
