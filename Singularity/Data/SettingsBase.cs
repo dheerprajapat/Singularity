@@ -15,11 +15,17 @@ public abstract class SettingsBase<T>:ObservableObject where T: SettingsBase<T>
     private IDatabaseService? Database => SystemManager.GetService<IDatabaseService>();
     public static T Current => CurrentSettings[typeof(T)];
 
+#nullable disable
     private static Dictionary<Type, T> CurrentSettings = new Dictionary<Type, T>()
     {
+#pragma warning disable CS0612 // Type or member is obsolete
         [typeof(UserSettings)] = new UserSettings() as T,
         [typeof(PlaylistSettings)] = new PlaylistSettings() as T,
+#pragma warning restore CS0612 // Type or member is obsolete
     };
+
+#nullable restore
+
     public bool LoadedFromDb { get; protected set; }
 
 
@@ -37,7 +43,7 @@ public abstract class SettingsBase<T>:ObservableObject where T: SettingsBase<T>
         if(!tableExists)
         {
             await Database.CreateTableAsync(typeof(T).Name, Current);
-            LoadedFromDb = true;
+            Current.LoadedFromDb = true;
             return;
         }
 
@@ -48,16 +54,15 @@ public abstract class SettingsBase<T>:ObservableObject where T: SettingsBase<T>
             throw new Exception("Can't load user settings from database");
 
         CurrentSettings[typeof(T)] = online;
+        Current.LoadedFromDb = true;
 
-        LoadedFromDb = true;
     }
 
     public ValueTask SaveSettingsInDb()
     {
-        if (!LoadedFromDb || Database==null)
+        if (!Current.LoadedFromDb || Database==null)
             return ValueTask.CompletedTask;
 
         return Database.UpdateTableAsync(typeof(T).Name, Current);
     }
-
 }

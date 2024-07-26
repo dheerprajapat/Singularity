@@ -7,6 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Mvvm.ComponentModel;
 using Singularity.Contracts;
+using Singularity.Managers;
 using Singularity.Models;
 
 namespace Singularity.Data;
@@ -53,13 +54,30 @@ public partial class UserSettings : SettingsBase<UserSettings>
         return LikedSongs.Contains(song.Id);
     }
 
-    public async IAsyncEnumerable<ISong> GetLikedSongAsync(IMusicHub musicHub)
+    public async IAsyncEnumerable<ISong> GetLikedSongAsync()
     {
-        foreach (var songId in LikedSongs.Reverse())
+        var musicHub = SystemManager.GetService<IMusicHub>();
+        if(musicHub==null)
+            yield break;
+
+        foreach (var songId in LikedSongs.ToArray())
         {
            var song = await musicHub.GetSongMetaDataAsync(songId);
             if (song == null) continue;
             yield return song;
         }
+    }
+    public void PrefetchLikedSongs()
+    {
+        var musicHub = SystemManager.GetService<IMusicHub>();
+
+        if (musicHub == null)
+            return;
+
+        //prefetch liked songs
+        Parallel.ForEach(LikedSongs, song =>
+        {
+            _ = musicHub.GetSongMetaDataAsync(song);
+        });
     }
 }

@@ -30,6 +30,7 @@ public partial class Home
             return;
         
         await UserSettings.Current.LoadSettingsFromDb();
+        UserSettings.Current.PrefetchLikedSongs();
         await PlaylistSettings.Current.LoadSettingsFromDb();
 
         firstDbReadDone = true;

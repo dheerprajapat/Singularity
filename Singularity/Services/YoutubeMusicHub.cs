@@ -19,7 +19,7 @@ public class YoutubeMusicHub : IMusicHub
     private const string SearchUrl = "https://clients1.google.com/complete/search?client=youtube&gs_ri=youtube&ds=yt&q=";
     private static HttpClient Http = new HttpClient();
     private Dictionary<string, string> cachedMediaUrls = new Dictionary<string, string>();
-
+    private Dictionary<string,ISong> songIdMetadataCache = new Dictionary<string,ISong>();
     public static YoutubeClient YoutubeClient
     {
         get
@@ -39,6 +39,9 @@ public class YoutubeMusicHub : IMusicHub
     {
         ISong? song = null;
 
+        if (songIdMetadataCache.ContainsKey(id))
+            return songIdMetadataCache[id];
+
         await Task.Run(async () =>
         {
             try
@@ -56,6 +59,8 @@ public class YoutubeMusicHub : IMusicHub
                     Singer = songInfo.Author.ChannelTitle,
                     ThumbnailUrl = songInfo.Thumbnails.GetWithHighestResolution().Url
                 };
+
+                songIdMetadataCache[id] = song;
             }
             catch (Exception ex)
             {
