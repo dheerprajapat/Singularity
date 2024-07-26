@@ -19,12 +19,11 @@ public class FirebaseAuthService : IAuthenticatonService
     public ILogger<FirebaseAuthService> Logger { get; }
 
     private static bool _firstInstance = true;
-    public FirebaseAuthService(IJSRuntime runtime,ILogger<FirebaseAuthService> logger)
+    public FirebaseAuthService(ILogger<FirebaseAuthService> logger)
     {
         Logger = logger;
         FirebaseJSReference = new(async() =>
         {
-            await BindGen.InitAsync(runtime);
             Logger.LogInformation("creating auth service instance");
             return await BindGen.ImportRefAsync("/js/firebase.js");
         });

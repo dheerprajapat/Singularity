@@ -88,10 +88,15 @@ public class FirestoreDbTable : IDbTable
         {
             return Ptr.CallAsync<T?>("data");
         }
+        catch(JsonException e)
+        {
+            Logger.LogError(e, "Can't get correct json data for "+typeof(T).Name);
+            return ValueTask.FromResult<T?>(default);
+        }
         catch (Exception ex)
         {
-            Logger.LogError(ex, "Can't get data for");
-            return ValueTask.FromResult<T?>(default(T));
+            Logger.LogError(ex, "Can't get data for " + typeof(T).Name);
+            return ValueTask.FromResult<T?>(default);
         }
     }
 

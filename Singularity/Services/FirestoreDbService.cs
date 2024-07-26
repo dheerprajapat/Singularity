@@ -17,14 +17,13 @@ public class FirestoreDbService : IDatabaseService
     public IAuthenticatonService AuthService { get; }
     public ILogger<FirestoreDbService> Logger { get; }
     
-    public FirestoreDbService(IJSRuntime runtime,IAuthenticatonService authService,ILogger<FirestoreDbService> logger)
+    public FirestoreDbService(IAuthenticatonService authService,ILogger<FirestoreDbService> logger)
     {
         AuthService = authService;
         Logger = logger;
 
         FirestoreJSReference = new(async () =>
         {
-            await BindGen.InitAsync(runtime);
             Logger.LogInformation("creating firestore instance");
             return await BindGen.ImportRefAsync("/js/firebase.js");
         });

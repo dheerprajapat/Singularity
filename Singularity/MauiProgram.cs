@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using Microsoft.Maui.LifecycleEvents;
 using Singularity.Contracts;
+using Singularity.Managers;
 using Singularity.Services;
 
 namespace Singularity
@@ -29,9 +30,8 @@ namespace Singularity
 #endif
                 });
             builder.Services.AddSingleton<IMusicHub,YoutubeMusicHub>();
-            builder.Services.AddTransient<IAuthenticatonService, FirebaseAuthService>();
-            builder.Services.AddTransient<IDatabaseService, FirestoreDbService>();
-
+            builder.Services.AddSingleton<IAuthenticatonService, FirebaseAuthService>();
+            builder.Services.AddSingleton<IDatabaseService, FirestoreDbService>();
             builder.Services.AddSingleton<AudioManager>();
 
             builder.Services.AddMauiBlazorWebView();
@@ -41,7 +41,11 @@ namespace Singularity
     		builder.Logging.AddDebug();
 #endif
 
-            return builder.Build();
+            var app = builder.Build();
+
+            SystemManager.ServiceProvider = app.Services;
+
+            return app;
         }
     }
 }

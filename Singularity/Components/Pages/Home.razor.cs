@@ -29,8 +29,8 @@ public partial class Home
         if (firstDbReadDone)
             return;
         
-        await UserSettings.LoadSettingsFromDb(DbService);
-        await PlaylistSettings.LoadSettingsFromDb(DbService);
+        await UserSettings.Current.LoadSettingsFromDb();
+        await PlaylistSettings.Current.LoadSettingsFromDb();
 
         firstDbReadDone = true;
 

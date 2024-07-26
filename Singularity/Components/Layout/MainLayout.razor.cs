@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using BlazorBindGen;
 using Microsoft.AspNetCore.Components.Routing;
 using Singularity.Contracts;
 
@@ -14,6 +15,7 @@ public partial class MainLayout:IDisposable
     internal static IUser? User;
     protected override async Task OnInitializedAsync()
     {
+        await BindGen.InitAsync(Runtime);
         await base.OnInitializedAsync();
         await AuthService.WatchAuthStateAsync();
         AuthService.OnAuthStateChanged += OnAuthStateChanged;
