@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Singularity.Contracts;
 using Singularity.Models;
@@ -19,7 +20,6 @@ public class YoutubeMusicHub : IMusicHub
     private const string SearchUrl = "https://clients1.google.com/complete/search?client=youtube&gs_ri=youtube&ds=yt&q=";
     private static HttpClient Http = new HttpClient();
     private Dictionary<string, string> cachedMediaUrls = new Dictionary<string, string>();
-    private Dictionary<string,ISong> songIdMetadataCache = new Dictionary<string,ISong>();
     public static YoutubeClient YoutubeClient
     {
         get
@@ -29,18 +29,20 @@ public class YoutubeMusicHub : IMusicHub
     }
 
     public ILogger<YoutubeMusicHub> Logger { get; }
+    public IMemoryCache MemoryCache { get; }
 
-    public YoutubeMusicHub(ILogger<YoutubeMusicHub> logger)
+    public YoutubeMusicHub(ILogger<YoutubeMusicHub> logger,IMemoryCache memoryCache)
     {
         Logger = logger;
+        MemoryCache = memoryCache;
     }
 
     public async ValueTask<ISong?> GetSongMetaDataAsync(string id)
     {
         ISong? song = null;
 
-        if (songIdMetadataCache.ContainsKey(id))
-            return songIdMetadataCache[id];
+        if(MemoryCache.TryGetValue(id, out song))
+            return song;
 
         await Task.Run(async () =>
         {
@@ -60,7 +62,7 @@ public class YoutubeMusicHub : IMusicHub
                     ThumbnailUrl = songInfo.Thumbnails.GetWithHighestResolution().Url
                 };
 
-                songIdMetadataCache[id] = song;
+                MemoryCache.Set(id, song);
             }
             catch (Exception ex)
             {

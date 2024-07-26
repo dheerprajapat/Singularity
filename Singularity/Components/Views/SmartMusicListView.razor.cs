@@ -7,11 +7,15 @@ using BlazorBindGen;
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using Singularity.Contracts;
+using Singularity.Services;
 
 namespace Singularity.Components.Views;
 
 public partial class SmartMusicListView : ComponentBase, IAsyncDisposable
 {
+    [Inject]
+    public AudioManager AudioManager { get; set; }
+
     [Parameter]
     public bool CanPlay { get; set; } = true;
 
@@ -125,5 +129,15 @@ public partial class SmartMusicListView : ComponentBase, IAsyncDisposable
         if(item != null)
             ResizableSongsList.Remove(item);
         StateHasChanged();
+    }
+    public async ValueTask PlayAllAsync()
+    {
+        if (Songs == null)
+            return;
+
+        await foreach(var song in Songs)
+        {
+            await AudioManager.AddSongAsync(song);
+        }
     }
 }

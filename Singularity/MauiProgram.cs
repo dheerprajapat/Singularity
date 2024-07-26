@@ -29,6 +29,9 @@ namespace Singularity
                     //}));
 #endif
                 });
+
+            builder.Services.AddMemoryCache();
+
             builder.Services.AddSingleton<IMusicHub,YoutubeMusicHub>();
             builder.Services.AddSingleton<IAuthenticatonService, FirebaseAuthService>();
             builder.Services.AddSingleton<IDatabaseService, FirestoreDbService>();
