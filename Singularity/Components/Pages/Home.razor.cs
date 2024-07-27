@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using CommunityToolkit.Maui.Views;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Singularity.Components.Layout;
 using Singularity.Contracts;
 using Singularity.Data;
@@ -35,6 +36,16 @@ public partial class Home
 
         firstDbReadDone = true;
 
+    }
+    private void OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        if (context.TargetLocation.Contains("/login"))
+            return;
+
+        if (MainLayout.User == null)
+        {
+            
+        }
     }
 
     private void OpenExploreItem(ExploreItem item)

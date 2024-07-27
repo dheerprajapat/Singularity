@@ -132,6 +132,8 @@ public class YoutubeMusicHub : IMusicHub
 
         Logger.LogInformation($"showing result for {nameof(SearchAsync)}");
 
+        var list = YoutubeClient.Search.GetVideosAsync(query, searchCancellation.Token).ToBlockingEnumerable().ToList();
+
         await foreach (var video in YoutubeClient.Search.GetVideosAsync(query, searchCancellation.Token))
         {
 

@@ -94,7 +94,6 @@ public partial class MusicExpandedView: IDisposable
         if (MusicView.Instance.IsExpanded)
         {
             MusicView.Instance.IsExpanded = false;
-            context.PreventNavigation();
         }
     }
 

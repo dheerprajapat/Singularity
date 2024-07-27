@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Routing;
 using Singularity.Components.Layout;
 
 namespace Singularity.Components.Pages;
@@ -15,6 +16,16 @@ public partial class SignupPage
     private string password = string.Empty;
     private string error = string.Empty;
 
+    private void OnBeforeInternalNavigation(LocationChangingContext context)
+    {
+        if (context.TargetLocation.Contains("/login"))
+            return;
+
+        if (MainLayout.User==null)
+        {
+            context.PreventNavigation();
+        }
+    }
     void OnEmailChanged(ChangeEventArgs e)
     {
         if (e.Value == null)
