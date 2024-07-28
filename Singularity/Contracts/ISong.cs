@@ -14,7 +14,6 @@ public interface ISong:IEquatable<ISong>
     string Description { get; set; }
     string ThumbnailUrl { get; set; }
     TimeSpan? Duration { get; set; }
-    IMusicHub MusicHub { get; init; }
 
     ValueTask<StreamUrl?> GetAudioUrlAsync();
 }

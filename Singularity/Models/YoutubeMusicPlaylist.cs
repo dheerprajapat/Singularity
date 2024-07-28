@@ -30,7 +30,7 @@ internal class YoutubeMusicPlaylist : IMusicPlaylist
     {
         await foreach(var music in YoutubeMusicHub.YoutubeClient.Playlists.GetVideosAsync(Id))
         {
-            yield return new YouTubeSong(YoutubeMusicHub)
+            yield return new YouTubeSong()
             {
                 Description = string.Empty,
                 Duration = music.Duration,

@@ -36,6 +36,8 @@ namespace Singularity
             builder.Services.AddSingleton<IAuthenticatonService, FirebaseAuthService>();
             builder.Services.AddSingleton<IDatabaseService, FirestoreDbService>();
             builder.Services.AddSingleton<AudioManager>();
+            builder.Services.AddSingleton<HttpClient>();
+            builder.Services.AddSingleton<DownloadManager>();
 
             builder.Services.AddMauiBlazorWebView();
 

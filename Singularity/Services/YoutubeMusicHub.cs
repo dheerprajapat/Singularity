@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.Logging;
 using Singularity.Contracts;
+using Singularity.Managers;
 using Singularity.Models;
 using YoutubeExplode;
 using YoutubeExplode.Common;
@@ -18,7 +19,6 @@ public class YoutubeMusicHub : IMusicHub
 {
     private static YoutubeClient? youtubeClient = null;
     private const string SearchUrl = "https://clients1.google.com/complete/search?client=youtube&gs_ri=youtube&ds=yt&q=";
-    private static HttpClient Http = new HttpClient();
     private Dictionary<string, string> cachedMediaUrls = new Dictionary<string, string>();
     public static YoutubeClient YoutubeClient
     {
@@ -52,7 +52,7 @@ public class YoutubeMusicHub : IMusicHub
 
                 Logger.LogInformation($"fetched metadata for song   -> {songInfo.Id} -> {songInfo.Title}");
 
-                song = new YouTubeSong(this)
+                song = new YouTubeSong()
                 {
                     Description = songInfo.Description,
                     Duration = songInfo.Duration,
@@ -114,7 +114,7 @@ public class YoutubeMusicHub : IMusicHub
             var original = query;
             query = Uri.EscapeDataString(query);
             query = SearchUrl + query;
-            var res = await Http.GetAsync(query, searchCancellation.Token);
+            var res = await SystemManager.GetService<HttpClient>()!.GetAsync(query, searchCancellation.Token);
             var js = await res.Content.ReadAsStringAsync(searchCancellation.Token);
 
             var parts = js.Split('[').Where(t => t.Split('"').Length > 2).Select(t => t.Split('"')[1]);
@@ -137,7 +137,7 @@ public class YoutubeMusicHub : IMusicHub
         await foreach (var video in YoutubeClient.Search.GetVideosAsync(query, searchCancellation.Token))
         {
 
-            var song = new YouTubeSong(this)
+            var song = new YouTubeSong()
             {
                 Description = string.Empty,
                 Duration = video.Duration,
