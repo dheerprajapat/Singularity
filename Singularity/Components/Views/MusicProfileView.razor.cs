@@ -59,8 +59,20 @@ namespace Singularity.Components.Views
             }
         }
 
-        private void PlaySongsList()
+        private async void PlaySongsListAsnyc()
         {
+            if(Songs == null) return;
+            int c = 0;
+
+            await foreach(var song in Songs)
+            {
+               
+                await AudioManager.AddSongAsync(song);
+                if (c == 0)
+                    await AudioManager.PlayAsync();
+                c += 1;
+            }
+
 
         }
 

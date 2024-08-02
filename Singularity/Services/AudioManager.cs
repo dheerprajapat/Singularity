@@ -48,6 +48,21 @@ public class AudioManager(ILogger<AudioManager> logger) : BindableObject
         MediaPlayer.MetadataArtworkUrl = CurrentSong.ThumbnailUrl;
     }
 
+    public async ValueTask PlaySongsListAsnyc(IAsyncEnumerable<ISong> Songs)
+    {
+        if (Songs == null) return;
+        int c = 0;
+
+        await foreach (var song in Songs)
+        {
+
+            await AddSongAsync(song);
+            if (c == 0)
+                await PlayAsync();
+            c += 1;
+        }
+    }
+
     public async ValueTask AddSongAsync(ISong song)
     {
         await this.Dispatcher.DispatchAsync(async() =>
@@ -65,7 +80,6 @@ public class AudioManager(ILogger<AudioManager> logger) : BindableObject
             Logger.LogInformation($"{song.Id}  -> {song.Name} added in queue");
             QueuedSongs.Add(song);
         });
-       
     }
 
     public async ValueTask PlayPreviousSongAsync()

@@ -4,7 +4,9 @@
 @using System.Collections.ObjectModel
 @implements IDisposable
 @inject IMusicHub MusicHub
-<TabBarContentView Title="Liked Songs" ShowSearchButton="false">
+@inject AudioManager AudioManager
+
+<TabBarContentView Title="Liked Songs" ShowSearchButton="false" ShowPlayAllButton="true" PlayAllButtonClicked="PlayAllClicked">
 
     @foreach (var songId in UserSettings.Current.LikedSongs)
     {
@@ -30,5 +32,20 @@
     public void Dispose()
     {
         UserSettings.Current.LikedSongs.CollectionChanged -= OnListChanged;
+    }
+    private async void PlayAllClicked()
+    {      
+        await AudioManager.PlaySongsListAsnyc(GetLikedSongsAsync());
+    }
+    public async IAsyncEnumerable<ISong> GetLikedSongsAsync()
+    {
+        foreach (var songId in UserSettings.Current.LikedSongs)
+        {
+            var r = await MusicHub.GetSongMetaDataAsync(songId);
+            if (r == null)
+                continue;
+
+            yield return r;
+        }
     }
 }

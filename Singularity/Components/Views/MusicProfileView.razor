@@ -1,8 +1,10 @@
-﻿<div class="music-profile">
+﻿@inject AudioManager AudioManager
+
+<div class="music-profile">
     <div @onclick="DownloadSongs">
         <img src="./images/download.svg" width="35" height="35" />
     </div>
-    <div @onclick="PlaySongsList">
+    <div @onclick="PlaySongsListAsnyc">
         <img src="./images/play.svg" width="35" height="35" />
     </div>
 </div>

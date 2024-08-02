@@ -31,6 +31,11 @@
                     <img src="./images/cross.svg" style="margin-left:8px"
                         width="28" height="28" @onclick="()=>CrossButtonClicked.InvokeAsync()" />
                 }
+                @if (ShowPlayAllButton)
+                {
+                    <img src="./images/play.svg" style="margin-left:8px"
+                         width="28" height="28" @onclick="()=>PlayAllButtonClicked.InvokeAsync()" />
+                }
             </div>
            
         }

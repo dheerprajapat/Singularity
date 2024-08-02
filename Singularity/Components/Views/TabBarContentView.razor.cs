@@ -40,6 +40,10 @@ public partial class TabBarContentView : IDisposable
     [Parameter]
     public EventCallback CrossButtonClicked { get; set; }
     [Parameter]
+    public bool ShowPlayAllButton { get; set; } = false;
+    [Parameter]
+    public EventCallback PlayAllButtonClicked { get; set; }
+    [Parameter]
     public EventCallback AddButtonClicked { get; set; }
 
     [Parameter]
