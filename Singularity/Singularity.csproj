@@ -39,6 +39,15 @@
         <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'tizen'">6.5</SupportedOSPlatformVersion>
     </PropertyGroup>
 
+    <PropertyGroup Condition="'$(Configuration)' == 'Release' ">
+	    <AndroidUseDefaultAotProfile>false</AndroidUseDefaultAotProfile>
+	    <MauiUseDefaultAotProfile>false</MauiUseDefaultAotProfile>
+    </PropertyGroup>
+
+    <ItemGroup>
+	    <AndroidAotProfile Include="$(MSBuildThisFileDirectory)custom.aprof" />
+    </ItemGroup>
+
     <ItemGroup>
 		<!-- App Icon -->
 		<MauiIcon Include="Resources\AppIcon\appicon.svg" Color="#EE1365" />
@@ -69,5 +78,14 @@
         <PackageReference Include="YoutubeExplode" Version="6.4.2" />
     </ItemGroup>
     
+    <ItemGroup Condition="'$(Configuration)' == 'Debug'">
+	    <PackageReference Include="Mono.AotProfiler.Android" Version="7.0.0"/>
+    </ItemGroup>
+    
+    <Target Name="DumpCustomAotProfile"
+        DependsOnTargets="_ResolveSdks;_ResolveMonoAndroidSdks">
+	<Exec Command="&quot;$(AProfUtilToolPath)aprofutil&quot; &quot;$(AndroidAotCustomProfilePath)&quot; > &quot;$(AndroidAotCustomProfilePath).stat.txt&quot;" />
+</Target>
+
 
 </Project>
