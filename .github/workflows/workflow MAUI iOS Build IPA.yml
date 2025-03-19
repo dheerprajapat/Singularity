@@ -25,5 +25,5 @@ jobs:
         p12-filepath: 'DistributionCertANesheim.p12'
         p12-password: ${{ secrets.CERTIFICATES_P12_PASSWORD }}
 
-     - name: dotnet publish
+    - name: dotnet publish
       run: dotnet publish -c Release -f:net8.0-ios /p:ArchiveOnBuild=true /p:EnableAssemblyILStripping=false 
